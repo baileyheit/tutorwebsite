@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS TutorProject;
 CREATE DATABASE TutorProject;
 USE TutorProject;
 
-CREATE TABLE tblUsers(
+CREATE TABLE Users(
 user_id VARCHAR(50) NOT NULL PRIMARY KEY,
 user_name VARCHAR(50) NOT NULL,
 location VARCHAR(50) NOT NULL,
@@ -15,37 +15,37 @@ venmo VARCHAR(50) NOT NULL,
 bio VARCHAR(500) NOT NULL
 );
 
-CREATE TABLE tblTutees(
-phone_number VARCHAR(50) NOT NULL REFERENCES tblUsers(phone_number),
-address VARCHAR(200) NOT NULL REFERENCES tblUsers(address),
-user_name VARCHAR(50) NOT NULL REFERENCES tblUsers(user_name),
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES tblUsers(user_id),
-location VARCHAR(50) NOT NULL REFERENCES tblUsers(location),
-school VARCHAR(50) NOT NULL REFERENCES tblUsers(school),
-age integer NOT NULL REFERENCES tblUsers(age),
-email VARCHAR(50) NOT NULL REFERENCES tblUsers(email),
-venmo VARCHAR(50) NOT NULL REFERENCES tblUsers(venmo),
-bio VARCHAR(500) NOT NULL REFERENCES tblUsers(bio),
+CREATE TABLE Tutees(
+phone_number VARCHAR(50) NOT NULL REFERENCES Users(phone_number),
+address VARCHAR(200) NOT NULL REFERENCES Users(address),
+user_name VARCHAR(50) NOT NULL REFERENCES Users(user_name),
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Users(user_id),
+location VARCHAR(50) NOT NULL REFERENCES Users(location),
+school VARCHAR(50) NOT NULL REFERENCES Users(school),
+age integer NOT NULL REFERENCES Users(age),
+email VARCHAR(50) NOT NULL REFERENCES Users(email),
+venmo VARCHAR(50) NOT NULL REFERENCES Users(venmo),
+bio VARCHAR(500) NOT NULL REFERENCES Users(bio),
 price_range VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE tblTutors(
-phone_number VARCHAR(50) NOT NULL REFERENCES tblUsers(phone_number),
-address VARCHAR(200) NOT NULL REFERENCES tblUsers(address),
-user_name VARCHAR(50) NOT NULL REFERENCES tblUsers(user_name),
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES tblUsers(user_id),
-location VARCHAR(50) NOT NULL REFERENCES tblUsers(location),
-school VARCHAR(50) NOT NULL REFERENCES tblUsers(school),
-age integer NOT NULL REFERENCES tblUsers(age),
-email VARCHAR(50) NOT NULL REFERENCES tblUsers(email),
-venmo VARCHAR(50) NOT NULL REFERENCES tblUsers(venmo),
-bio VARCHAR(500) NOT NULL REFERENCES tblUsers(bio),
+CREATE TABLE Tutors(
+phone_number VARCHAR(50) NOT NULL REFERENCES Users(phone_number),
+address VARCHAR(200) NOT NULL REFERENCES Users(address),
+user_name VARCHAR(50) NOT NULL REFERENCES Users(user_name),
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Users(user_id),
+location VARCHAR(50) NOT NULL REFERENCES Users(location),
+school VARCHAR(50) NOT NULL REFERENCES Users(school),
+age integer NOT NULL REFERENCES Users(age),
+email VARCHAR(50) NOT NULL REFERENCES Users(email),
+venmo VARCHAR(50) NOT NULL REFERENCES Users(venmo),
+bio VARCHAR(500) NOT NULL REFERENCES Users(bio),
 rating float NOT NULL,
 hourly_rate VARCHAR(50) NOT NULL,
 grade VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE tblSession(
+CREATE TABLE Session(
 session_id VARCHAR(50) NOT NULL PRIMARY KEY,
 zoom_link VARCHAR(100) NOT NULL,
 session_day VARCHAR(50) NOT NULL,
@@ -56,55 +56,55 @@ tutorsin VARCHAR(50) NOT NULL, -- we did not have this originally, what exactly 
 gets_help_in VARCHAR(50) NOT NULL -- we did not have this originally
 );
 
-CREATE TABLE tblClasses(
+CREATE TABLE Classes(
 class_id VARCHAR(50) NOT NULL PRIMARY KEY , -- how can we make this so a class only exists if a tutor can tutor in it
 subject_name VARCHAR(50) NOT NULL,
 class_name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE tblCart(
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES tblTutees(user_id),
-user_name VARCHAR(50) NOT NULL REFERENCES tblTutees(user_name),
-location VARCHAR(50) NOT NULL REFERENCES tblTutees(location),
-school VARCHAR(50) NOT NULL REFERENCES tblTutees(school),
-age integer NOT NULL REFERENCES tblTutees(age),
-phone_number VARCHAR(50) NOT NULL REFERENCES tblTutees(phone_number),
-email VARCHAR(50) NOT NULL REFERENCES tblTutees(email),
-address VARCHAR (50) NOT NULL REFERENCES tblTutees(address),
-venmo VARCHAR(50) NOT NULL REFERENCES tblTutees(venmo),
-bio VARCHAR(150) NOT NULL REFERENCES tblTutees(bio),
-price_range VARCHAR(50) NOT NULL REFERENCES tblTutees(price_range),
-zoom_link VARCHAR(50) NOT NULL REFERENCES tblSession(zoom_link),
-session_day VARCHAR(50) NOT NULL REFERENCES tblSession(session_day),
-session_time VARCHAR(50) NOT NULL REFERENCES tblSession(session_time),
-price integer NOT NULL REFERENCES tblSession(price),
-booked VARCHAR(50) NOT NULL REFERENCES tblSession(booked)
+CREATE TABLE Cart(
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tutees(user_id),
+user_name VARCHAR(50) NOT NULL REFERENCES Tutees(user_name),
+location VARCHAR(50) NOT NULL REFERENCES Tutees(location),
+school VARCHAR(50) NOT NULL REFERENCES Tutees(school),
+age integer NOT NULL REFERENCES Tutees(age),
+phone_number VARCHAR(50) NOT NULL REFERENCES Tutees(phone_number),
+email VARCHAR(50) NOT NULL REFERENCES Tutees(email),
+address VARCHAR (50) NOT NULL REFERENCES Tutees(address),
+venmo VARCHAR(50) NOT NULL REFERENCES Tutees(venmo),
+bio VARCHAR(150) NOT NULL REFERENCES Tutees(bio),
+price_range VARCHAR(50) NOT NULL REFERENCES Tutees(price_range),
+zoom_link VARCHAR(50) NOT NULL REFERENCES Session(zoom_link),
+session_day VARCHAR(50) NOT NULL REFERENCES Session(session_day),
+session_time VARCHAR(50) NOT NULL REFERENCES Session(session_time),
+price integer NOT NULL REFERENCES Session(price),
+booked VARCHAR(50) NOT NULL REFERENCES Session(booked)
 );
 
-CREATE TABLE tblNeedsHelpWith(
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES tblTutees(user_id),
-class_id VARCHAR(50) NOT NULL REFERENCES tblClasses(class_id)-- should this be a key also?
+CREATE TABLE NeedsHelpWith(
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tutees(user_id),
+class_id VARCHAR(50) NOT NULL REFERENCES Classes(class_id)-- should this be a key also?
 );
 
-CREATE TABLE tblCanTutorIn(
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES tblTutors(user_id),
-class_id VARCHAR(50) NOT NULL REFERENCES tblClasses(class_id), -- should this be a key
+CREATE TABLE CanTutorIn(
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tutors(user_id),
+class_id VARCHAR(50) NOT NULL REFERENCES Classes(class_id), -- should this be a key
 expertise_lvl VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE tblGivesRating(
-user_id VARCHAR(50) NOT NULL REFERENCES tblTutees(user_id),
+CREATE TABLE GivesRating(
+user_id VARCHAR(50) NOT NULL REFERENCES Tutees(user_id),
 rating_comment VARCHAR(50) NOT NULL,
 rating_num float NOT NULL
 );
 
-CREATE TABLE tblTutorsIn(
-zoom_link VARCHAR(50) NOT NULL REFERENCES tblSession(zoom_link),
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES tblTutors(user_id)
+CREATE TABLE TutorsIn(
+zoom_link VARCHAR(50) NOT NULL REFERENCES Session(zoom_link),
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tutors(user_id)
 );
 
 
-INSERT INTO tblTutees
+INSERT INTO Tutees
 VALUES
  ( '026-408-1025',  '7650 Christopher Knoll Suite 397\nNorth Danielport, HI 57427',  'Brooke Scott',  464487,  'in person',  'pratt',  19,  'sellis@hotmail.com',  '@aharrington',  'Significant less middle often carry however actually owner. House choose prepare election. Certainly into stay day southern. Season yeah area chance support thousand contain.',  '$17'  ),
  ( '261-275-2593',  '845 Taylor Mount Suite 041\nOsbornhaven, TX 62263',  'Melissa Orozco',  883151,  'remote',  'trinity',  20,  'roger35@yahoo.com',  '@xrussell',  'Carry teacher who national. Range dream name decade. Practice daughter hope month very.',  '$36'  ),
@@ -1107,7 +1107,7 @@ VALUES
  ( '987-541-8568',  '31825 Kelly Bypass\nOchoastad, MO 03654',  'Tamara Murphy',  740150,  'remote',  'trinity',  19,  'ismith@gmail.com',  '@eparker',  'Theory school stuff possible. Mind among around list down person four.\nAgree I series.\nWell recent yourself recent exactly technology site. Employee hand happen street her.',  '$20'  )
 ;
 
-INSERT INTO tblTutors
+INSERT INTO Tutors
 VALUES
 ('615-877-8871', '43743 Christopher Meadow Suite 233\nPort Nicholeton, CT 98075', 'Anthony Thomas', 242674, 'in person', 'pratt', 17, 'johnsonmelanie@gmail.com', '@daniellemorris', 'Also loss including rise. Executive order owner win serious force.\nSing his first recently entire design agency into.', 5.0, '$44', 'A-'),
 ('441-415-0966', '7679 Bennett Roads\nWilliamsport, NY 56025', 'Andrew Bautista', 443953, 'in person', 'pratt', 24, 'danielszachary@hotmail.com', '@robertkidd', 'View civil example eye now. Too skin its organization wait. Someone east buy price. Region six small art box cup.\nRemember grow national no his sea. Ground call national support method determine.', 1.0, '$14', 'F'),
