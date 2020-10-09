@@ -3,105 +3,106 @@ CREATE DATABASE TutorProject;
 USE TutorProject;
 
 CREATE TABLE tblUsers(
-user_id VARCHAR(50) NOT NULL,
-user_name VARCHAR(50),
-location VARCHAR(50),
-school VARCHAR(50),
-age integer,
-phone_number VARCHAR(50),
-email VARCHAR(50),
-address VARCHAR(50),
-venmo VARCHAR(50),
-bio VARCHAR(500) 
-);
-
-CREATE TABLE tblSession(
-session_id VARCHAR(50) NOT NULL,
-zoom_link VARCHAR(100),
-session_day VARCHAR(50),
-session_time VARCHAR(50),
-price float,
-booked VARCHAR(100),
-tutorsin VARCHAR(50),
-gets_help_in VARCHAR(50)
-);
-
-CREATE TABLE tblClasses(
-class_id VARCHAR(50) NOT NULL,
-subject_name VARCHAR(50),
-class_name VARCHAR(50)
-);
-
-CREATE TABLE tblCart(
-user_id VARCHAR(50) NOT NULL,
-user_name VARCHAR(50),
-location VARCHAR(50),
-school VARCHAR(50),
-age integer,
-phone_number VARCHAR(50),
-email VARCHAR(50),
-address VARCHAR (50),
-venmo VARCHAR(50),
-bio VARCHAR(150),
-price_range VARCHAR(50),
-zoom_link VARCHAR(50),
-session_day VARCHAR(50),
-session_time VARCHAR(50),
-price integer,
-booked VARCHAR(50)
+user_id VARCHAR(50) NOT NULL PRIMARY KEY,
+user_name VARCHAR(50) NOT NULL,
+location VARCHAR(50) NOT NULL,
+school VARCHAR(50) NOT NULL,
+age integer NOT NULL,
+phone_number VARCHAR(50) NOT NULL,
+email VARCHAR(50) NOT NULL,
+address VARCHAR(50) NOT NULL,
+venmo VARCHAR(50) NOT NULL,
+bio VARCHAR(500) NOT NULL
 );
 
 CREATE TABLE tblTutees(
-phone_number VARCHAR(50),
-address VARCHAR(200),
-user_name VARCHAR(50),
-user_id VARCHAR(50) NOT NULL,
-location VARCHAR(50),
-school VARCHAR(50),
-age integer,
-email VARCHAR(50),
-venmo VARCHAR(50),
-bio VARCHAR(500),
-price_range VARCHAR(50)
+phone_number VARCHAR(50) NOT NULL REFERENCES tblUsers(phone_number),
+address VARCHAR(200) NOT NULL REFERENCES tblUsers(address),
+user_name VARCHAR(50) NOT NULL REFERENCES tblUsers(user_name),
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES tblUsers(user_id),
+location VARCHAR(50) NOT NULL REFERENCES tblUsers(location),
+school VARCHAR(50) NOT NULL REFERENCES tblUsers(school),
+age integer NOT NULL REFERENCES tblUsers(age),
+email VARCHAR(50) NOT NULL REFERENCES tblUsers(email),
+venmo VARCHAR(50) NOT NULL REFERENCES tblUsers(venmo),
+bio VARCHAR(500) NOT NULL REFERENCES tblUsers(bio),
+price_range VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE tblTutors(
-phone_number VARCHAR(50),
-address VARCHAR(200),
-user_name VARCHAR(50),
-user_id VARCHAR(50) NOT NULL,
-location VARCHAR(50),
-school VARCHAR(50),
-age integer,
-email VARCHAR(50),
-venmo VARCHAR(50),
-bio VARCHAR(500),
-rating float,
-hourly_rate VARCHAR(50),
-grade VARCHAR(50)
+phone_number VARCHAR(50) NOT NULL REFERENCES tblUsers(phone_number),
+address VARCHAR(200) NOT NULL REFERENCES tblUsers(address),
+user_name VARCHAR(50) NOT NULL REFERENCES tblUsers(user_name),
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES tblUsers(user_id),
+location VARCHAR(50) NOT NULL REFERENCES tblUsers(location),
+school VARCHAR(50) NOT NULL REFERENCES tblUsers(school),
+age integer NOT NULL REFERENCES tblUsers(age),
+email VARCHAR(50) NOT NULL REFERENCES tblUsers(email),
+venmo VARCHAR(50) NOT NULL REFERENCES tblUsers(venmo),
+bio VARCHAR(500) NOT NULL REFERENCES tblUsers(bio),
+rating float NOT NULL,
+hourly_rate VARCHAR(50) NOT NULL,
+grade VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE tblSession(
+session_id VARCHAR(50) NOT NULL PRIMARY KEY,
+zoom_link VARCHAR(100) NOT NULL,
+session_day VARCHAR(50) NOT NULL,
+session_time VARCHAR(50) NOT NULL,
+price float NOT NULL,
+booked VARCHAR(100) NOT NULL,
+tutorsin VARCHAR(50) NOT NULL, -- we did not have this originally, what exactly is it
+gets_help_in VARCHAR(50) NOT NULL -- we did not have this originally
+);
+
+CREATE TABLE tblClasses(
+class_id VARCHAR(50) NOT NULL PRIMARY KEY , -- how can we make this so a class only exists if a tutor can tutor in it
+subject_name VARCHAR(50) NOT NULL,
+class_name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE tblCart(
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES tblTutees(user_id),
+user_name VARCHAR(50) NOT NULL REFERENCES tblTutees(user_name),
+location VARCHAR(50) NOT NULL REFERENCES tblTutees(location),
+school VARCHAR(50) NOT NULL REFERENCES tblTutees(school),
+age integer NOT NULL REFERENCES tblTutees(age),
+phone_number VARCHAR(50) NOT NULL REFERENCES tblTutees(phone_number),
+email VARCHAR(50) NOT NULL REFERENCES tblTutees(email),
+address VARCHAR (50) NOT NULL REFERENCES tblTutees(address),
+venmo VARCHAR(50) NOT NULL REFERENCES tblTutees(venmo),
+bio VARCHAR(150) NOT NULL REFERENCES tblTutees(bio),
+price_range VARCHAR(50) NOT NULL REFERENCES tblTutees(price_range),
+zoom_link VARCHAR(50) NOT NULL REFERENCES tblSession(zoom_link),
+session_day VARCHAR(50) NOT NULL REFERENCES tblSession(session_day),
+session_time VARCHAR(50) NOT NULL REFERENCES tblSession(session_time),
+price integer NOT NULL REFERENCES tblSession(price),
+booked VARCHAR(50) NOT NULL REFERENCES tblSession(booked)
 );
 
 CREATE TABLE tblNeedsHelpWith(
-user_id VARCHAR(50) NOT NULL,
-class_id VARCHAR(50)
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES tblTutees(user_id),
+class_id VARCHAR(50) NOT NULL REFERENCES tblClasses(class_id)-- should this be a key also?
 );
 
 CREATE TABLE tblCanTutorIn(
-user_id VARCHAR(50) NOT NULL,
-class_id VARCHAR(50),
-expertise_lvl VARCHAR(50)
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES tblTutors(user_id),
+class_id VARCHAR(50) NOT NULL REFERENCES tblClasses(class_id), -- should this be a key
+expertise_lvl VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE tblGivesRating(
-user_id VARCHAR(50) NOT NULL,
-rating_comment VARCHAR(50),
-rating_num float
+user_id VARCHAR(50) NOT NULL REFERENCES tblTutees(user_id),
+rating_comment VARCHAR(50) NOT NULL,
+rating_num float NOT NULL
 );
 
 CREATE TABLE tblTutorsIn(
-zoom_link VARCHAR(50),
-user_id VARCHAR(50) NOT NULL
+zoom_link VARCHAR(50) NOT NULL REFERENCES tblSession(zoom_link),
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES tblTutors(user_id)
 );
+
 
 INSERT INTO tblTutees
 VALUES
