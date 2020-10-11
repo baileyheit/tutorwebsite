@@ -6,7 +6,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:21bH1267@vcm-17138.vm.duke.edu/TutorProject'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:21bH1267@localhost/TutorProject'
 
-
 db = SQLAlchemy(app)
 
 @app.route('/')
