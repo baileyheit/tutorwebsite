@@ -1,0 +1,11 @@
+{% extends 'layout.html' %} {% block content %}
+
+Tutors In
+
+{{form.csrf_token}}
+{{form.beer_sel.label}}
+{{form.beer_sel}}
+
+{{form.submit()}}
+
+{% endblock %}
