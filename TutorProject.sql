@@ -51,13 +51,11 @@ zoom_link VARCHAR(100) NOT NULL,
 session_day VARCHAR(50) NOT NULL,
 session_time VARCHAR(50) NOT NULL,
 price float NOT NULL,
-booked VARCHAR(100) NOT NULL,
-tutorsin VARCHAR(50) NOT NULL, -- we did not have this originally, what exactly is it
-gets_help_in VARCHAR(50) NOT NULL -- we did not have this originally
+booked VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Classes(
-class_id VARCHAR(50) NOT NULL PRIMARY KEY , -- how can we make this so a class only exists if a tutor can tutor in it
+class_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES CanTutorIn(class_id), 
 subject_name VARCHAR(50) NOT NULL,
 class_name VARCHAR(50) NOT NULL
 );
@@ -83,12 +81,12 @@ booked VARCHAR(50) NOT NULL REFERENCES Session(booked)
 
 CREATE TABLE NeedsHelpWith(
 user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tutees(user_id),
-class_id VARCHAR(50) NOT NULL REFERENCES Classes(class_id)-- should this be a key also?
+class_id VARCHAR(50) NOT NULL REFERENCES Classes(class_id)
 );
 
 CREATE TABLE CanTutorIn(
 user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tutors(user_id),
-class_id VARCHAR(50) NOT NULL REFERENCES Classes(class_id), -- should this be a key
+class_id VARCHAR(50) NOT NULL, 
 expertise_lvl VARCHAR(50) NOT NULL
 );
 
