@@ -1,7 +1,11 @@
 from sqlalchemy import sql, orm
-from app import db
+from flask_sqlalchemy import SQLAlchemy
+# from app import db
+import app
 
-class Users(db.model):
+db = SQLAlchemy()
+
+class Users(db.Model):
     __tablename__ = 'Users'
     user_id = db.Column('user_id', db.String(50), primary_key=True)
     user_name = db.Column('user_name', db.String(50))
@@ -14,7 +18,7 @@ class Users(db.model):
     venmo = db.Column('venmo', db.String(50))
     bio = db.Column('bio', db.String(500))
 
-class Tutees(db.model):
+class Tutees(db.Model):
     __tablename__ = 'Tutees'
     user_id = db.Column('user_id', db.String(50), db.ForeignKey(Users.user_id), primary_key=True)
     user_name = db.Column('user_name', db.String(50), db.ForeignKey(Users.user_name))
@@ -26,7 +30,7 @@ class Tutees(db.model):
     address = db.Column('address', db.String(200), db.ForeignKey(Users.address))
     venmo = db.Column('venmo', db.String(50), db.ForeignKey(Users.venmo))
     bio = db.Column('bio', db.String(500), db.ForeignKey(Users.bio))
-    price_range = db.column('price_range', db.String(50))
+    price_range = db.Column('price_range', db.String(50))
     needsHelpWith = orm.relationship('NeedsHelpWith')
     givesRating = orm.relationship('GivesRating')
     @staticmethod
@@ -43,7 +47,7 @@ class Tutees(db.model):
             db.session.rollback()
             raise e
 
-class Tutors(db.model):
+class Tutors(db.Model):
     __tablename__ = 'Tutors'
     user_id = db.Column('user_id', db.String(50), db.ForeignKey(Users.user_id), primary_key=True)
     user_name = db.Column('user_name', db.String(50), db.ForeignKey(Users.user_name))
@@ -74,7 +78,13 @@ class Tutors(db.model):
             db.session.rollback()
             raise e
 
-class Session(db.model):
+class Classes(db.Model):
+    __tablename__ = 'Classes'
+    class_id = db.Column('class_id', db.String(50), primary_key=True)
+    subject_name = db.Column('subject_name', db.String(50))
+    class_name = db.Column('class_name', db.String(50))
+
+class Session(db.Model):
     __tablename__ = 'Session'
     session_id = db.Column('session_id', db.Integer(), primary_key=True)
     zoom_link = db.Column('zoom_link', db.String(50))
@@ -82,13 +92,7 @@ class Session(db.model):
     price = db.Column('price', db.Float())
     booked = db.Column('booked', db.String(100))
 
-class Classes(db.model):
-    __tablename__ = 'Classes'
-    class_id = db.Column('class_id', db.String(50), db.ForeignKey(CanTutorIn(class_id)), primary_key=True)
-    subject_name = db.Column('subject_name', db.String(50))
-    class_name = db.Column('class_name', db.String(50))
-
-class Cart(db.model):
+class Cart(db.Model):
     __tablename__ = 'Cart'
     user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutees.user_id), primary_key=True)
     user_name = db.Column('user_name', db.String(50), db.ForeignKey(Tutees.user_name))
@@ -107,24 +111,26 @@ class Cart(db.model):
     price = db.Column('price', db.Float(), db.ForeignKey(Session.price))
     booked = db.Column('booked', db.String(100), db.ForeignKey(Session.booked))
 
-class NeedsHelpWith(db.model):
-    __tablename__ = 'NeedsHelpWith'
-    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutees.user_id), primaryKey=True)
-    class_id = db.Column('class_id', db.String(50), db.ForeignKey(Classes.class_id))
-
-class CanTutorIn(db.model):
+class CanTutorIn(db.Model):
     __tablename__ = 'CanTutorIn'
-    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutors.user_id), primaryKey=True)
-    class_id = db.Column('class_id', db.String(50), db.ForeignKey(Classes.class_id)) #include this reference in db?
+    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutors.user_id), primary_key=True)
+    class_id = db.Column('class_id', db.String(50), db.ForeignKey(Classes.class_id), primary_key=True)
+    # class_id = db.Column('class_id', db.String(50), db.ForeignKey(Classes.class_id)) #include this reference in db?
     expertise_lvl = db.Column('expertise_lvl', db.String(50))
 
-class GivesRating(db.model):
+
+class NeedsHelpWith(db.Model):
+    __tablename__ = 'NeedsHelpWith'
+    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutees.user_id), primary_key=True)
+    class_id = db.Column('class_id', db.String(50), db.ForeignKey(Classes.class_id))
+
+class GivesRating(db.Model):
     __tablename__ = 'GivesRating'
-    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutees.user_id))
+    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutees.user_id), primary_key = True)
     rating_comment = db.Column('rating_comment', db.String(50))
     rating_num = db.Column('rating_num', db.Float())
 
-class TutorsIn(db.model):
+class TutorsIn(db.Model):
     __tablename__ = 'TutorsIn'
-    user_id = db.column('user_id', db.String(50), db.ForeignKey(Tutors.user_id), primary_key=True)
-    zoom_link = db.column('zoom_link', db.String(50), db.ForeignKey(Session.zoom_link)) #session id instead?
+    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutors.user_id), primary_key = True)
+    zoom_link = db.Column('zoom_link', db.String(50), db.ForeignKey(Session.zoom_link)) #session id instead?
