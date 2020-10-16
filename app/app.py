@@ -37,5 +37,4 @@ def hello_world():
 # # mysql://username:password@server/db
 
 if __name__ == '__main__':
-  app.init_db()
   app.run(host='0.0.0.0')
