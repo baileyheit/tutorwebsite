@@ -1,136 +1,138 @@
-from sqlalchemy import sql, orm
-from flask_sqlalchemy import SQLAlchemy
+
+from sqlalchemy import Column, Integer, String, sql, orm
+from database import Base
+# from flask_sqlalchemy import SQLAlchemy
 # from app import db
 import app
 
-db = SQLAlchemy()
+# db = SQLAlchemy()
 
-class Users(db.Model):
+class Users(Base):
     __tablename__ = 'Users'
-    user_id = db.Column('user_id', db.String(50), primary_key=True)
-    user_name = db.Column('user_name', db.String(50))
-    location = db.Column('location', db.String(50))
-    school = db.Column('school', db.String(50))
-    age = db.Column('age', db.Integer())
-    phone_number = db.Column('phone_number', db.String(50))
-    email = db.Column('email', db.String(50))
-    address = db.Column('address', db.String(200)) #need to make this 200 in table creation
-    venmo = db.Column('venmo', db.String(50))
-    bio = db.Column('bio', db.String(500))
+    user_id = Column('user_id', String(50), primary_key=True)
+    user_name = Column('user_name', String(50))
+    location = Column('location', String(50))
+    school = Column('school', String(50))
+    age = Column('age', Integer())
+    phone_number = Column('phone_number', String(50))
+    email = Column('email', String(50))
+    address = Column('address', String(200)) #need to make this 200 in table creation
+    venmo = Column('venmo', String(50))
+    bio = Column('bio', String(500))
 
-class Tutees(db.Model):
-    __tablename__ = 'Tutees'
-    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Users.user_id), primary_key=True)
-    user_name = db.Column('user_name', db.String(50), db.ForeignKey(Users.user_name))
-    location = db.Column('location', db.String(50), db.ForeignKey(Users.location))
-    school = db.Column('school', db.String(50), db.ForeignKey(Users.school))
-    age = db.Column('age', db.Integer(), db.ForeignKey(Users.age))
-    phone_number = db.Column('phone_number', db.String(50), db.ForeignKey(Users.phone_number))
-    email = db.Column('email', db.String(50), db.ForeignKey(Users.email))
-    address = db.Column('address', db.String(200), db.ForeignKey(Users.address))
-    venmo = db.Column('venmo', db.String(50), db.ForeignKey(Users.venmo))
-    bio = db.Column('bio', db.String(500), db.ForeignKey(Users.bio))
-    price_range = db.Column('price_range', db.String(50))
-    needsHelpWith = orm.relationship('NeedsHelpWith')
-    givesRating = orm.relationship('GivesRating')
-    @staticmethod
-    def edit(user_id, old_user_name, user_name, location, school, old_age, age, old_phone_number, phone_number, old_email, email, address, venmo, bio, price_range):
-        try:
-            db.session.execute('UPDATE users SET user_id = :user_id, user_name = :user_name, location = :location, school = :school, age = :age, phone_number = :phone_number, email = :email, address = :address, venmo = :venmo, bio = :bio'
-                                'WHERE user_name = :old_user_name OR age = :old_age OR phone_number = :old_phone_number OR email = :old_email',
-                                dict(user_id=user_id, old_user_name=old_user_name, location=location, school=school, old_age=old_age, old_phone_number=old_phone_number, old_email=old_email, address=address, venmo=venmo, bio=bio))
-            db.session.execute('UPDATE tutees SET user_id = :user_id, user_name = :user_name, location = :location, school = :school, age = :age, phone_number = :phone_number, email = :email, address = :address, venmo = :venmo, bio = :bio, price_range = :price_range'
-                                'WHERE user_name = :old_user_name OR age = :old_age OR phone_number = :old_phone_number OR email = :old_email',
-                                dict(user_id=user_id, old_user_name=old_user_name, location=location, school=school, old_age=old_age, old_phone_number=old_phone_number, old_email=old_email, address=address, venmo=venmo, bio=bio, price_range=price_range))
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            raise e
+# class Tutees(Base):
+#     __tablename__ = 'Tutees'
+#     user_id = Column('user_id', String(50), db.ForeignKey(Users.user_id), primary_key=True)
+#     user_name = Column('user_name', String(50), db.ForeignKey(Users.user_name))
+#     location = Column('location', String(50), db.ForeignKey(Users.location))
+#     school = Column('school', String(50), db.ForeignKey(Users.school))
+#     age = Column('age', Integer(), db.ForeignKey(Users.age))
+#     phone_number = Column('phone_number', String(50), db.ForeignKey(Users.phone_number))
+#     email = Column('email', String(50), db.ForeignKey(Users.email))
+#     address = Column('address', String(200), db.ForeignKey(Users.address))
+#     venmo = Column('venmo', String(50), db.ForeignKey(Users.venmo))
+#     bio = Column('bio', String(500), db.ForeignKey(Users.bio))
+#     price_range = Column('price_range', String(50))
+#     needsHelpWith = orm.relationship('NeedsHelpWith')
+#     givesRating = orm.relationship('GivesRating')
+#     @staticmethod
+#     def edit(user_id, old_user_name, user_name, location, school, old_age, age, old_phone_number, phone_number, old_email, email, address, venmo, bio, price_range):
+#         try:
+#             db.session.execute('UPDATE users SET user_id = :user_id, user_name = :user_name, location = :location, school = :school, age = :age, phone_number = :phone_number, email = :email, address = :address, venmo = :venmo, bio = :bio'
+#                                 'WHERE user_name = :old_user_name OR age = :old_age OR phone_number = :old_phone_number OR email = :old_email',
+#                                 dict(user_id=user_id, old_user_name=old_user_name, location=location, school=school, old_age=old_age, old_phone_number=old_phone_number, old_email=old_email, address=address, venmo=venmo, bio=bio))
+#             db.session.execute('UPDATE tutees SET user_id = :user_id, user_name = :user_name, location = :location, school = :school, age = :age, phone_number = :phone_number, email = :email, address = :address, venmo = :venmo, bio = :bio, price_range = :price_range'
+#                                 'WHERE user_name = :old_user_name OR age = :old_age OR phone_number = :old_phone_number OR email = :old_email',
+#                                 dict(user_id=user_id, old_user_name=old_user_name, location=location, school=school, old_age=old_age, old_phone_number=old_phone_number, old_email=old_email, address=address, venmo=venmo, bio=bio, price_range=price_range))
+#             db.session.commit()
+#         except Exception as e:
+#             db.session.rollback()
+#             raise e
 
-class Tutors(db.Model):
-    __tablename__ = 'Tutors'
-    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Users.user_id), primary_key=True)
-    user_name = db.Column('user_name', db.String(50), db.ForeignKey(Users.user_name))
-    location = db.Column('location', db.String(50), db.ForeignKey(Users.location))
-    school = db.Column('school', db.String(50), db.ForeignKey(Users.school))
-    age = db.Column('age', db.Integer(), db.ForeignKey(Users.age))
-    phone_number = db.Column('phone_number', db.String(50), db.ForeignKey(Users.phone_number))
-    email = db.Column('email', db.String(50), db.ForeignKey(Users.email))
-    address = db.Column('address', db.String(200), db.ForeignKey(Users.address))
-    venmo = db.Column('venmo', db.String(50), db.ForeignKey(Users.venmo))
-    bio = db.Column('bio', db.String(500), db.ForeignKey(Users.bio))
-    rating = db.Column('rating', db.Float())
-    hourly_rate = db.Column('hourly_rate', db.String(50))
-    grade = db.Column('grade', db.String(50))
-    canTutorIn = orm.relationship('CanTutorIn')
-    tutorsIn = orm.relationship('TutorsIn')    
-    @staticmethod
-    def edit(user_id, old_user_name, user_name, location, school, old_age, age, old_phone_number, phone_number, old_email, email, address, venmo, bio, hourly_rate, grade):
-        try:
-            db.session.execute('UPDATE users SET user_id = :user_id, user_name = :user_name, location = :location, school = :school, age = :age, phone_number = :phone_number, email = :email, address = :address, venmo = :venmo, bio = :bio'
-                                'WHERE user_name = :old_user_name OR age = :old_age OR phone_number = :old_phone_number OR email = :old_email',
-                                dict(user_id=user_id, old_user_name=old_user_name, location=location, school=school, old_age=old_age, old_phone_number=old_phone_number, old_email=old_email, address=address, venmo=venmo, bio=bio))
-            db.session.execute('UPDATE tutees SET user_id = :user_id, user_name = :user_name, location = :location, school = :school, age = :age, phone_number = :phone_number, email = :email, address = :address, venmo = :venmo, bio = :bio, hourly_rate = :hourly_rate, grade = :grade'
-                                'WHERE user_name = :old_user_name OR age = :old_age OR phone_number = :old_phone_number OR email = :old_email',
-                                dict(user_id=user_id, old_user_name=old_user_name, location=location, school=school, old_age=old_age, old_phone_number=old_phone_number, old_email=old_email, address=address, venmo=venmo, hourly_rate=hourly_rate, grade=grade))
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            raise e
+# class Tutors(Base):
+#     __tablename__ = 'Tutors'
+#     user_id = Column('user_id', String(50), db.ForeignKey(Users.user_id), primary_key=True)
+#     user_name = Column('user_name', String(50), db.ForeignKey(Users.user_name))
+#     location = Column('location', String(50), db.ForeignKey(Users.location))
+#     school = Column('school', String(50), db.ForeignKey(Users.school))
+#     age = Column('age', Integer(), db.ForeignKey(Users.age))
+#     phone_number = Column('phone_number', String(50), db.ForeignKey(Users.phone_number))
+#     email = Column('email', String(50), db.ForeignKey(Users.email))
+#     address = Column('address', String(200), db.ForeignKey(Users.address))
+#     venmo = Column('venmo', String(50), db.ForeignKey(Users.venmo))
+#     bio = Column('bio', String(500), db.ForeignKey(Users.bio))
+#     rating = Column('rating', db.Float())
+#     hourly_rate = Column('hourly_rate', String(50))
+#     grade = Column('grade', String(50))
+#     canTutorIn = orm.relationship('CanTutorIn')
+#     tutorsIn = orm.relationship('TutorsIn')    
+#     @staticmethod
+#     def edit(user_id, old_user_name, user_name, location, school, old_age, age, old_phone_number, phone_number, old_email, email, address, venmo, bio, hourly_rate, grade):
+#         try:
+#             db.session.execute('UPDATE users SET user_id = :user_id, user_name = :user_name, location = :location, school = :school, age = :age, phone_number = :phone_number, email = :email, address = :address, venmo = :venmo, bio = :bio'
+#                                 'WHERE user_name = :old_user_name OR age = :old_age OR phone_number = :old_phone_number OR email = :old_email',
+#                                 dict(user_id=user_id, old_user_name=old_user_name, location=location, school=school, old_age=old_age, old_phone_number=old_phone_number, old_email=old_email, address=address, venmo=venmo, bio=bio))
+#             db.session.execute('UPDATE tutees SET user_id = :user_id, user_name = :user_name, location = :location, school = :school, age = :age, phone_number = :phone_number, email = :email, address = :address, venmo = :venmo, bio = :bio, hourly_rate = :hourly_rate, grade = :grade'
+#                                 'WHERE user_name = :old_user_name OR age = :old_age OR phone_number = :old_phone_number OR email = :old_email',
+#                                 dict(user_id=user_id, old_user_name=old_user_name, location=location, school=school, old_age=old_age, old_phone_number=old_phone_number, old_email=old_email, address=address, venmo=venmo, hourly_rate=hourly_rate, grade=grade))
+#             db.session.commit()
+#         except Exception as e:
+#             db.session.rollback()
+#             raise e
 
-class Classes(db.Model):
-    __tablename__ = 'Classes'
-    class_id = db.Column('class_id', db.String(50), primary_key=True)
-    subject_name = db.Column('subject_name', db.String(50))
-    class_name = db.Column('class_name', db.String(50))
+# class Classes(Base):
+#     __tablename__ = 'Classes'
+#     class_id = Column('class_id', String(50), primary_key=True)
+#     subject_name = Column('subject_name', String(50))
+#     class_name = Column('class_name', String(50))
 
-class Session(db.Model):
-    __tablename__ = 'Session'
-    session_id = db.Column('session_id', db.Integer(), primary_key=True)
-    zoom_link = db.Column('zoom_link', db.String(50))
-    session_day = db.Column('session_day', db.String(50))
-    price = db.Column('price', db.Float())
-    booked = db.Column('booked', db.String(100))
+# class Session(Base):
+#     __tablename__ = 'Session'
+#     session_id = Column('session_id', Integer(), primary_key=True)
+#     zoom_link = Column('zoom_link', String(50))
+#     session_day = Column('session_day', String(50))
+#     price = Column('price', db.Float())
+#     booked = Column('booked', String(100))
 
-class Cart(db.Model):
-    __tablename__ = 'Cart'
-    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutees.user_id), primary_key=True)
-    user_name = db.Column('user_name', db.String(50), db.ForeignKey(Tutees.user_name))
-    location = db.Column('location', db.String(50), db.ForeignKey(Tutees.location))
-    school = db.Column('school', db.String(50), db.ForeignKey(Tutees.school))
-    age = db.Column('age', db.Integer(), db.ForeignKey(Tutees.age))
-    phone_number = db.Column('phone_number', db.String(50), db.ForeignKey(Tutees.phone_number))
-    email = db.Column('email', db.String(50), db.ForeignKey(Tutees.email))
-    address = db.Column('address', db.String(200), db.ForeignKey(Tutees.address))
-    venmo = db.Column('venmo', db.String(50), db.ForeignKey(Tutees.venmo))
-    bio = db.Column('bio', db.String(500), db.ForeignKey(Tutees.bio))
-    price_range = db.Column('price_range', db.String(50), db.ForeignKey(Tutees.price_range))
-    session_id = db.Column('session_id', db.String(50), db.ForeignKey(Session.session_id)) #add this to db?
-    zoom_link = db.Column('zoom_link', db.String(50), db.ForeignKey(Session.zoom_link))
-    session_day = db.Column('session_day', db.String(50), db.ForeignKey(Session.session_day))
-    price = db.Column('price', db.Float(), db.ForeignKey(Session.price))
-    booked = db.Column('booked', db.String(100), db.ForeignKey(Session.booked))
+# class Cart(Base):
+#     __tablename__ = 'Cart'
+#     user_id = Column('user_id', String(50), db.ForeignKey(Tutees.user_id), primary_key=True)
+#     user_name = Column('user_name', String(50), db.ForeignKey(Tutees.user_name))
+#     location = Column('location', String(50), db.ForeignKey(Tutees.location))
+#     school = Column('school', String(50), db.ForeignKey(Tutees.school))
+#     age = Column('age', Integer(), db.ForeignKey(Tutees.age))
+#     phone_number = Column('phone_number', String(50), db.ForeignKey(Tutees.phone_number))
+#     email = Column('email', String(50), db.ForeignKey(Tutees.email))
+#     address = Column('address', String(200), db.ForeignKey(Tutees.address))
+#     venmo = Column('venmo', String(50), db.ForeignKey(Tutees.venmo))
+#     bio = Column('bio', String(500), db.ForeignKey(Tutees.bio))
+#     price_range = Column('price_range', String(50), db.ForeignKey(Tutees.price_range))
+#     session_id = Column('session_id', String(50), db.ForeignKey(Session.session_id)) #add this to db?
+#     zoom_link = Column('zoom_link', String(50), db.ForeignKey(Session.zoom_link))
+#     session_day = Column('session_day', String(50), db.ForeignKey(Session.session_day))
+#     price = Column('price', db.Float(), db.ForeignKey(Session.price))
+#     booked = Column('booked', String(100), db.ForeignKey(Session.booked))
 
-class CanTutorIn(db.Model):
-    __tablename__ = 'CanTutorIn'
-    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutors.user_id), primary_key=True)
-    class_id = db.Column('class_id', db.String(50), db.ForeignKey(Classes.class_id), primary_key=True)
-    # class_id = db.Column('class_id', db.String(50), db.ForeignKey(Classes.class_id)) #include this reference in db?
-    expertise_lvl = db.Column('expertise_lvl', db.String(50))
+# class CanTutorIn(Base):
+#     __tablename__ = 'CanTutorIn'
+#     user_id = Column('user_id', String(50), db.ForeignKey(Tutors.user_id), primary_key=True)
+#     class_id = Column('class_id', String(50), db.ForeignKey(Classes.class_id), primary_key=True)
+#     # class_id = Column('class_id', String(50), db.ForeignKey(Classes.class_id)) #include this reference in db?
+#     expertise_lvl = Column('expertise_lvl', String(50))
 
 
-class NeedsHelpWith(db.Model):
-    __tablename__ = 'NeedsHelpWith'
-    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutees.user_id), primary_key=True)
-    class_id = db.Column('class_id', db.String(50), db.ForeignKey(Classes.class_id))
+# class NeedsHelpWith(Base):
+#     __tablename__ = 'NeedsHelpWith'
+#     user_id = Column('user_id', String(50), db.ForeignKey(Tutees.user_id), primary_key=True)
+#     class_id = Column('class_id', String(50), db.ForeignKey(Classes.class_id))
 
-class GivesRating(db.Model):
-    __tablename__ = 'GivesRating'
-    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutees.user_id), primary_key = True)
-    rating_comment = db.Column('rating_comment', db.String(50))
-    rating_num = db.Column('rating_num', db.Float())
+# class GivesRating(Base):
+#     __tablename__ = 'GivesRating'
+#     user_id = Column('user_id', String(50), db.ForeignKey(Tutees.user_id), primary_key = True)
+#     rating_comment = Column('rating_comment', String(50))
+#     rating_num = Column('rating_num', db.Float())
 
-class TutorsIn(db.Model):
-    __tablename__ = 'TutorsIn'
-    user_id = db.Column('user_id', db.String(50), db.ForeignKey(Tutors.user_id), primary_key = True)
-    zoom_link = db.Column('zoom_link', db.String(50), db.ForeignKey(Session.zoom_link)) #session id instead?
+# class TutorsIn(Base):
+#     __tablename__ = 'TutorsIn'
+#     user_id = Column('user_id', String(50), db.ForeignKey(Tutors.user_id), primary_key = True)
+#     zoom_link = Column('zoom_link', String(50), db.ForeignKey(Session.zoom_link)) #session id instead?

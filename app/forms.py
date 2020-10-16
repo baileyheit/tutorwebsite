@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from wtforms import SelectField, SubmitField
 import models
 import app
