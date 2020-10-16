@@ -1,4 +1,4 @@
-{% extends 'layout.html' %} {% block heading %}All Tutors{% endblock %} {% block content %}
+<!-- {% extends 'layout.html' %} {% block heading %}All Tutors{% endblock %} {% block content %}
 
 {% for tutor in tutors %}
 {{tutor.name}}
@@ -6,4 +6,58 @@
 
 {{tutors|length}} tutor{{tutors|length|pluralize}} found in the database.
 
-{% endblock %}
+{% endblock %} -->
+
+<h1>Here is a page backed by a database</h1>
+<ul>
+  <li><a href="/">Root Page</a></li>
+  <!-- <li><a href="/style">Root Page w/style</a></li>
+  <li><a href="/python">page w/python</a></li> -->
+  <li><a href="/database">page w/database</a></li>
+</ul>
+
+<h3>Tutors</h3>
+<table>
+  <thead>
+    <th>User Id</th>
+    <th>User Name</th>
+    <!-- <th>Color</th>
+    <th>Year</th> -->
+  </thead>
+  <tbody>
+  {% for user in users %}
+    <tr>
+      <td> {{ user.user_id }}</td>
+      <td> {{ user.user_name }}</td>
+      <!-- <td> {{ car.color }}</td>
+      <td> {{ car.year }}</td> -->
+    </tr>  
+  {% endfor %}
+  </tbody>
+</table>
+
+<!-- <br /><br />
+
+<form action="/add_car" >
+  <label>Make</label><br />
+  <input type="text" name="make" />
+  <br />
+  <br />
+
+  <label>Model</label><br />
+  <input type="text" name="model" />
+  <br/>
+  <br />
+
+  <label>Color</label><br />
+  <input type="text" name="color" />
+  <br />
+  <br />
+
+  <label>Year</label><br />
+  <input type="text" name="year" />
+  <br />
+  <br />
+
+  <input type="submit" />
+</form> -->

@@ -3,9 +3,10 @@ from sqlalchemy import Column, Integer, String, sql, orm
 from database import Base
 # from flask_sqlalchemy import SQLAlchemy
 # from app import db
-import app
+#import app
 
 # db = SQLAlchemy()
+
 
 class Users(Base):
     __tablename__ = 'Users'
@@ -16,9 +17,21 @@ class Users(Base):
     age = Column('age', Integer())
     phone_number = Column('phone_number', String(50))
     email = Column('email', String(50))
-    address = Column('address', String(200)) #need to make this 200 in table creation
+    # need to make this 200 in table creation
+    address = Column('address', String(200))
     venmo = Column('venmo', String(50))
     bio = Column('bio', String(500))
+
+    def _init_(self, user_name=None, location=None, school=None, age=None, phone_number=None, email=None, address=None, Venmo=None, bio=None):
+        self.user_name = user_name
+        self.location = location
+        self.school = school
+        self.age = age
+        self.phone_number = phone_number
+        self.email = email
+        self.address = address
+        self.Venmo = Venmo
+        self.bio = bio
 
 # class Tutees(Base):
 #     __tablename__ = 'Tutees'
@@ -65,7 +78,7 @@ class Users(Base):
 #     hourly_rate = Column('hourly_rate', String(50))
 #     grade = Column('grade', String(50))
 #     canTutorIn = orm.relationship('CanTutorIn')
-#     tutorsIn = orm.relationship('TutorsIn')    
+#     tutorsIn = orm.relationship('TutorsIn')
 #     @staticmethod
 #     def edit(user_id, old_user_name, user_name, location, school, old_age, age, old_phone_number, phone_number, old_email, email, address, venmo, bio, hourly_rate, grade):
 #         try:
