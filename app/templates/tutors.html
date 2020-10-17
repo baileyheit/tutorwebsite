@@ -1,4 +1,4 @@
-<h1>Here is a page backed by a database</h1>
+<h1>TUTORS:</h1>
 <ul>
   <li><a href="/">Root Page</a></li>
   <li><a href="/database">page w/database</a></li>
@@ -7,14 +7,12 @@
 <h3>Tutors</h3>
 <table>
   <thead>
-    <th>User Id</th>
     <th>User Name</th>
   </thead>
   <tbody>
-  {% for user in users %}
+  {% for tutor in tutors %}
     <tr>
-      <td> {{ user.user_id }}</td>
-      <td> {{ user.user_name }}</td>
+      <td> {{ tutor.user_name }}</td>
     </tr>  
   {% endfor %}
   </tbody>
