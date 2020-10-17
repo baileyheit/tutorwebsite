@@ -2,7 +2,7 @@ import sqlalchemy
 from flask import Flask, render_template, redirect, url_for
 # import models
 import forms
-from models import Users
+#from models import Users
 from models import Tutor
 
 
