@@ -1,37 +1,36 @@
-
-from sqlalchemy import Column, Integer, String, sql, orm
+from sqlalchemy import Column, Integer, String, sql, orm, VARCHAR
 from database import Base
-# from flask_sqlalchemy import SQLAlchemy
-# from app import db
-#import app
-
-# db = SQLAlchemy()
 
 
-class Users(Base):
-    __tablename__ = 'Users'
-    user_id = Column('user_id', String(50), primary_key=True)
-    user_name = Column('user_name', String(50))
-    location = Column('location', String(50))
-    school = Column('school', String(50))
-    age = Column('age', Integer())
-    phone_number = Column('phone_number', String(50))
-    email = Column('email', String(50))
-    # need to make this 200 in table creation
-    address = Column('address', String(200))
-    venmo = Column('venmo', String(50))
-    bio = Column('bio', String(500))
+class Tutor(Base):
+    __tablename__ = 'Tutor'
+    user_name = Column('user_name', VARCHAR(50), primary_key=True)
 
-    def _init_(self, user_name=None, location=None, school=None, age=None, phone_number=None, email=None, address=None, Venmo=None, bio=None):
-        self.user_name = user_name
-        self.location = location
-        self.school = school
-        self.age = age
-        self.phone_number = phone_number
-        self.email = email
-        self.address = address
-        self.Venmo = Venmo
-        self.bio = bio
+
+# class Users(Base):
+#     __tablename__ = 'Users'
+#     user_id = Column('user_id', String(50), primary_key=True)
+#     user_name = Column('user_name', String(50))
+#     location = Column('location', String(50))
+#     school = Column('school', String(50))
+#     age = Column('age', Integer())
+#     phone_number = Column('phone_number', String(50))
+#     email = Column('email', String(50))
+#     # need to make this 200 in table creation
+#     address = Column('address', String(200))
+#     venmo = Column('venmo', String(50))
+#     bio = Column('bio', String(500))
+
+#     def _init_(self, user_name=None, location=None, school=None, age=None, phone_number=None, email=None, address=None, Venmo=None, bio=None):
+#         self.user_name = user_name
+#         self.location = location
+#         self.school = school
+#         self.age = age
+#         self.phone_number = phone_number
+#         self.email = email
+#         self.address = address
+#         self.Venmo = Venmo
+#         self.bio = bio
 
 # class Tutees(Base):
 #     __tablename__ = 'Tutees'

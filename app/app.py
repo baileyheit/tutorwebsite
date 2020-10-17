@@ -3,6 +3,7 @@ from flask import Flask, render_template, redirect, url_for
 # import models
 import forms
 from models import Users
+from models import Tutor
 
 
 app = Flask(__name__)
@@ -22,11 +23,19 @@ def index():
     return render_template('index.html')
 
 
+# @app.route('/users')
+# def users():
+#     return render_template(
+#         'all_tutors.html',
+#         users=Users.query.all()
+#     )
+
+
 @app.route('/tutors')
 def tutors():
     return render_template(
-        'all_tutors.html',
-        users=Users.query.all()
+        'tutors.html',
+        tutors=Tutor.query.all()
     )
 
 
@@ -58,6 +67,5 @@ def tutors():
 
 # if __name__ == '__main__':
 #     app.run(host='0.0.0.0')
-
 if __name__ == "__main__":
     app.run(debug=True)
