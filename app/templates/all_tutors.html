@@ -1,9 +1,0 @@
-{% extends 'layout.html' %} {% block heading %}All Tutors{% endblock %} {% block content %}
-
-{% for tutor in tutors %}
-{{tutor.name}}
-{% endfor %}
-
-{{tutors|length}} tutor{{tutors|length|pluralize}} found in the database.
-
-{% endblock %}
