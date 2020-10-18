@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS TutorProject;
 CREATE DATABASE TutorProject;
 USE TutorProject;
 
-CREATE TABLE Users(
+CREATE TABLE User(
 phone_number VARCHAR(50) NOT NULL,
 address VARCHAR(50) NOT NULL,
 user_name VARCHAR(50) NOT NULL,
@@ -15,31 +15,31 @@ venmo VARCHAR(50) NOT NULL,
 bio VARCHAR(500) NOT NULL
 );
 
-CREATE TABLE Tuttees(
-phone_number VARCHAR(50) NOT NULL REFERENCES Users(phone_number),
-address VARCHAR(200) NOT NULL REFERENCES Users(address),
-user_name VARCHAR(50) NOT NULL REFERENCES Users(user_name),
-user_id INTEGER NOT NULL PRIMARY KEY REFERENCES Users(user_id),
-location VARCHAR(50) NOT NULL REFERENCES Users(location),
-school VARCHAR(50) NOT NULL REFERENCES Users(school),
-age integer NOT NULL REFERENCES Users(age),
-email VARCHAR(50) NOT NULL REFERENCES Users(email),
-venmo VARCHAR(50) NOT NULL REFERENCES Users(venmo),
-bio VARCHAR(500) NOT NULL REFERENCES Users(bio),
+CREATE TABLE Tuttee(
+phone_number VARCHAR(50) NOT NULL REFERENCES User(phone_number),
+address VARCHAR(200) NOT NULL REFERENCES User(address),
+user_name VARCHAR(50) NOT NULL REFERENCES User(user_name),
+user_id INTEGER NOT NULL PRIMARY KEY REFERENCES User(user_id),
+location VARCHAR(50) NOT NULL REFERENCES User(location),
+school VARCHAR(50) NOT NULL REFERENCES User(school),
+age integer NOT NULL REFERENCES User(age),
+email VARCHAR(50) NOT NULL REFERENCES User(email),
+venmo VARCHAR(50) NOT NULL REFERENCES User(venmo),
+bio VARCHAR(500) NOT NULL REFERENCES User(bio),
 price_range VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE Tutors(
-phone_number VARCHAR(50) NOT NULL REFERENCES Users(phone_number),
-address VARCHAR(200) NOT NULL REFERENCES Users(address),
-user_name VARCHAR(50) NOT NULL REFERENCES Users(user_name),
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Users(user_id),
-location VARCHAR(50) NOT NULL REFERENCES Users(location),
-school VARCHAR(50) NOT NULL REFERENCES Users(school),
-age integer NOT NULL REFERENCES Users(age),
-email VARCHAR(50) NOT NULL REFERENCES Users(email),
-venmo VARCHAR(50) NOT NULL REFERENCES Users(venmo),
-bio VARCHAR(500) NOT NULL REFERENCES Users(bio),
+CREATE TABLE Tutor(
+phone_number VARCHAR(50) NOT NULL REFERENCES User(phone_number),
+address VARCHAR(200) NOT NULL REFERENCES User(address),
+user_name VARCHAR(50) NOT NULL REFERENCES User(user_name),
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES User(user_id),
+location VARCHAR(50) NOT NULL REFERENCES User(location),
+school VARCHAR(50) NOT NULL REFERENCES User(school),
+age integer NOT NULL REFERENCES User(age),
+email VARCHAR(50) NOT NULL REFERENCES User(email),
+venmo VARCHAR(50) NOT NULL REFERENCES User(venmo),
+bio VARCHAR(500) NOT NULL REFERENCES User(bio),
 rating float NOT NULL,
 hourly_rate VARCHAR(50) NOT NULL,
 grade VARCHAR(50) NOT NULL
@@ -56,54 +56,40 @@ tutorsin VARCHAR(50) NOT NULL,
 gets_help_in INTEGER NOT NULL 
 );
 
-CREATE TABLE Classes(
+CREATE TABLE Class(
 class_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES CanTutorIn(class_id), 
 subject_name VARCHAR(50) NOT NULL,
-class_name VARCHAR(50) NOT NULL
+class_name VARCHAR(50) NOT NULL REFERENCES NeedsHelpWith(class_id)
 );
 
 CREATE TABLE Cart(
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tuttees(user_id),
-user_name VARCHAR(50) NOT NULL REFERENCES Tuttees(user_name),
-location VARCHAR(50) NOT NULL REFERENCES Tuttees(location),
-school VARCHAR(50) NOT NULL REFERENCES Tuttees(school),
-age integer NOT NULL REFERENCES Tuttees(age),
-phone_number VARCHAR(50) NOT NULL REFERENCES Tuttees(phone_number),
-email VARCHAR(50) NOT NULL REFERENCES Tuttees(email),
-address VARCHAR (50) NOT NULL REFERENCES Tuttees(address),
-venmo VARCHAR(50) NOT NULL REFERENCES Tuttees(venmo),
-bio VARCHAR(150) NOT NULL REFERENCES Tuttees(bio),
-price_range VARCHAR(50) NOT NULL REFERENCES Tuttees(price_range),
-zoom_link VARCHAR(50) NOT NULL REFERENCES Session(zoom_link),
-session_day VARCHAR(50) NOT NULL REFERENCES Session(session_day),
-session_time VARCHAR(50) NOT NULL REFERENCES Session(session_time),
-price integer NOT NULL REFERENCES Session(price),
-booked VARCHAR(50) NOT NULL REFERENCES Session(booked)
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tuttee(user_id),
+session_id VARCHAR(50) NOT NULL REFERENCES Session(session_id)
 );
 
 CREATE TABLE NeedsHelpWith(
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tuttees(user_id),
-class_id VARCHAR(50) NOT NULL REFERENCES Classes(class_id)
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tuttee(user_id),
+class_id VARCHAR(50) NOT NULL 
 );
 
 CREATE TABLE CanTutorIn(
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tutors(user_id),
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tutor(user_id),
 class_id VARCHAR(50) NOT NULL, 
 expertise_lvl VARCHAR(50) NOT NULL 
 );
 
 CREATE TABLE GivesRating(
-user_id VARCHAR(50) NOT NULL REFERENCES Tuttees(user_id),
+user_id VARCHAR(50) NOT NULL REFERENCES Tuttee(user_id),
 rating_comment VARCHAR(50) NOT NULL,
 rating_num float NOT NULL
 );
 
 CREATE TABLE TutorsIn(
 zoom_link VARCHAR(50) NOT NULL REFERENCES Session(zoom_link),
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tutors(user_id)
+user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tutor(user_id)
 );
 
-INSERT INTO Users
+INSERT INTO User
 VALUES
 ( '026-408-1025',  '7650 Christopher Knoll Suite 397\nNorth Danielport, HI 57427',  'Brooke Scott',  464487,  'in person',  'pratt',  19,  'sellis@hotmail.com',  '@aharrington',  'Significant less middle often carry however actually owner. House choose prepare election. Certainly into stay day southern. Season yeah area chance support thousand contain.' ),
  ( '261-275-2593',  '845 Taylor Mount Suite 041\nOsbornhaven, TX 62263',  'Melissa Orozco',  883151,  'remote',  'trinity',  20,  'roger35@yahoo.com',  '@xrussell',  'Carry teacher who national. Range dream name decade. Practice daughter hope month very.',  '$36'  ),
@@ -113,7 +99,7 @@ VALUES
  ( '101-515-7813',  '445 Moore Spur Suite 199\nRamosbury, OK 96172',  'Felicia Wade',  466093,  'remote',  'trinity',  24,  'robertanderson@gmail.com',  '@bryan77',  'Day but politics trip crime. Any worry same Republican government million.\nParent office why dinner. Anything myself know stand.\nOld sport move music plan near range. Boy both tax deal positive.'  ),
  ( '903-492-4308',  '520 Cassandra Squares\nNorth Matthewmouth, GA 40887',  'Melissa Macdonald',  954295,  'remote',  'trinity',  23,  'michellemunoz@hotmail.com',  '@asmith',  'Kitchen sometimes nothing near. Civil democratic minute should Mr upon give. Do pass walk build policy growth.\nPositive form offer line century. Approach decision decide oil.' );
 
-INSERT INTO Tuttees
+INSERT INTO Tuttee
 VALUES
  ( '026-408-1025',  '7650 Christopher Knoll Suite 397\nNorth Danielport, HI 57427',  'Brooke Scott',  464487,  'in person',  'pratt',  19,  'sellis@hotmail.com',  '@aharrington',  'Significant less middle often carry however actually owner. House choose prepare election. Certainly into stay day southern. Season yeah area chance support thousand contain.',  '$17'  ),
  ( '261-275-2593',  '845 Taylor Mount Suite 041\nOsbornhaven, TX 62263',  'Melissa Orozco',  883151,  'remote',  'trinity',  20,  'roger35@yahoo.com',  '@xrussell',  'Carry teacher who national. Range dream name decade. Practice daughter hope month very.',  '$36'  ),
@@ -1116,7 +1102,7 @@ VALUES
  ( '987-541-8568',  '31825 Kelly Bypass\nOchoastad, MO 03654',  'Tamara Murphy',  740150,  'remote',  'trinity',  19,  'ismith@gmail.com',  '@eparker',  'Theory school stuff possible. Mind among around list down person four.\nAgree I series.\nWell recent yourself recent exactly technology site. Employee hand happen street her.',  '$20'  )
 ;
 
-INSERT INTO Tutors
+INSERT INTO Tutor
 VALUES
 ('615-877-8871', '43743 Christopher Meadow Suite 233\nPort Nicholeton, CT 98075', 'Anthony Thomas', 242674, 'in person', 'pratt', 17, 'johnsonmelanie@gmail.com', '@daniellemorris', 'Also loss including rise. Executive order owner win serious force.\nSing his first recently entire design agency into.', 5.0, '$44', 'A-'),
 ('441-415-0966', '7679 Bennett Roads\nWilliamsport, NY 56025', 'Andrew Bautista', 443953, 'in person', 'pratt', 24, 'danielszachary@hotmail.com', '@robertkidd', 'View civil example eye now. Too skin its organization wait. Someone east buy price. Region six small art box cup.\nRemember grow national no his sea. Ground call national support method determine.', 1.0, '$14', 'F'),
