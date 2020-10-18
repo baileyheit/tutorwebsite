@@ -56,7 +56,7 @@ def add_tutor():
     address = request.args.get("address")
     venmo = request.args.get("venmo")
     bio = request.args.get("bio")
-    rating = 0
+    rating = 0.0
     hourly_rate = request.args.get("hourly rate")
     grade = request.args.get("grade")
 

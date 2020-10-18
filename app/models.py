@@ -14,7 +14,7 @@ class Tutor(Base):
     address = Column('address', VARCHAR(200))
     venmo = Column('venmo', VARCHAR(50))
     bio = Column('bio', VARCHAR(500))
-    rating = Column('rating', VARCHAR(50))
+    rating = Column('rating', float)
     hourly_rate = Column('hourly_rate', VARCHAR(50))
 
     def __init__(self, phone_number=None, address=None, user_name=None, user_id=None, location=None, school=None, age=None, email=None, venmo=None, bio=None, rating=None, hourly_rate=None, grade=None):
