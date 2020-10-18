@@ -17,19 +17,20 @@ class Tutor(Base):
     rating = Column('rating', VARCHAR(50))
     hourly_rate = Column('hourly_rate', VARCHAR(50))
 
-    def __init__(self, user_id=None, user_name=None, location=None, school=None, age=None, phone_number=None, email=None, address=None, venmo=None, bio=None, rating=None, hourly_rate=None):
-        self.user_id = user_id
+    def __init__(self, phone_number=None, address=None, user_name=None, user_id=None, location=None, school=None, age=None, email=None, venmo=None, bio=None, rating=None, hourly_rate=None, grade=None):
+        self.phone_number = phone_number
+        self.address = address 
         self.user_name = user_name
+        self.user_id = user_id
         self.location = location
         self.school = school
         self.age = age
-        self.phone_number = phone_number
         self.email = email
-        self.address = address
-        self.venmo = venmo
-        self.bio = bio
-        self.rating = rating
+        self.venmo = venmo 
+        self.bio = bio 
+        self.rating = rating 
         self.hourly_rate = hourly_rate
+        self.grade = grade
 
     def __repr__(self):
         return '<Tutor %r>' % (self.model)

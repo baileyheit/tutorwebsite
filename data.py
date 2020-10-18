@@ -52,6 +52,7 @@ for i in range(1000):
         'bio': user.text(),
         'rating': user.random_int(min=1, max=20, step=1)/4.0,
         'hourly_rate': '$' + str(user.random_int(min=0, max=50)),
+        'grade': random.choice(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']), 
     }
 
     users[uid] = tutors[uid]
@@ -122,8 +123,7 @@ for t in list(tutors.values()):
     classes = random.sample(class_ids, randint(1, 5))
     experience = {}
     for c in classes:
-        experience[c] = {'subject': c, 'grade': random.choice(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']), 
-        'experience_level': random.choice(['beginner', 'intermediate', 'advanced'])}
+        experience[c] = {'subject': c, 'experience_level': random.choice(['beginner', 'intermediate', 'advanced'])}
     can_tutor_in[t['user_id']] = {'user_id': t['user_id'], 'subject': experience}
 
 

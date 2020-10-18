@@ -46,7 +46,8 @@ def tutors():
 
 @app.route('/add_tutor')
 def add_tutor():
-    name = request.args.get("name")
+    user_id = id.int
+    user_name = request.args.get("name")
     location = request.args.get("location")
     school = request.args.get("school")
     age = request.args.get("age")
@@ -57,12 +58,13 @@ def add_tutor():
     bio = request.args.get("bio")
     rating = 0
     hourly_rate = request.args.get("hourly rate")
+    grade = request.args.get("grade")
 
-    tutor = Tutor(name, location, school, age, phone_number, email, address, venmo, bio, rating, hourly_rate)
+    tutor = Tutor(phone_number, address, user_name, user_id, location, school, age, email, venmo, bio, rating, hourly_rate, grade)
     db_session.add(tutor)
     db_session.commit()
 
-    return redirect(url_for('tutors')) # problem is here
+    return redirect(url_for('tutors'))
 
 # def all_tutors():
 #   tutors = db.session.query(models.Tutors).all()
