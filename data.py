@@ -26,21 +26,18 @@ gives_rating = {}
 
 
 # Create phone numbers: xxx-xxx-xxxx
-def create_phone_number():
+def create_digits(n):
     number = ''
-    for i in range(12):
-        if i in [3, 7]:
-            number += '-'
-        else:
-            number += str(randint(0, 9))
-    return number
+    for i in range(n):
+        number += str(randint(0, 9))
+    return int(number)
 
 
 # Create 1000 tutors
 for i in range(1000):
     uid = id.int
     tutors[uid] = {
-        'phone_number': create_phone_number(),
+        'phone_number': create_digits(10),
         'address': user.address(),
         'name': user.name(),
         'user_id': uid,
@@ -51,7 +48,7 @@ for i in range(1000):
         'venmo': '@' + user.user_name(),
         'bio': user.text(),
         'rating': user.random_int(min=1, max=20, step=1)/4.0,
-        'hourly_rate': '$' + str(user.random_int(min=0, max=50)),
+        'hourly_rate': round(user.random_int(min=0, max=50) + create_digits(2)/100, 2),
         'grade': random.choice(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']), 
     }
 
@@ -62,7 +59,7 @@ for i in range(1000):
 for i in range(1000):
     uid = id.int
     tutees[uid] = {
-        'phone_number': create_phone_number(),
+        'phone_number': create_digits(10),
         'address': user.address(),
         'name': user.name(),
         'user_id': uid,
@@ -72,7 +69,7 @@ for i in range(1000):
         'email': user.free_email(),
         'venmo': '@' + user.user_name(),
         'bio': user.text(),
-        'price_range': '$' + str(user.random_int(min=0, max=50))
+        'price_range': round(user.random_int(min=0, max=50) + create_digits(2)/100, 2),
     }
 
     cart[uid] = {
