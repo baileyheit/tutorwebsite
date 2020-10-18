@@ -10,6 +10,7 @@ tutors = {}
 tuttees = {}
 
 
+
 # Create phone numbers: xxx-xxx-xxxx
 def create_phone_number():
     number = ''
@@ -48,8 +49,6 @@ for i in range(1000):
         'hourly_rate': '$' + str(user.random_int(min=0, max=50)),
         'grade': random.choice(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'])
     }
-
-
 # Create 1000 tuttees
 for i in range(1000):
     uid = create_user_id()
@@ -142,17 +141,21 @@ def choose_tuttee(tid, booked):
     
 
 # Create 500 session
-for i in range(500):
+for i in range(1000):
     booked = random.choice([True, False])
-    tutor = random.choice(tutors.values())
+    tutor = random.choice(list(tutors.values()))
     sid = create_session_id()
     sessions[sid] = {
         'session_id': sid,
         'zoom_link': user.numerify(text='https://us02web.zoom.us/j/###########?'),
-        'session_day': user.future_date(end_date='+30d', tzinfo=None),
+        'session_day': str(user.future_date(end_date='+30d', tzinfo=None)),
         'session_time': user.time(),
         'price': tutor['hourly_rate'],
         'booked': booked,
         'tutorsin': tutor['user_id'],
         'gets_help_in': choose_tuttee(tutor['user_id'], booked)
     }
+
+
+    int x = sessions[1].get(session_id))
+    print(x)
