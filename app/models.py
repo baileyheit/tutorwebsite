@@ -1,10 +1,10 @@
-from sqlalchemy import Column, Integer, String, sql, orm, VARCHAR, Float
+from sqlalchemy import Column, Integer, String, sql, orm, VARCHAR, Float, BIGINT
 from database import Base
 
 
 class Tutor(Base):
     __tablename__ = 'Tutor'
-    phone_number = Column('phone_number', String(50))
+    phone_number = Column('phone_number', BIGINT())
     address = Column('address', String(200))
     user_name = Column('user_name', String(50))
     user_id = Column('user_id', String(50), primary_key=True)
@@ -15,7 +15,7 @@ class Tutor(Base):
     venmo = Column('venmo', String(50))
     bio = Column('bio', String(500))
     rating = Column('rating', Float())
-    hourly_rate = Column('hourly_rate', String(50))
+    hourly_rate = Column('hourly_rate', Float())
     grade = Column('grade', String(50))
 
     def __init__(self, phone_number=None, address=None, user_name=None, user_id=None, location=None, school=None, age=None, email=None, venmo=None, bio=None, rating=None, hourly_rate=None, grade=None):

@@ -52,17 +52,14 @@ def add_tutor():
     location = request.args.get("location")
     school = request.args.get("school")
     age = request.args.get("age")
-    phone_number = request.args.get("phone number")
+    phone_number = request.args.get("phone_number")
     email = request.args.get("email")
     address = request.args.get("address")
     venmo = request.args.get("venmo")
     bio = request.args.get("bio")
     rating = 0.0
-    hourly_rate = request.args.get("hourly rate")
+    hourly_rate = request.args.get("hourly_rate")
     grade = request.args.get("grade")
-
-    # tutor = Tutor(user_id, user_name, location, school, age, phone_number,
-    #               email, address, venmo, bio, rating, hourly_rate, grade)
 
     tutor = Tutor(phone_number, address, user_name, user_id, location,
                   school, age, email, venmo, bio, rating, hourly_rate, grade)
