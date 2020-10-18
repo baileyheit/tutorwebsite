@@ -46,20 +46,19 @@ def tutors():
 
 @app.route('/add_tutor')
 def add_tutor():
-    phone_number = request.args.get("phone number")
-    address = request.args.get("address")
     name = request.args.get("name")
-    user_id = id.int
     location = request.args.get("location")
     school = request.args.get("school")
     age = request.args.get("age")
+    phone_number = request.args.get("phone number")
     email = request.args.get("email")
+    address = request.args.get("address")
     venmo = request.args.get("venmo")
     bio = request.args.get("bio")
-    rating = None
+    rating = 0
     hourly_rate = request.args.get("hourly rate")
 
-    tutor = Tutor(phone_number, address, name, user_id, location, school, age, email, venmo, bio, rating, hourly_rate)
+    tutor = Tutor(name, location, school, age, phone_number, email, address, venmo, bio, rating, hourly_rate)
     db_session.add(tutor)
     db_session.commit()
 
