@@ -4,7 +4,36 @@ from database import Base
 
 class Tutor(Base):
     __tablename__ = 'Tutor'
-    user_name = Column('user_name', VARCHAR(50), primary_key=True)
+    user_id = Column('user_id', VARCHAR(50), primary_key=True)
+    user_name = Column('user_name', VARCHAR(50))
+    location = Column('location', VARCHAR(50))
+    school = Column('school', VARCHAR(50))
+    age = Column('age', Integer())
+    phone_number = Column('phone_number', VARCHAR(50))
+    email = Column('email', VARCHAR(50))
+    address = Column('address', VARCHAR(200))
+    venmo = Column('venmo', VARCHAR(50))
+    bio = Column('bio', VARCHAR(500))
+    rating = Column('rating', VARCHAR(50))
+    hourly_rate = Column('hourly_rate', VARCHAR(50))
+
+    def __init__(self, user_id=None, user_name=None, location=None, school=None, age=None, phone_number=None, email=None, address=None, venmo=None, bio=None, rating=None, hourly_rate=None):
+        self.user_id = user_id
+        self.user_name = user_name
+        self.location = location
+        self.school = school
+        self.age = age
+        self.phone_number = phone_number
+        self.email = email
+        self.address = address
+        self.venmo = venmo
+        self.bio = bio
+        self.rating = rating
+        self.hourly_rate = hourly_rate
+
+    def __repr__(self):
+        return '<Tutor %r>' % (self.model)
+
 
 
 # class Users(Base):

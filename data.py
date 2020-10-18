@@ -2,15 +2,14 @@ import faker
 from faker import Factory
 import random
 from random import randint
+import uuid
 import mysql.connector
 
 cnx = mysql.connector.connect(user='root', database='TutorProject')
 cursor = cnx.cursor()
 
 user = Factory.create()
-
-userids = []
-sessionids = []
+id = uuid.uuid1()
 
 users = {}
 tutors = {}
@@ -37,18 +36,9 @@ def create_phone_number():
     return number
 
 
-# Create unique random user ids
-def create_user_id():
-    uid = randint(0, 999999)
-    if uid in userids:
-        create_user_id()
-    userids.append(uid)
-    return uid
-
-
 # Create 1000 tutors
 for i in range(1000):
-    uid = create_user_id()
+    uid = id.int
     tutors[uid] = {
         'phone_number': create_phone_number(),
         'address': user.address(),
@@ -62,7 +52,6 @@ for i in range(1000):
         'bio': user.text(),
         'rating': user.random_int(min=1, max=20, step=1)/4.0,
         'hourly_rate': '$' + str(user.random_int(min=0, max=50)),
-        'grade': random.choice(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'])
     }
 
     users[uid] = tutors[uid]
@@ -70,7 +59,7 @@ for i in range(1000):
 
 # Create 1000 tutees
 for i in range(1000):
-    uid = create_user_id()
+    uid = id.int
     tutees[uid] = {
         'phone_number': create_phone_number(),
         'address': user.address(),
@@ -133,40 +122,35 @@ for t in list(tutors.values()):
     classes = random.sample(class_ids, randint(1, 5))
     experience = {}
     for c in classes:
-        experience[c] = {'subject': c, 'experience_level': random.choice(['beginner', 'intermediate', 'advanced'])}
+        experience[c] = {'subject': c, 'grade': random.choice(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']), 
+        'experience_level': random.choice(['beginner', 'intermediate', 'advanced'])}
     can_tutor_in[t['user_id']] = {'user_id': t['user_id'], 'subject': experience}
 
 
-# Create unique session ids
-def create_session_id():
-    sid = randint(0, 999999)
-    if sid in sessionids:
-        create_user_id()
-    sessionids.append(sid)
-    return sid
-
-
 # Ensure sessions are only between tutees and tutors who have common classes
-def choose_tutee(tid, booked):
-    if not booked:
-        return {'user_id': None, 'subject': None}
+def choose_tutee(tid):
     potential_tutees = []
     for o in list(needs_help_with.values()):
         matches = set(o['subjects']) & set(can_tutor_in[tid]['subject'].keys())
         if matches:
             potential_tutees.append({'user_id': o['user_id'], 'subject': random.choice(list(matches))})
-    return random.choice(potential_tutees)
+    if potential_tutees and random.choice([True, False]):
+        return random.choice(potential_tutees)
+    return {'user_id': None, 'subject': None}
 
 
 # Create 500 sessions
 for i in range(500):
-    booked = random.choice([True, False])
     tutor = random.choice(list(tutors.values()))
     tutor_uid = tutor['user_id']
-    tutee = choose_tutee(tutor_uid, booked)
+    tutee = choose_tutee(tutor_uid)
     tutee_uid = tutee['user_id']
     subject = tutee['subject']
-    sid = create_session_id()
+    if tutee_uid is not None:
+        booked = True
+    else:
+        booked = False
+    sid = id.int
 
     sessions[sid] = {
         'session_id': sid,

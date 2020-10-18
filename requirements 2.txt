@@ -1,4 +1,0 @@
-###### Requirements without Version Specifiers ######`
-Flask
-FLask-WTF
-flask_sqlalchemy

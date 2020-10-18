@@ -1,9 +1,13 @@
 import sqlalchemy
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, request, redirect, url_for
+from flask import render_template
+from database import db_session
 # import models
 import forms
 #from models import Users
 from models import Tutor
+import uuid
+import pdb
 
 
 app = Flask(__name__)
@@ -16,6 +20,8 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['ENV'] = 'development'
 app.config['DEBUG'] = True
 app.config['TESTING'] = True
+
+id = uuid.uuid1()
 
 
 @app.route('/')
@@ -38,6 +44,26 @@ def tutors():
         tutors=Tutor.query.all()
     )
 
+@app.route('/add_tutor')
+def add_tutor():
+    phone_number = request.args.get("phone number")
+    address = request.args.get("address")
+    name = request.args.get("name")
+    user_id = id.int
+    location = request.args.get("location")
+    school = request.args.get("school")
+    age = request.args.get("age")
+    email = request.args.get("email")
+    venmo = request.args.get("venmo")
+    bio = request.args.get("bio")
+    rating = None
+    hourly_rate = request.args.get("hourly rate")
+
+    tutor = Tutor(phone_number, address, name, user_id, location, school, age, email, venmo, bio, rating, hourly_rate)
+    db_session.add(tutor)
+    db_session.commit()
+
+    return redirect(url_for('tutors')) # problem is here
 
 # def all_tutors():
 #   tutors = db.session.query(models.Tutors).all()
