@@ -1,40 +1,40 @@
-from sqlalchemy import Column, Integer, String, sql, orm, VARCHAR
+from sqlalchemy import Column, Integer, String, sql, orm, VARCHAR, Float
 from database import Base
 
 
 class Tutor(Base):
     __tablename__ = 'Tutor'
-    user_id = Column('user_id', VARCHAR(50), primary_key=True)
-    user_name = Column('user_name', VARCHAR(50))
-    location = Column('location', VARCHAR(50))
-    school = Column('school', VARCHAR(50))
+    phone_number = Column('phone_number', String(50))
+    address = Column('address', String(200))
+    user_name = Column('user_name', String(50))
+    user_id = Column('user_id', String(50), primary_key=True)
+    location = Column('location', String(50))
+    school = Column('school', String(50))
     age = Column('age', Integer())
-    phone_number = Column('phone_number', VARCHAR(50))
-    email = Column('email', VARCHAR(50))
-    address = Column('address', VARCHAR(200))
-    venmo = Column('venmo', VARCHAR(50))
-    bio = Column('bio', VARCHAR(500))
-    rating = Column('rating', VARCHAR(50))
-    hourly_rate = Column('hourly_rate', VARCHAR(50))
+    email = Column('email', String(50))
+    venmo = Column('venmo', String(50))
+    bio = Column('bio', String(500))
+    rating = Column('rating', Float())
+    hourly_rate = Column('hourly_rate', String(50))
+    grade = Column('grade', String(50))
 
     def __init__(self, phone_number=None, address=None, user_name=None, user_id=None, location=None, school=None, age=None, email=None, venmo=None, bio=None, rating=None, hourly_rate=None, grade=None):
         self.phone_number = phone_number
-        self.address = address 
+        self.address = address
         self.user_name = user_name
         self.user_id = user_id
         self.location = location
         self.school = school
         self.age = age
         self.email = email
-        self.venmo = venmo 
-        self.bio = bio 
-        self.rating = rating 
+        self.venmo = venmo
+        self.bio = bio
+        self.rating = rating
         self.hourly_rate = hourly_rate
         self.grade = grade
 
     def __repr__(self):
         return '<Tutor %r>' % (self.model)
-
 
 
 # class Users(Base):
