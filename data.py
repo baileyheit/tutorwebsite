@@ -10,15 +10,19 @@ cursor = cnx.cursor()
 user = Factory.create()
 
 userids = []
+sessionids = []
+
+users = {}
 tutors = {}
 tutees = {}
+cart = {}
+sessions = {}
+
+can_tutor_in = {}
+needs_help_with = {}
 tutors_in = {}
 gets_help_in = {}
-cart = {}
-sessionids = []
-sessions = {}
-needs_help_with = {}
-can_tutor_in = {}
+for_help_in = {}
 gives_rating = {}
 
 
@@ -61,6 +65,8 @@ for i in range(1000):
         'grade': random.choice(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'])
     }
 
+    users[uid] = tutors[uid]
+
 
 # Create 1000 tutees
 for i in range(1000):
@@ -78,10 +84,13 @@ for i in range(1000):
         'bio': user.text(),
         'price_range': '$' + str(user.random_int(min=0, max=50))
     }
+
     cart[uid] = {
         'user_id': uid,
         'sessions': None
     }
+
+    users[uid] = tutees[uid]
 
 
 # Class list
@@ -167,7 +176,11 @@ for i in range(500):
         'price': tutor['hourly_rate'],
         'booked': booked,
         'tutor': tutor_uid,
-        'tutee': tutee_uid,
+        'tutee': tutee_uid
+    }
+
+    for_help_in[sid] = {
+        'session': sid,
         'class': subject
     }
 
