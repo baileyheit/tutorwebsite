@@ -1,9 +1,13 @@
 import sqlalchemy
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, request, redirect, url_for
+from flask import render_template
+from database import db_session
 # import models
 import forms
-#from models import Users
+# from models import Users
 from models import Tutor
+import uuid
+import pdb
 
 
 app = Flask(__name__)
@@ -16,6 +20,8 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['ENV'] = 'development'
 app.config['DEBUG'] = True
 app.config['TESTING'] = True
+
+id = uuid.uuid1()
 
 
 @app.route('/')
@@ -38,6 +44,46 @@ def tutors():
         tutors=Tutor.query.all()
     )
 
+
+@app.route('/add_tutor')
+def add_tutor():
+    user_id = id.int
+    user_name = request.args.get("name")
+    location = request.args.get("location")
+    school = request.args.get("school")
+    age = request.args.get("age")
+    phone_number = request.args.get("phone_number")
+    email = request.args.get("email")
+    address = request.args.get("address")
+    venmo = request.args.get("venmo")
+    bio = request.args.get("bio")
+    rating = 0.0
+<<<<<<< HEAD
+    hourly_rate = request.args.get("hourly_rate")
+=======
+    hourly_rate = request.args.get("hourly rate")
+>>>>>>> 2674ee00a4020980254d7cfd25e250c641d46496
+    grade = request.args.get("grade")
+
+    tutor = Tutor(phone_number, address, user_name, user_id, location,
+                  school, age, email, venmo, bio, rating, hourly_rate, grade)
+    db_session.add(tutor)
+    db_session.commit()
+
+    return redirect(url_for('tutors'))
+
+    #     user_id = Column('user_id', VARCHAR(50), primary_key=True)
+    # user_name = Column('user_name', VARCHAR(50))
+    # location = Column('location', VARCHAR(50))
+    # school = Column('school', VARCHAR(50))
+    # age = Column('age', Integer())
+    # phone_number = Column('phone_number', VARCHAR(50))
+    # email = Column('email', VARCHAR(50))
+    # address = Column('address', VARCHAR(200))
+    # venmo = Column('venmo', VARCHAR(50))
+    # bio = Column('bio', VARCHAR(500))
+    # rating = Column('rating', VARCHAR(50))
+    # hourly_rate = Column('hourly_rate', VARCHAR(50))
 
 # def all_tutors():
 #   tutors = db.session.query(models.Tutors).all()

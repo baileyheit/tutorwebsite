@@ -2,43 +2,42 @@ import faker
 from faker import Factory
 import random
 from random import randint
+import uuid
 import mysql.connector
 
 cnx = mysql.connector.connect(user='root', database='TutorProject')
 cursor = cnx.cursor()
 
 user = Factory.create()
+id = uuid.uuid1()
 
-userids = []
+users = {}
 tutors = {}
-tuttees = {}
+tutees = {}
+cart = {}
+sessions = {}
+
+can_tutor_in = {}
+needs_help_with = {}
+tutors_in = {}
+gets_help_in = {}
+for_help_in = {}
+gives_rating = {}
 
 
 # Create phone numbers: xxx-xxx-xxxx
-def create_phone_number():
+def create_digits(n):
     number = ''
-    for i in range(12):
-        if i in [3, 7]:
-            number += '-'
-        else:
-            number += str(randint(0, 9))
-    return number
-
-
-# Create unique random user ids
-def create_user_id():
-    uid = randint(0, 999999)
-    if uid in userids:
-        create_user_id()
-    userids.append(uid)
-    return uid
+    for i in range(n):
+        number += str(randint(0, 9))
+    return int(number)
 
 
 # Create 1000 tutors
 for i in range(1000):
-    uid = create_user_id()
+    uid = id.int
     tutors[uid] = {
-        'phone_number': create_phone_number(),
+        'phone_number': create_digits(10),
         'address': user.address(),
         'name': user.name(),
         'user_id': uid,
@@ -49,16 +48,18 @@ for i in range(1000):
         'venmo': '@' + user.user_name(),
         'bio': user.text(),
         'rating': user.random_int(min=1, max=20, step=1)/4.0,
-        'hourly_rate': '$' + str(user.random_int(min=0, max=50)),
-        'grade': random.choice(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'])
+        'hourly_rate': round(user.random_int(min=0, max=50) + create_digits(2)/100, 2),
+        'grade': random.choice(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']), 
     }
 
+    users[uid] = tutors[uid]
 
-# Create 1000 tuttees
+
+# Create 1000 tutees
 for i in range(1000):
-    uid = create_user_id()
-    tuttees[uid] = {
-        'phone_number': create_phone_number(),
+    uid = id.int
+    tutees[uid] = {
+        'phone_number': create_digits(10),
         'address': user.address(),
         'name': user.name(),
         'user_id': uid,
@@ -68,8 +69,15 @@ for i in range(1000):
         'email': user.free_email(),
         'venmo': '@' + user.user_name(),
         'bio': user.text(),
-        'price_range': '$' + str(user.random_int(min=0, max=50))
+        'price_range': round(user.random_int(min=0, max=50) + create_digits(2)/100, 2),
     }
+
+    cart[uid] = {
+        'user_id': uid,
+        'sessions': None
+    }
+
+    users[uid] = tutees[uid]
 
 
 # Class list
@@ -96,60 +104,51 @@ classes = [{'subject_name': 'computer science', 'class_name': 'Introduction to C
 {'subject_name': 'biology', 'class_name': 'Gateway to Biology: Molecular Biology', 'class_id': 'BIOLOGY 201'}, {'subject_name': 'biology', 'class_name': 'Gateway to Biology: Genetics and Evolution', 'class_id': 'BIOLOGY 202'},
 {'subject_name': 'physics', 'class_name': 'General Physics I', 'class_id': 'PHYSICS 141'}, {'subject_name': 'physics', 'class_name': 'General Physics II', 'class_id': 'PHYSICS 142'},
 {'subject_name': 'physics', 'class_name': 'Introductory Mechanics', 'class_id': 'PHYSICS 151'}, {'subject_name': 'physics', 'class_name': 'Introductory Electricity, Magnetism, and Optics', 'class_id': 'PHYSICS 152'}]
+class_ids = ['COMPSCI 101', 'COMPSCI 201', 'COMPSCI 230', 'COMPSCI 250', 'ECE 250', 'COMPSCI 310', 'COMPSCI 316', 'COMPSCI 330', 'MATH 111', 'MATH 122', 'MATH 212',
+'MATH 216', 'MATH 221', 'MATH 353', 'MATH 401', 'MATH 431', 'MATH 531', 'MATH 230','STA 101', 'STA 199', 'STA 230', 'STA 250', 'ECON 101', 'ECON 201', 'ECON 205', 
+'ECON 208', 'ECON 210', 'ECON 372', 'SPANISH 101', 'SPANISH 102', 'SPANISH 203', 'SPANISH 204', 'SPANISH 301', 'FRENCH 101', 'FRENCH 102', 'FRENCH 203', 'FRENCH 204',
+'CHEM 101', 'CHEM 201', 'CHEM 202', 'BIOLOGY 201', 'BIOLOGY 202', 'PHYSICS 141', 'PHYSICS 142', 'PHYSICS 151', 'PHYSICS 152']
 
 
-# Class ids
-def get_class_ids():
-    class_ids = []
-    for c in classes:
-        class_ids.append(c['class_id'])
-    return class_ids
-
-
-# Classes tuttees need help in
-needs_help_with = {}
-for t in list(tuttees.values()):
-    needs_help_with[t['user_id']] = {'user_id': t['user_id'], 'classes': random.sample(get_class_ids(), randint(1, 5))}
+# Classes tutees need help in
+for t in list(tutees.values()):
+    needs_help_with[t['user_id']] = {'user_id': t['user_id'], 'subjects': random.sample(class_ids, randint(1, 5))}
 
 
 # Classes tutors can help with
-can_tutor_in = {}
 for t in list(tutors.values()):
-    subjects = random.sample(get_class_ids(), randint(1, 5))
+    classes = random.sample(class_ids, randint(1, 5))
     experience = {}
-    for s in subjects:
-        experience[s] = {'subject': s, 'experience_level': random.choice(['beginner', 'intermediate', 'advanced'])}
-    can_tutor_in[t['user_id']] = {'user_id': t['user_id'], 'subjects': experience}
+    for c in classes:
+        experience[c] = {'subject': c, 'experience_level': random.choice(['beginner', 'intermediate', 'advanced'])}
+    can_tutor_in[t['user_id']] = {'user_id': t['user_id'], 'subject': experience}
 
 
-# Create unique session ids
-sessionids = []
-sessions = {}
-
-def create_session_id():
-    sid = randint(0, 999999)
-    if sid in sessionids:
-        create_user_id()
-    sessionids.append(sid)
-    return sid
-
-
-# Ensure sessions are only between tuttees and tutors who have common classes
-def choose_tuttee(tid, booked):
-    if booked == False:
-        return
-    potential_tuttees = []
+# Ensure sessions are only between tutees and tutors who have common classes
+def choose_tutee(tid):
+    potential_tutees = []
     for o in list(needs_help_with.values()):
-        if (set(o['classes']) & set(can_tutor_in[tid]['subjects'].keys())):
-            potential_tuttees.append(o['user_id'])
-    return random.choice(potential_tuttees)
+        matches = set(o['subjects']) & set(can_tutor_in[tid]['subject'].keys())
+        if matches:
+            potential_tutees.append({'user_id': o['user_id'], 'subject': random.choice(list(matches))})
+    if potential_tutees and random.choice([True, False]):
+        return random.choice(potential_tutees)
+    return {'user_id': None, 'subject': None}
 
 
-# Create 500 session
+# Create 500 sessions
 for i in range(500):
-    booked = random.choice([True, False])
     tutor = random.choice(list(tutors.values()))
-    sid = create_session_id()
+    tutor_uid = tutor['user_id']
+    tutee = choose_tutee(tutor_uid)
+    tutee_uid = tutee['user_id']
+    subject = tutee['subject']
+    if tutee_uid is not None:
+        booked = True
+    else:
+        booked = False
+    sid = id.int
+
     sessions[sid] = {
         'session_id': sid,
         'zoom_link': user.numerify(text='https://us02web.zoom.us/j/###########?'),
@@ -157,6 +156,52 @@ for i in range(500):
         'time': user.time(),
         'price': tutor['hourly_rate'],
         'booked': booked,
-        'tutorsin': tutor['user_id'],
-        'gets_help_in': choose_tuttee(tutor['user_id'], booked)
+        'tutor': tutor_uid,
+        'tutee': tutee_uid
     }
+
+    for_help_in[sid] = {
+        'session': sid,
+        'class': subject
+    }
+
+    if not sessions[sid]['booked']:
+        continue
+    
+    # Add to tutors_in
+    if uid in tutors_in.keys():
+        if subject not in tutors_in[uid]['subjects']:
+            tutors_in[uid]['subjects'].append(subject)
+    else:
+        tutors_in[uid] = {
+            'user_id': uid,
+            'subjects': [subject]
+        }
+    
+    # Add to gets_help_in
+    if tutee_uid in gets_help_in.keys():
+        if subject not in gets_help_in[tutee_uid]:
+            gets_help_in[tutee_uid]['subjects'].append(subject)
+    else:
+        gets_help_in[tutee_uid] = {
+            'user_id': tutee_uid,
+            'subjects': [subject]
+        }
+    
+    # Add to cart
+    if cart[tutee_uid]['sessions']:
+        cart[tutee_uid]['sessions'].append(sid)
+    else:
+        cart[tutee_uid] = {
+            'user_id': tutee_uid,
+            'sessions': [sid]
+        }
+    
+    # Give a rating
+    if random.choice([True, False]):
+        gives_rating[tutor_uid] = {
+            'tutor': tutor_uid,
+            'tutee': tutee_uid,
+            'comment': user.text(),
+            'rating': randint(1, 5)
+        }
