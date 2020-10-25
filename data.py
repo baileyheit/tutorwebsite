@@ -9,7 +9,6 @@ cnx = mysql.connector.connect(user='root', database='TutorProject')
 cursor = cnx.cursor()
 
 user = Factory.create()
-id = uuid.uuid1()
 
 users = {}
 tutors = {}
@@ -35,7 +34,7 @@ def create_digits(n):
 
 # Create 1000 tutors
 for i in range(1000):
-    uid = id.int
+    uid = uuid.uuid4().int
     tutors[uid] = {
         'phone_number': create_digits(10),
         'address': user.address(),
@@ -57,7 +56,7 @@ for i in range(1000):
 
 # Create 1000 tutees
 for i in range(1000):
-    uid = id.int
+    uid = uuid.uuid4().int
     tutees[uid] = {
         'phone_number': create_digits(10),
         'address': user.address(),
@@ -147,7 +146,7 @@ for i in range(500):
         booked = True
     else:
         booked = False
-    sid = id.int
+    sid = uuid.uuid4().int
 
     sessions[sid] = {
         'session_id': sid,

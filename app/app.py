@@ -21,8 +21,6 @@ app.config['ENV'] = 'development'
 app.config['DEBUG'] = True
 app.config['TESTING'] = True
 
-id = uuid.uuid1()
-
 
 @app.route('/')
 def index():
@@ -47,7 +45,7 @@ def tutors():
 
 @app.route('/add_tutor')
 def add_tutor():
-    user_id = id.int
+    user_id = uuid.uuid4().int
     user_name = request.args.get("name")
     location = request.args.get("location")
     school = request.args.get("school")
