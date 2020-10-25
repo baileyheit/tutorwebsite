@@ -3,7 +3,7 @@ CREATE DATABASE TutorProject;
 USE TutorProject;
 
 CREATE TABLE User(
-phone_number VARCHAR(50) NOT NULL,
+phone_number BIGINT NOT NULL,
 address VARCHAR(50) NOT NULL,
 user_name VARCHAR(50) NOT NULL,
 user_id INTEGER NOT NULL PRIMARY KEY,
@@ -16,7 +16,7 @@ bio VARCHAR(500) NOT NULL
 );
 
 CREATE TABLE Tuttee(
-phone_number VARCHAR(50) NOT NULL REFERENCES User(phone_number),
+phone_number BIGINT NOT NULL REFERENCES User(phone_number),
 address VARCHAR(200) NOT NULL REFERENCES User(address),
 user_name VARCHAR(50) NOT NULL REFERENCES User(user_name),
 user_id INTEGER NOT NULL PRIMARY KEY REFERENCES User(user_id),
@@ -30,7 +30,7 @@ price_range VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE Tutor(
-phone_number VARCHAR(50) NOT NULL REFERENCES User(phone_number),
+phone_number BIGINT NOT NULL REFERENCES User(phone_number),
 address VARCHAR(200) NOT NULL REFERENCES User(address),
 user_name VARCHAR(50) NOT NULL REFERENCES User(user_name),
 user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES User(user_id),
@@ -41,7 +41,7 @@ email VARCHAR(50) NOT NULL REFERENCES User(email),
 venmo VARCHAR(50) NOT NULL REFERENCES User(venmo),
 bio VARCHAR(500) NOT NULL REFERENCES User(bio),
 rating float NOT NULL,
-hourly_rate VARCHAR(50) NOT NULL,
+hourly_rate float NOT NULL,
 grade VARCHAR(50) NOT NULL
 );
 

@@ -1,55 +1,55 @@
 Users{
 
-('9294949392', '292 Drive', 'ava', 1, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
-('9383739283', '2342 Drive', 'mylie', 2, 'durham', 'duke', 19, 'mylie@gmail.com', 'myl', 'hey'),
-('9293847652', '2349234 Drive', 'baily', 3, 'durham', 'duke', 21, 'baily@gmail.com', 'bail', 'hi'),
-('23423424323', '2342145 Drive', 'mariana', 4, 'durham', 'duke', 22, 'mar@gmail.com', 'mar', 'bio'),
-('2340939723', '23421234 Drive', 'hjjg', 5, 'durham', 'duke', 43, 'teg@gmail.com', 'asdfsll', 'sfsagwe'),
-('235838847', '12394302 Drive', 'sf', 6, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
-('234213', '23 Drive', 'af', 7, 'durham', 'duke', 20, 'sd@gmail.com', 'df', 'sdf'),
-('23423', '234 Drive', 'fg', 8, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
-('2342', '76 Drive', 'hy', 9, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'rkw'),
-('4353', '29652 Drive', 'atgva', 10, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
-('23443', '645 Drive', 'agwe', 11, 'durham', 'duke', 20, 'ava@gmail.com', 'sdfs', 'dsf'),
-('7568567', '3453 Drive', 'hyui', 12, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
-('23423424', '295622 Drive', 're', 13, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
-('9294949392', '292 Drive', 'erw', 14, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
-('9294949392', '292 Drive', 'ava', 15, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
-('9294949392', '292 Drive', 'ava4', 16, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
-('9294949392', '292 Drive', 'ava3', 17, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
-('9294949392', '292 Drive', 'ava', 18, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
-('9294949392', '292 Drive', 'ava', 19, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
-('9294949392', '292 Drive', 'ava', 20, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello');
+(9294949392, '292 Drive', 'ava', 1, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
+(9383739283, '2342 Drive', 'mylie', 2, 'durham', 'duke', 19, 'mylie@gmail.com', 'myl', 'hey'),
+(9293847652, '2349234 Drive', 'baily', 3, 'durham', 'duke', 21, 'baily@gmail.com', 'bail', 'hi'),
+(23423424323, '2342145 Drive', 'mariana', 4, 'durham', 'duke', 22, 'mar@gmail.com', 'mar', 'bio'),
+(2340939723, '23421234 Drive', 'hjjg', 5, 'durham', 'duke', 43, 'teg@gmail.com', 'asdfsll', 'sfsagwe'),
+(235838847, '12394302 Drive', 'sf', 6, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
+(234213, '23 Drive', 'af', 7, 'durham', 'duke', 20, 'sd@gmail.com', 'df', 'sdf'),
+(23423, '234 Drive', 'fg', 8, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
+(2342, '76 Drive', 'hy', 9, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'rkw'),
+(4353, '29652 Drive', 'atgva', 10, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
+(23443, '645 Drive', 'agwe', 11, 'durham', 'duke', 20, 'ava@gmail.com', 'sdfs', 'dsf'),
+(7568567, '3453 Drive', 'hyui', 12, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
+(23423424, '295622 Drive', 're', 13, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
+(9294949392, '292 Drive', 'erw', 14, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
+(9294949392, '292 Drive', 'ava', 15, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
+(9294949392, '292 Drive', 'ava4', 16, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
+(9294949392, '292 Drive', 'ava3', 17, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
+(9294949392, '292 Drive', 'ava', 18, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
+(9294949392, '292 Drive', 'ava', 19, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello'),
+(9294949392, '292 Drive', 'ava', 20, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello');
 
 }
 
 Tuttee{
 
-('9294949392', '292 Drive', 'ava', 1, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', '30-40'),
-('9383739283', '2342 Drive', 'mylie', 2, 'durham', 'duke', 19, 'mylie@gmail.com', 'myl', 'hey', '30-40'),
-('9293847652', '2349234 Drive', 'baily', 3, 'durham', 'duke', 21, 'baily@gmail.com', 'bail', 'hi', '30-40'),
-('23423424323', '2342145 Drive', 'mariana', 4, 'durham', 'duke', 22, 'mar@gmail.com', 'mar', 'bio', '30-40'),
-('2340939723', '23421234 Drive', 'hjjg', 5, 'durham', 'duke', 43, 'teg@gmail.com', 'asdfsll', 'sfsagwe', '30-40'),
-('235838847', '12394302 Drive', 'sf', 6, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', '30-40'),
-('234213', '23 Drive', 'af', 7, 'durham', 'duke', 20, 'sd@gmail.com', 'df', 'sdf', '30-40'),
-('23423', '234 Drive', 'fg', 8, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', '30-40'),
-('2342', '76 Drive', 'hy', 9, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'rkw', '30-40'),
-('4353', '29652 Drive', 'atgva', 10, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', '30-40');
+(9294949392, '292 Drive', 'ava', 1, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', '30-40'),
+(9383739283, '2342 Drive', 'mylie', 2, 'durham', 'duke', 19, 'mylie@gmail.com', 'myl', 'hey', '30-40'),
+(9293847652, '2349234 Drive', 'baily', 3, 'durham', 'duke', 21, 'baily@gmail.com', 'bail', 'hi', '30-40'),
+(23423424323, '2342145 Drive', 'mariana', 4, 'durham', 'duke', 22, 'mar@gmail.com', 'mar', 'bio', '30-40'),
+(2340939723, '23421234 Drive', 'hjjg', 5, 'durham', 'duke', 43, 'teg@gmail.com', 'asdfsll', 'sfsagwe', '30-40'),
+(235838847, '12394302 Drive', 'sf', 6, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', '30-40'),
+(234213, '23 Drive', 'af', 7, 'durham', 'duke', 20, 'sd@gmail.com', 'df', 'sdf', '30-40'),
+(23423, '234 Drive', 'fg', 8, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', '30-40'),
+(2342, '76 Drive', 'hy', 9, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'rkw', '30-40'),
+(4353, '29652 Drive', 'atgva', 10, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', '30-40');
 
 }
 
 Tutor{
 
-('23443', '645 Drive', 'agwe', 11, 'durham', 'duke', 20, 'ava@gmail.com', 'sdfs', 'dsf', 2.0, '40', 'A'),
-('7568567', '3453 Drive', 'hyui', 12, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, '40', 'A'),
-('23423424', '295622 Drive', 're', 13, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, '40', 'A'),
-('9294949392', '292 Drive', 'erw', 14, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, '40', 'A'),
-('9294949392', '292 Drive', 'ava', 15, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, '40', 'A'),
-('9294949392', '292 Drive', 'ava4', 16, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, '40', 'A'),
-('9294949392', '292 Drive', 'ava3', 17, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, '40', 'A'),
-('9294949392', '292 Drive', 'ava', 18, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, '40', 'A'),
-('9294949392', '292 Drive', 'ava', 19, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, '40', 'A'),
-('9294949392', '292 Drive', 'ava', 20, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, '40', 'A');
+(23443, '645 Drive', 'agwe', 11, 'durham', 'duke', 20, 'ava@gmail.com', 'sdfs', 'dsf', 2.0, 4.0, 'A'),
+(7568567, '3453 Drive', 'hyui', 12, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, 4.0, 'A'),
+(23423424, '295622 Drive', 're', 13, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, 4.0, 'A'),
+(9294949392, '292 Drive', 'erw', 14, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, 4.0, 'A'),
+(9294949392, '292 Drive', 'ava', 15, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, 4.0, 'A'),
+(9294949392, '292 Drive', 'ava4', 16, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, 4.0, 'A'),
+(9294949392, '292 Drive', 'ava3', 17, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, 4.0, 'A'),
+(9294949392, '292 Drive', 'ava', 18, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, 4.0, 'A'),
+(9294949392, '292 Drive', 'ava', 19, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, 4.0, 'A'),
+(9294949392, '292 Drive', 'ava', 20, 'durham', 'duke', 20, 'ava@gmail.com', 'all', 'hello', 2.0, 4.0, 'A');
 
 }
 
