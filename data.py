@@ -35,7 +35,7 @@ def create_digits(n):
 # Create 1000 tutors
 for i in range(1000):
     uid = uuid.uuid4().int
-    tutors[uid] = {
+    users[uid] = {
         'phone_number': create_digits(10),
         'address': user.address(),
         'name': user.name(),
@@ -46,18 +46,29 @@ for i in range(1000):
         'email': user.free_email(),
         'venmo': '@' + user.user_name(),
         'bio': user.text(),
+    }
+    u = users[uid]
+    tutors[uid] = {
+        'phone_number': u['phone_number'],
+        'address': u['address'],
+        'name': u['name'],
+        'user_id': uid,
+        'location': u['location'],
+        'school': u['school'],
+        'age': u['age'],
+        'email': u['email'],
+        'venmo': u['venmo'],
+        'bio': u['bio'],
         'rating': user.random_int(min=1, max=20, step=1)/4.0,
         'hourly_rate': round(user.random_int(min=0, max=50) + create_digits(2)/100, 2),
         'grade': random.choice(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']), 
     }
 
-    users[uid] = tutors[uid]
-
 
 # Create 1000 tutees
 for i in range(1000):
     uid = uuid.uuid4().int
-    tutees[uid] = {
+    users[uid] = {
         'phone_number': create_digits(10),
         'address': user.address(),
         'name': user.name(),
@@ -68,6 +79,19 @@ for i in range(1000):
         'email': user.free_email(),
         'venmo': '@' + user.user_name(),
         'bio': user.text(),
+    }
+    u = users[uid]
+    tutees[uid] = {
+        'phone_number': u['phone_number'],
+        'address': u['address'],
+        'name': u['name'],
+        'user_id': uid,
+        'location': u['location'],
+        'school': u['school'],
+        'age': u['age'],
+        'email': u['email'],
+        'venmo': u['venmo'],
+        'bio': u['bio'],
         'price_range': round(user.random_int(min=0, max=50) + create_digits(2)/100, 2),
     }
 
@@ -75,8 +99,6 @@ for i in range(1000):
         'user_id': uid,
         'sessions': None
     }
-
-    users[uid] = tutees[uid]
 
 
 # Class list
