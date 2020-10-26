@@ -140,16 +140,19 @@ for t in list(tutees.values()):
 for t in list(tutors.values()):
     classes = random.sample(class_ids, randint(1, 5))
     experience = {}
+    subjects = []
+    experience = []
     for c in classes:
-        experience[c] = {'subject': c, 'experience_level': random.choice(['beginner', 'intermediate', 'advanced'])}
-    can_tutor_in[t['user_id']] = {'user_id': t['user_id'], 'subject': experience}
+        subjects.append(c)
+        experience.append(random.choice(['beginner', 'intermediate', 'advanced']))
+    can_tutor_in[t['user_id']] = {'user_id': t['user_id'], 'subjects': subjects, 'experience': experience}
 
 
 # Ensure sessions are only between tutees and tutors who have common classes
 def choose_tutee(tid):
     potential_tutees = []
     for o in list(needs_help_with.values()):
-        matches = set(o['subjects']) & set(can_tutor_in[tid]['subject'].keys())
+        matches = set(o['subjects']) & set(can_tutor_in[tid]['subjects'])
         if matches:
             potential_tutees.append({'user_id': o['user_id'], 'subject': random.choice(list(matches))})
     if potential_tutees and random.choice([True, False]):
