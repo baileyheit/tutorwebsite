@@ -3,10 +3,10 @@ from faker import Factory
 import random
 from random import randint
 import uuid
-import mysql.connector
+# import mysql.connector
 
-cnx = mysql.connector.connect(user='root', database='TutorProject')
-cursor = cnx.cursor()
+# cnx = mysql.connector.connect(user='root', database='TutorProject')
+# cursor = cnx.cursor()
 
 user = Factory.create()
 
@@ -197,12 +197,12 @@ for i in range(500):
         continue
     
     # Add to tutors_in
-    if uid in tutors_in.keys():
-        if subject not in tutors_in[uid]['subjects']:
-            tutors_in[uid]['subjects'].append(subject)
+    if tutor_uid in tutors_in.keys():
+        if subject not in tutors_in[tutor_uid]['subjects']:
+            tutors_in[tutor_uid]['subjects'].append(subject)
     else:
-        tutors_in[uid] = {
-            'user_id': uid,
+        tutors_in[tutor_uid] = {
+            'user_id': tutor_uid,
             'subjects': [subject]
         }
     
