@@ -47,6 +47,7 @@ def tutors():
 def add_tutor():
     user_id = uuid.uuid4().int
     user_name = request.args.get("name")
+    user_name = request.args.get("password")
     location = request.args.get("location")
     school = request.args.get("school")
     age = request.args.get("age")
@@ -59,7 +60,7 @@ def add_tutor():
     hourly_rate = request.args.get("hourly_rate")
     grade = request.args.get("grade")
 
-    tutor = Tutor(phone_number, address, user_name, user_id, location,
+    tutor = Tutor(phone_number, address, user_name, password, user_id, location,
                   school, age, email, venmo, bio, rating, hourly_rate, grade)
     db_session.add(tutor)
     db_session.commit()

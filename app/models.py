@@ -36,6 +36,7 @@ class Tutor(Base):
     phone_number = Column('phone_number', BIGINT())
     address = Column('address', String(200))
     user_name = Column('user_name', String(50))
+    user_password = Column('password', String(50))
     user_id = Column('user_id', String(50), primary_key=True)
     location = Column('location', String(50))
     school = Column('school', String(50))

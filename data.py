@@ -3,10 +3,10 @@ from faker import Factory
 import random
 from random import randint
 import uuid
-import mysql.connector
+# import mysql.connector
 
-cnx = mysql.connector.connect(user='root', database='TutorProject')
-cursor = cnx.cursor()
+# cnx = mysql.connector.connect(user='root', database='TutorProject')
+# cursor = cnx.cursor()
 
 user = Factory.create()
 
@@ -39,6 +39,7 @@ for i in range(1000):
         'phone_number': create_digits(10),
         'address': user.address(),
         'name': user.name(),
+        'password': user.password(),
         'user_id': uid,
         'location': random.choice(['remote', 'in person']),
         'school': random.choice(['trinity', 'pratt']),
@@ -52,6 +53,7 @@ for i in range(1000):
         'phone_number': u['phone_number'],
         'address': u['address'],
         'name': u['name'],
+        'password': u['password'],
         'user_id': uid,
         'location': u['location'],
         'school': u['school'],
@@ -72,6 +74,7 @@ for i in range(1000):
         'phone_number': create_digits(10),
         'address': user.address(),
         'name': user.name(),
+        'password': user.password(),
         'user_id': uid,
         'location': random.choice(['remote', 'in person']),
         'school': random.choice(['trinity', 'pratt']),
@@ -85,6 +88,7 @@ for i in range(1000):
         'phone_number': u['phone_number'],
         'address': u['address'],
         'name': u['name'],
+        'password': u['password'],
         'user_id': uid,
         'location': u['location'],
         'school': u['school'],
@@ -140,16 +144,19 @@ for t in list(tutees.values()):
 for t in list(tutors.values()):
     classes = random.sample(class_ids, randint(1, 5))
     experience = {}
+    subjects = []
+    experience = []
     for c in classes:
-        experience[c] = {'subject': c, 'experience_level': random.choice(['beginner', 'intermediate', 'advanced'])}
-    can_tutor_in[t['user_id']] = {'user_id': t['user_id'], 'subject': experience}
+        subjects.append(c)
+        experience.append(random.choice(['beginner', 'intermediate', 'advanced']))
+    can_tutor_in[t['user_id']] = {'user_id': t['user_id'], 'subjects': subjects, 'experience': experience}
 
 
 # Ensure sessions are only between tutees and tutors who have common classes
 def choose_tutee(tid):
     potential_tutees = []
     for o in list(needs_help_with.values()):
-        matches = set(o['subjects']) & set(can_tutor_in[tid]['subject'].keys())
+        matches = set(o['subjects']) & set(can_tutor_in[tid]['subjects'])
         if matches:
             potential_tutees.append({'user_id': o['user_id'], 'subject': random.choice(list(matches))})
     if potential_tutees and random.choice([True, False]):
@@ -190,12 +197,12 @@ for i in range(500):
         continue
     
     # Add to tutors_in
-    if uid in tutors_in.keys():
-        if subject not in tutors_in[uid]['subjects']:
-            tutors_in[uid]['subjects'].append(subject)
+    if tutor_uid in tutors_in.keys():
+        if subject not in tutors_in[tutor_uid]['subjects']:
+            tutors_in[tutor_uid]['subjects'].append(subject)
     else:
-        tutors_in[uid] = {
-            'user_id': uid,
+        tutors_in[tutor_uid] = {
+            'user_id': tutor_uid,
             'subjects': [subject]
         }
     
