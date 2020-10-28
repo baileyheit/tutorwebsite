@@ -4,9 +4,10 @@ USE TutorProject;
 
 CREATE TABLE User(
 phone_number BIGINT NOT NULL,
-address VARCHAR(50) NOT NULL,
+address VARCHAR(200) NOT NULL,
 user_name VARCHAR(50) NOT NULL,
-user_id INTEGER NOT NULL PRIMARY KEY,
+password VARCHAR(50) NOT NULL,
+user_id BIGINT NOT NULL PRIMARY KEY,
 location VARCHAR(50) NOT NULL,
 school VARCHAR(50) NOT NULL,
 age integer NOT NULL,
@@ -19,7 +20,8 @@ CREATE TABLE Tuttee(
 phone_number BIGINT NOT NULL REFERENCES User(phone_number),
 address VARCHAR(200) NOT NULL REFERENCES User(address),
 user_name VARCHAR(50) NOT NULL REFERENCES User(user_name),
-user_id INTEGER NOT NULL PRIMARY KEY REFERENCES User(user_id),
+password VARCHAR(50) NOT NULL REFERENCES User(password),
+user_id BIGINT NOT NULL PRIMARY KEY REFERENCES User(user_id),
 location VARCHAR(50) NOT NULL REFERENCES User(location),
 school VARCHAR(50) NOT NULL REFERENCES User(school),
 age integer NOT NULL REFERENCES User(age),
@@ -33,27 +35,28 @@ CREATE TABLE Tutor(
 phone_number BIGINT NOT NULL REFERENCES User(phone_number),
 address VARCHAR(200) NOT NULL REFERENCES User(address),
 user_name VARCHAR(50) NOT NULL REFERENCES User(user_name),
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES User(user_id),
+password VARCHAR(50) NOT NULL REFERENCES User(password),
+user_id BIGINT NOT NULL PRIMARY KEY REFERENCES User(user_id),
 location VARCHAR(50) NOT NULL REFERENCES User(location),
 school VARCHAR(50) NOT NULL REFERENCES User(school),
 age integer NOT NULL REFERENCES User(age),
 email VARCHAR(50) NOT NULL REFERENCES User(email),
 venmo VARCHAR(50) NOT NULL REFERENCES User(venmo),
 bio VARCHAR(500) NOT NULL REFERENCES User(bio),
-rating float NOT NULL,
+rating float,
 hourly_rate float NOT NULL,
 grade VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE Session (
-session_id INTEGER NOT NULL PRIMARY KEY,
+session_id BIGINT NOT NULL PRIMARY KEY,
 zoom_link VARCHAR(100) NOT NULL,
 session_day VARCHAR(50) NOT NULL,
 session_time VARCHAR(50) NOT NULL,
 price VARCHAR(20) NOT NULL,
 booked VARCHAR(100) NOT NULL,
 tutorsin VARCHAR(50) NOT NULL,
-gets_help_in INTEGER NOT NULL 
+gets_help_in BIGINT 
 );
 
 CREATE TABLE Class(
@@ -63,30 +66,41 @@ class_name VARCHAR(50) NOT NULL REFERENCES NeedsHelpWith(class_id)
 );
 
 CREATE TABLE Cart(
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tuttee(user_id),
-session_id VARCHAR(50) NOT NULL REFERENCES Session(session_id)
+user_id BIGINT NOT NULL PRIMARY KEY REFERENCES Tuttee(user_id),
+session_id VARCHAR(200) REFERENCES Session(session_id)
 );
 
 CREATE TABLE NeedsHelpWith(
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tuttee(user_id),
-class_id VARCHAR(50) NOT NULL 
+user_id BIGINT NOT NULL PRIMARY KEY REFERENCES Tuttee(user_id),
+class_id VARCHAR(500) NOT NULL REFERENCES  CanTutorIn(class_id)
 );
 
 CREATE TABLE CanTutorIn(
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tutor(user_id),
-class_id VARCHAR(50) NOT NULL, 
-expertise_lvl VARCHAR(50) NOT NULL 
+user_id BIGINT NOT NULL PRIMARY KEY REFERENCES Tutor(user_id),
+class_id VARCHAR(200) NOT NULL, 
+expertise_lvl VARCHAR(200) NOT NULL 
 );
 
 CREATE TABLE GivesRating(
-user_id VARCHAR(50) NOT NULL REFERENCES Tuttee(user_id),
-rating_comment VARCHAR(50) NOT NULL,
-rating_num float NOT NULL
+tutor_id BIGINT NOT NULL REFERENCES Tutor(user_id),
+tuttee_id BIGINT NOT NULL REFERENCES Tuttee(user_id),
+rating_comment VARCHAR(500) NOT NULL,
+rating_num integer NOT NULL
 );
 
 CREATE TABLE TutorsIn(
-zoom_link VARCHAR(50) NOT NULL REFERENCES Session(zoom_link),
-user_id VARCHAR(50) NOT NULL PRIMARY KEY REFERENCES Tutor(user_id)
+session_id BIGINT NOT NULL PRIMARY KEY REFERENCES Session(session_id),
+class_id VARCHAR(200) NOT NULL REFERENCES CanTutorIn(class_id)
+);
+
+CREATE TABLE ForHelpIn(
+session_id BIGINT NOT NULL PRIMARY KEY REFERENCES Session(session_id),
+class_id VARCHAR(50) REFERENCES CanTutorIn(class_id)
+);
+
+CREATE TABLE GetsHelpIn(
+session_id BIGINT NOT NULL PRIMARY KEY REFERENCES Session(session_id),
+class_id VARCHAR(200) REFERENCES CanTutorIn(class_id)
 );
 
 INSERT INTO User
