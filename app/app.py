@@ -42,6 +42,30 @@ def tutors():
         tutors=Tutor.query.all()
     )
 
+@app.route('/CreateAccount')
+def CreateAccount():
+    return render_template(
+        'CreateAccount.html',
+    )
+
+
+@app.route('/Login')
+def Login():
+    return render_template(
+        'Login.html',
+    )
+
+    # user_id = request.args.get("username")
+    # user_name = request.args.get("name")
+    # user_password = request.args.get("password")
+
+
+    # tutor = Tutor(phone_number, address, user_name, password, user_id, location,
+    #               school, age, email, venmo, bio, rating, hourly_rate, grade)
+    # db_session.add(tutor)
+    # db_session.commit()
+
+    # return redirect(url_for('tutors'))
 
 @app.route('/add_tutor')
 def add_tutor():

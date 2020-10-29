@@ -6,9 +6,9 @@ class Tutor(Base):
     __tablename__ = 'Tutor'
     phone_number = Column('phone_number', BIGINT())
     address = Column('address', String(200))
-    user_name = Column('user_name', String(50))
-    user_password = Column('password', String(50))
-    user_id = Column('user_id', String(50), primary_key=True)
+    user_name = Column('user_name', String(50)) #this is the users FULL NAME 
+    user_password = Column('password', String(50)) 
+    user_id = Column('user_id', String(50), primary_key=True) #this is the user's UNIQUE USERNAME
     location = Column('location', String(50))
     school = Column('school', String(50))
     age = Column('age', Integer())
