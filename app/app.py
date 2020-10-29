@@ -2,10 +2,11 @@ import sqlalchemy
 from flask import Flask, request, redirect, url_for
 from flask import render_template
 from database import db_session
-# import models
 import forms
-# from models import Users
 from models import Tutor
+from models import Session
+from models import ForHelpIn
+import models
 import uuid
 import pdb
 
@@ -13,9 +14,6 @@ import pdb
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:21bH1267@vcm-17138.vm.duke.edu/TutorProject'
 
-# @app.route('/')
-# def hello_world():
-#   return 'Hello, World!'
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['ENV'] = 'development'
 app.config['DEBUG'] = True
@@ -25,14 +23,6 @@ app.config['TESTING'] = True
 @app.route('/')
 def index():
     return render_template('index.html')
-
-
-# @app.route('/users')
-# def users():
-#     return render_template(
-#         'all_tutors.html',
-#         users=Users.query.all()
-#     )
 
 
 @app.route('/tutors')
@@ -67,46 +57,23 @@ def add_tutor():
 
     return redirect(url_for('tutors'))
 
-    #     user_id = Column('user_id', VARCHAR(50), primary_key=True)
-    # user_name = Column('user_name', VARCHAR(50))
-    # location = Column('location', VARCHAR(50))
-    # school = Column('school', VARCHAR(50))
-    # age = Column('age', Integer())
-    # phone_number = Column('phone_number', VARCHAR(50))
-    # email = Column('email', VARCHAR(50))
-    # address = Column('address', VARCHAR(200))
-    # venmo = Column('venmo', VARCHAR(50))
-    # bio = Column('bio', VARCHAR(500))
-    # rating = Column('rating', VARCHAR(50))
-    # hourly_rate = Column('hourly_rate', VARCHAR(50))
 
-# def all_tutors():
-#   tutors = db.session.query(models.Tutors).all()
-#   return render_template('all-tutors.html', tutors=tutors)                        #implement all-tutors.html template
+@app.route('/search')
+def search():
 
-# @app.route('/tutors', methods=['GET', 'POST'])
-# def tutors():
-#   class_names = [c.class_id for c in db.session.query(models.CanTutorIn).all()]
-#   form = forms.TutorsFormFactory.form(class_names=class_names)                    #implement TutorsFormFactory function in forms.py
-#   if form.validate_on_submit():
-#     return redirect('/tutors/'+form.class_sel.data)
-#   return render_template('tutors.html', form=form)                                #implement tutors.html template
+    price = request.args.get("price")
+    className = request.args.get("class")
 
-# @app.route('/tutors/<class_name>')
-# def tutors_in(class_name):
-#   results = db.session.query(models.CanTutorIn, models.Users) \
-#                       .filter(models.CanTutorIn.class_id == class_name) \
-#                       .join(models.Users).all()
-#   return render_template('tutors_in.html', class_name=class_name, data=results)   #implement tutors_in.html template
+    return render_template(
+        'search.html',
+        # sessions=Session.query.join(
+        #     ForHelpIn, Session.session_id == ForHelpIn.session_id).all()
+        # sessions=Session.query.all()
+        # sessions=Session.query.filter(Session.price == price)
+        sessions=Session.query.join(
+            ForHelpIn, Session.session_id == ForHelpIn.session_id).filter(Session.price == price)
+    )
 
 
-# # @app.route('/')
-# # def hello_world():
-# #     return 'Hello, World!'
-
-# # mysql://username:password@server/db
-
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0')
 if __name__ == "__main__":
     app.run(debug=True)
