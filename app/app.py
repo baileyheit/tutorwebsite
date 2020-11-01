@@ -5,7 +5,6 @@ from database import db_session
 import forms
 from models import Tutor
 from models import Session
-from models import ForHelpIn
 import models
 import uuid
 import pdb
@@ -69,9 +68,9 @@ def search():
         # sessions=Session.query.join(
         #     ForHelpIn, Session.session_id == ForHelpIn.session_id).all()
         # sessions=Session.query.all()
-        # sessions=Session.query.filter(Session.price == price)
-        sessions=Session.query.join(
-            ForHelpIn, Session.session_id == ForHelpIn.session_id).filter(Session.price == price)
+        sessions=Session.query.filter(Session.price == price)
+        # sessions=Session.query.join(
+        #     ForHelpIn, Session.session_id == ForHelpIn.session_id).filter(Session.price == price)
     )
 
 

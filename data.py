@@ -3,10 +3,10 @@ from faker import Factory
 import random
 from random import randint
 import uuid
-# import mysql.connector
+import mysql.connector
 
-# cnx = mysql.connector.connect(user='root', database='TutorProject')
-# cursor = cnx.cursor()
+cnx = mysql.connector.connect(user='root', database='TutorProject')
+cursor = cnx.cursor()
 
 user = Factory.create()
 
@@ -15,12 +15,8 @@ tutors = {}
 tutees = {}
 cart = {}
 sessions = {}
-
 can_tutor_in = {}
 needs_help_with = {}
-tutors_in = {}
-gets_help_in = {}
-for_help_in = {}
 gives_rating = {}
 
 
@@ -185,36 +181,12 @@ for i in range(500):
         'price': tutor['hourly_rate'],
         'booked': booked,
         'tutor': tutor_uid,
-        'tutee': tutee_uid
-    }
-
-    for_help_in[sid] = {
-        'session': sid,
-        'class': subject
+        'tutee': tutee_uid,
+        'subject': subject
     }
 
     if not sessions[sid]['booked']:
         continue
-    
-    # Add to tutors_in
-    if tutor_uid in tutors_in.keys():
-        if subject not in tutors_in[tutor_uid]['subjects']:
-            tutors_in[tutor_uid]['subjects'].append(subject)
-    else:
-        tutors_in[tutor_uid] = {
-            'user_id': tutor_uid,
-            'subjects': [subject]
-        }
-    
-    # Add to gets_help_in
-    if tutee_uid in gets_help_in.keys():
-        if subject not in gets_help_in[tutee_uid]:
-            gets_help_in[tutee_uid]['subjects'].append(subject)
-    else:
-        gets_help_in[tutee_uid] = {
-            'user_id': tutee_uid,
-            'subjects': [subject]
-        }
     
     # Add to cart
     if cart[tutee_uid]['sessions']:
@@ -228,8 +200,8 @@ for i in range(500):
     # Give a rating
     if random.choice([True, False]):
         gives_rating[tutor_uid] = {
+            'rating_id': uuid.uuid4().int,
             'tutor': tutor_uid,
-            'tutee': tutee_uid,
             'comment': user.text(),
-            'rating': randint(1, 5)
+            'rating_num': randint(1, 5)
         }

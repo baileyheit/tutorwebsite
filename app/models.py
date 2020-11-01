@@ -115,19 +115,6 @@ class CanTutorIn(Base):
         return '<CanTutorIn %r>' % (self.model)
 
 
-class TutorsIn(Base):
-    __tablename__ = 'TutorsIn'
-    session_id = Column('session_id', BIGINT(), primary_key=True)
-    class_id = Column('class_id', String(200))
-
-    def _init_(self, session_id=None, class_id=None):
-        self.session_id = session_id
-        self.class_id = class_id
-
-    def __repr__(self):
-        return '<TutorsIn %r>' % (self.model)
-
-
 class Cart(Base):
     __tablename__ = 'Cart'
     user_id = Column('user_id', BIGINT(), primary_key=True)
@@ -141,47 +128,21 @@ class Cart(Base):
         return '<Cart %r>' % (self.model)
 
 
-class ForHelpIn(Base):
-    __tablename__ = 'ForHelpIn'
-    session_id = Column('session_id', BIGINT(), primary_key=True)
-    class_id = Column('class_id', String(500))
+class GivesRating(Base):
+    __tablename__ = 'GivesRating'
+    rating_id = Column('rating_id', BIGINT(), primary_key=True)
+    tutor_id = Column('tutor_id', BIGINT())
+    rating_comment = Column('rating_comment', String(500))
+    rating_num = Column('rating_num', Integer())
 
-    def _init_(self, session_id=None, class_id=None):
-        self.session_id = session_id
-        self.class_id = class_id
-
-    def __repr__(self):
-        return '<ForHelpIn %r>' % (self.model)
-
-
-class GetsHelpIn(Base):
-    __tablename__ = 'GetsHelpIn'
-    session_id = Column('session_id', BIGINT(), primary_key=True)
-    class_id = Column('class_id', String(500))
-
-    def _init_(self, session_id=None, class_id=None):
-        self.session_id = session_id
-        self.class_id = class_id
+    def _init_(self, rating_id=None, tutor_id=None, rating_comment=None, rating_num=None):
+        self.rating_id = rating_id
+        self.tutor_id = tutor_id
+        self.rating_comment = rating_comment
+        self.rating_num = rating_num
 
     def __repr__(self):
-        return '<GetsHelpIn %r>' % (self.model)
-
-
-# class GivesRating(Base):
-#     __tablename__ = 'GivesRating'
-#     tutor_id = Column('tutor_id', BIGINT())
-#     tuttee_id = Column('tuttee_id', BIGINT())
-#     rating_comment = Column('rating_comment', String(500))
-#     rating_num = Column('rating_num', Integer())
-
-#     def _init_(self, tutor_id=None, tuttee_id=None, rating_comment=None, rating_num=None):
-#         self.tutor_id = tutor_id
-#         self.tuttee_id = tuttee_id
-#         self.rating_comment = rating_comment
-#         self.rating_num = rating_num
-
-#     def __repr__(self):
-#         return '<GivesRating %r>' % (self.model)
+        return '<GivesRating %r>' % (self.model)
 
 
 class NeedsHelpWith(Base):
@@ -203,20 +164,22 @@ class Session(Base):
     zoom_link = Column('zoom_link', String(100))
     session_day = Column('session_day', String(50))
     session_time = Column('session_time', String(50))
-    price = Column('price', String(20))
+    price = Column('price', Float())
     booked = Column('booked', String(100))
-    tutorsin = Column('tutorsin', String(50))
-    gets_help_in = Column('gets_help_in', BIGINT())
+    tutor = Column('tutor', String(50))
+    tutee = Column('tutee', String(50))
+    subject = Column('subject', String(50))
 
-    def _init_(self, session_id=None, zoom_link=None, session_day=None, session_time=None, price=None, booked=None, tutorsin=None, gets_help_in=None):
+    def _init_(self, session_id=None, zoom_link=None, session_day=None, session_time=None, price=None, booked=None, tutor=None, tutee=None, subject=None):
         self.session_id = session_id
         self.zoom_link = zoom_link
         self.session_day = session_day
         self.session_time = session_time
         self.price = price
         self.booked = booked
-        self.tutorsin = tutorsin
-        self.gets_help_in = gets_help_in
+        self.tutor = tutor
+        self.tutee = tutee 
+        self.subject = subject
 
     def __repr__(self):
         return '<Session %r>' % (self.model)
