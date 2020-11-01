@@ -1,11 +1,21 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # from sqlalchemy import Column, Integer, String, sql, orm, VARCHAR, Float, BIGINT
 # from .database import Base
 # from werkzeug.security import generate_password_hash, check_password_hash
 # from flask_login import UserMixin
 # from .app import login
+=======
+from app import db
+>>>>>>> d52ce842755054e4c58dc362170161c9402f0844
 
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=True)
+    password_hash = db.Column(db.String(128))
 
+<<<<<<< HEAD
 # class User(UserMixin, Base):
 #     __tablename__ = 'User'
 #     phone_number = Column('phone_number', BIGINT())
@@ -408,3 +418,7 @@ class Session(Base):
     def __repr__(self):
         return '<Session %r>' % (self.model)
 >>>>>>> 29ac1d8b9ae95a0ea43482984c0e077a4cc9ffb7
+=======
+    def __repr__(self):
+        return '<User {}>'.format(self.username)  
+>>>>>>> d52ce842755054e4c58dc362170161c9402f0844
