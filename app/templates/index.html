@@ -6,30 +6,3 @@
     <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
     {% endfor %}
 {% endblock %}
-
-<!-- <h1>Home Page</h1> -->
-<!-- <ul> --> -->
-  <!-- <li><a href="/">Home Page</a></li> -->
-  <!-- <li><a href="/tutors">Add Tutor</a></li>
-  <li><a href="/Login">Login</a></li>
-  <li><a href="/CreateAccount">Create Account</a></li>
-</ul>
-
-<div>
-  Microblog:
-  <a href="{{ url_for('index') }}">Home</a>
-  {% if current_user.is_anonymous %}
-  <a href="{{ url_for('login') }}">Login</a>
-  {% else %}
-  <a href="{{ url_for('logout') }}">Logout</a>
-  {% endif %}
-</div>
-
-{% extends "base.html" %}
-
-{% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
-    {% for post in posts %}
-    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
-    {% endfor %}
-{% endblock %} -->
