@@ -4,28 +4,18 @@ from database import Base
 
 class User(Base):
     __tablename__ = 'User'
-    phone_number = Column('phone_number', BIGINT())
-    address = Column('address', String(200))
-    user_name = Column('user_name', String(50))
-    user_id = Column('user_id', String(50), primary_key=True)
-    location = Column('location', String(50))
-    school = Column('school', String(50))
-    age = Column('age', Integer())
+    user_name = Column('username', String(50), primary_key=True)
+    password = Column('password', String(50))
     email = Column('email', String(50))
-    venmo = Column('venmo', String(50))
-    bio = Column('bio', String(500))
+    first_name = Column('first_name', String(50))
+    last_name = Column('last_name', String(50))
 
-    def __init__(self, phone_number=None, address=None, user_name=None, user_id=None, location=None, school=None, age=None, email=None, venmo=None, bio=None):
-        self.phone_number = phone_number
-        self.address = address
-        self.user_name = user_name
-        self.user_id = user_id
-        self.location = location
-        self.school = school
-        self.age = age
+    def __init__(self, username=None, password=None, email=None, first_name=None, last_name=None):
+        self.username = username
+        self.password = password
         self.email = email
-        self.venmo = venmo
-        self.bio = bio
+        self.first_name = first_name
+        self.last_name = last_name
 
     def __repr__(self):
         return '<User %r>' % (self.model)
@@ -33,30 +23,25 @@ class User(Base):
 
 class Tutor(Base):
     __tablename__ = 'Tutor'
+    username = Column('username', String(50), primary_key=True)
     phone_number = Column('phone_number', BIGINT())
     address = Column('address', String(200))
-    user_name = Column('user_name', String(50))
-    user_password = Column('password', String(50))
-    user_id = Column('user_id', String(50), primary_key=True)
     location = Column('location', String(50))
     school = Column('school', String(50))
     age = Column('age', Integer())
-    email = Column('email', String(50))
     venmo = Column('venmo', String(50))
     bio = Column('bio', String(500))
     rating = Column('rating', Float())
     hourly_rate = Column('hourly_rate', Float())
     grade = Column('grade', String(50))
 
-    def __init__(self, phone_number=None, address=None, user_name=None, user_id=None, location=None, school=None, age=None, email=None, venmo=None, bio=None, rating=None, hourly_rate=None, grade=None):
+    def __init__(self, username=None, phone_number=None, address=None, location=None, school=None, age=None, venmo=None, bio=None, rating=None, hourly_rate=None, grade=None):
+        self.username = username
         self.phone_number = phone_number
         self.address = address
-        self.user_name = user_name
-        self.user_id = user_id
         self.location = location
         self.school = school
         self.age = age
-        self.email = email
         self.venmo = venmo
         self.bio = bio
         self.rating = rating
@@ -69,29 +54,23 @@ class Tutor(Base):
 
 class Tuttee(Base):
     __tablename__ = 'Tuttee'
+    username = Column('username', String(50), primary_key=True)
     phone_number = Column('phone_number', BIGINT())
     address = Column('address', String(200))
-    user_name = Column('user_name', String(50))
-    password = Column('password', String(50))
-    user_id = Column('user_id', String(50), primary_key=True)
     location = Column('location', String(50))
     school = Column('school', String(50))
     age = Column('age', Integer())
-    email = Column('email', String(50))
     venmo = Column('venmo', String(50))
     bio = Column('bio', String(500))
     price_range = Column('price_range', String(50))
 
-    def __init__(self, phone_number=None, address=None, user_name=None, password=None, user_id=None, location=None, school=None, age=None, email=None, venmo=None, bio=None, price_range=None):
+    def __init__(self, username=None, phone_number=None, address=None, location=None, school=None, age=None, venmo=None, bio=None, price_range=None):
+        self.username = username
         self.phone_number = phone_number
         self.address = address
-        self.user_name = user_name
-        self.password = password
-        self.user_id = user_id
         self.location = location
         self.school = school
         self.age = age
-        self.email = email
         self.venmo = venmo
         self.bio = bio
         self.price_range = price_range
@@ -102,12 +81,12 @@ class Tuttee(Base):
 
 class CanTutorIn(Base):
     __tablename__ = 'CanTutorIn'
-    user_id = Column('user_id', BIGINT(), primary_key=True)
+    username = Column('username', String(50), primary_key=True)
     class_id = Column('class_id', String(200))
     expertise_lvl = Column('expertise_lvl', String(200))
 
-    def _init_(self, user_id=None, class_id=None, expertise_lvl=None):
-        self.user_id = user_id
+    def _init_(self, username=None, class_id=None, expertise_lvl=None):
+        self.username = username
         self.class_id = class_id
         self.expertise_lvl = expertise_lvl
 
@@ -117,11 +96,11 @@ class CanTutorIn(Base):
 
 class Cart(Base):
     __tablename__ = 'Cart'
-    user_id = Column('user_id', BIGINT(), primary_key=True)
+    username = Column('username', String(50), primary_key=True)
     session_id = Column('session_id', String(200))
 
-    def _init_(self, user_id=None, session_id=None):
-        self.user_id = user_id
+    def _init_(self, username=None, session_id=None):
+        self.username = username
         self.session_id = session_id
 
     def __repr__(self):
@@ -131,13 +110,19 @@ class Cart(Base):
 class GivesRating(Base):
     __tablename__ = 'GivesRating'
     rating_id = Column('rating_id', BIGINT(), primary_key=True)
-    tutor_id = Column('tutor_id', BIGINT())
+    tutor = Column('tutor', String(50))
+    tutee = Column('tutee', String(50))
+    session = Column('session', String(50))
+    subject = Column('subject', String(50))
     rating_comment = Column('rating_comment', String(500))
     rating_num = Column('rating_num', Integer())
 
-    def _init_(self, rating_id=None, tutor_id=None, rating_comment=None, rating_num=None):
+    def _init_(self, rating_id=None, tutor=None, tutee=None, session=None, subject=None, rating_comment=None, rating_num=None):
         self.rating_id = rating_id
-        self.tutor_id = tutor_id
+        self.tutor = tutor
+        self.tutee = tutee
+        self.session = session
+        self.subject = subject 
         self.rating_comment = rating_comment
         self.rating_num = rating_num
 
@@ -147,11 +132,11 @@ class GivesRating(Base):
 
 class NeedsHelpWith(Base):
     __tablename__ = 'NeedsHelpWith'
-    user_id = Column('user_id', BIGINT(), primary_key=True)
-    class_id = Column('class_id', String(500))
+    username = Column('username', String(50), primary_key=True)
+    class_id = Column('class_id', String(50))
 
-    def _init_(self, user_id=None, class_id=None):
-        self.user_id = user_id
+    def _init_(self, username=None, class_id=None):
+        self.username = username
         self.class_id = class_id
 
     def __repr__(self):

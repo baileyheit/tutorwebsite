@@ -3,10 +3,10 @@ from faker import Factory
 import random
 from random import randint
 import uuid
-import mysql.connector
+# import mysql.connector
 
-cnx = mysql.connector.connect(user='root', database='TutorProject')
-cursor = cnx.cursor()
+# cnx = mysql.connector.connect(user='root', database='TutorProject')
+# cursor = cnx.cursor()
 
 user = Factory.create()
 
@@ -30,75 +30,47 @@ def create_digits(n):
 
 # Create 1000 tutors
 for i in range(1000):
-    uid = uuid.uuid4().int
-    users[uid] = {
-        'phone_number': create_digits(10),
-        'address': user.address(),
-        'name': user.name(),
+    username = user.simple_profile()['username']
+    users[username] = {
+        'username': user.simple_profile()['username'],
         'password': user.password(),
-        'user_id': uid,
-        'location': random.choice(['remote', 'in person']),
-        'school': random.choice(['trinity', 'pratt']),
-        'age': user.random_int(min=17, max=24, step=1),
         'email': user.free_email(),
-        'venmo': '@' + user.user_name(),
-        'bio': user.text(),
+        'first_name': user.first_name(),
+        'last_name': user.last_name(),
     }
-    u = users[uid]
-    tutors[uid] = {
-        'phone_number': u['phone_number'],
-        'address': u['address'],
-        'name': u['name'],
-        'password': u['password'],
-        'user_id': uid,
-        'location': u['location'],
-        'school': u['school'],
-        'age': u['age'],
-        'email': u['email'],
-        'venmo': u['venmo'],
-        'bio': u['bio'],
-        'rating': user.random_int(min=1, max=20, step=1)/4.0,
-        'hourly_rate': round(user.random_int(min=0, max=50) + create_digits(2)/100, 2),
-        'grade': random.choice(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']), 
-    }
+    
+    choice = randint(0, 3)
+    if choice == 1 or choice == 3:
+        tutors[username] = {
+            'username': username,
+            'phone_number': create_digits(10),
+            'address': user.address(),
+            'location': random.choice(['remote', 'in person']),
+            'school': random.choice(['trinity', 'pratt']),
+            'age': user.random_int(min=17, max=24, step=1),
+            'venmo': '@' + user.user_name(),
+            'bio': user.text(),
+            'rating': user.random_int(min=1, max=20, step=1)/4.0,
+            'hourly_rate': round(user.random_int(min=0, max=50) + create_digits(2)/100, 2),
+            'grade': random.choice(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']), 
+        }
+    if choice == 2 or choice == 3:
+        tutees[username] = {
+            'username': username,
+            'phone_number': create_digits(10),
+            'address': user.address(),
+            'location': random.choice(['remote', 'in person']),
+            'school': random.choice(['trinity', 'pratt']),
+            'age': user.random_int(min=17, max=24, step=1),
+            'venmo': '@' + user.user_name(),
+            'bio': user.text(),
+            'price_range': round(user.random_int(min=0, max=50) + create_digits(2)/100, 2)
+        }
 
-
-# Create 1000 tutees
-for i in range(1000):
-    uid = uuid.uuid4().int
-    users[uid] = {
-        'phone_number': create_digits(10),
-        'address': user.address(),
-        'name': user.name(),
-        'password': user.password(),
-        'user_id': uid,
-        'location': random.choice(['remote', 'in person']),
-        'school': random.choice(['trinity', 'pratt']),
-        'age': user.random_int(min=17, max=24, step=1),
-        'email': user.free_email(),
-        'venmo': '@' + user.user_name(),
-        'bio': user.text(),
-    }
-    u = users[uid]
-    tutees[uid] = {
-        'phone_number': u['phone_number'],
-        'address': u['address'],
-        'name': u['name'],
-        'password': u['password'],
-        'user_id': uid,
-        'location': u['location'],
-        'school': u['school'],
-        'age': u['age'],
-        'email': u['email'],
-        'venmo': u['venmo'],
-        'bio': u['bio'],
-        'price_range': round(user.random_int(min=0, max=50) + create_digits(2)/100, 2),
-    }
-
-    cart[uid] = {
-        'user_id': uid,
-        'sessions': None
-    }
+        cart[username] = {
+            'username': username,
+            'sessions': None
+        }
 
 
 # Class list
@@ -133,7 +105,7 @@ class_ids = ['COMPSCI 101', 'COMPSCI 201', 'COMPSCI 230', 'COMPSCI 250', 'ECE 25
 
 # Classes tutees need help in
 for t in list(tutees.values()):
-    needs_help_with[t['user_id']] = {'user_id': t['user_id'], 'subjects': random.sample(class_ids, randint(1, 5))}
+    needs_help_with[t['username']] = {'username': t['username'], 'subjects': random.sample(class_ids, randint(1, 5))}
 
 
 # Classes tutors can help with
@@ -145,7 +117,7 @@ for t in list(tutors.values()):
     for c in classes:
         subjects.append(c)
         experience.append(random.choice(['beginner', 'intermediate', 'advanced']))
-    can_tutor_in[t['user_id']] = {'user_id': t['user_id'], 'subjects': subjects, 'experience': experience}
+    can_tutor_in[t['username']] = {'username': t['username'], 'subjects': subjects, 'experience': experience}
 
 
 # Ensure sessions are only between tutees and tutors who have common classes
@@ -154,20 +126,20 @@ def choose_tutee(tid):
     for o in list(needs_help_with.values()):
         matches = set(o['subjects']) & set(can_tutor_in[tid]['subjects'])
         if matches:
-            potential_tutees.append({'user_id': o['user_id'], 'subject': random.choice(list(matches))})
+            potential_tutees.append({'username': o['username'], 'subject': random.choice(list(matches))})
     if potential_tutees and random.choice([True, False]):
         return random.choice(potential_tutees)
-    return {'user_id': None, 'subject': None}
+    return {'username': None, 'subject': None}
 
 
 # Create 500 sessions
 for i in range(500):
     tutor = random.choice(list(tutors.values()))
-    tutor_uid = tutor['user_id']
-    tutee = choose_tutee(tutor_uid)
-    tutee_uid = tutee['user_id']
+    tutor_username = tutor['username']
+    tutee = choose_tutee(tutor_username)
+    tutee_username = tutee['username']
     subject = tutee['subject']
-    if tutee_uid is not None:
+    if tutee_username is not None:
         booked = True
     else:
         booked = False
@@ -180,8 +152,8 @@ for i in range(500):
         'time': user.time(),
         'price': tutor['hourly_rate'],
         'booked': booked,
-        'tutor': tutor_uid,
-        'tutee': tutee_uid,
+        'tutor': tutor_username,
+        'tutee': tutee_username,
         'subject': subject
     }
 
@@ -189,19 +161,22 @@ for i in range(500):
         continue
     
     # Add to cart
-    if cart[tutee_uid]['sessions']:
-        cart[tutee_uid]['sessions'].append(sid)
+    if cart[tutee_username]['sessions']:
+        cart[tutee_username]['sessions'].append(sid)
     else:
-        cart[tutee_uid] = {
-            'user_id': tutee_uid,
+        cart[tutee_username] = {
+            'username': tutee_username,
             'sessions': [sid]
         }
     
     # Give a rating
     if random.choice([True, False]):
-        gives_rating[tutor_uid] = {
+        gives_rating[tutor_username] = {
             'rating_id': uuid.uuid4().int,
-            'tutor': tutor_uid,
+            'tutor': tutor_username,
+            'tutee': tutee_username,
+            'session': sid,
+            'subject': subject,
             'comment': user.text(),
             'rating_num': randint(1, 5)
         }
