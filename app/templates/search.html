@@ -1,0 +1,53 @@
+<!-- <form action="/listSessions" >
+  <label>Price</label><br />
+  <input type="text" name="name" />
+
+  <input type="submit" />
+</form> -->
+<h1>Sessions Page</h1>
+<ul>
+  <li><a href="/">Home Page</a></li>
+</ul>
+
+<!-- <label for="day">Choose a day:</label>
+<select name="day" id="day">
+  {% for session in sessions %}
+  <option value="Day">{{ session.session_day }}</option>
+  {% endfor %}
+</select> -->
+
+<form action="/search" >
+  <label>Price</label><br />
+  <input type="text" name="price" />
+
+  <br /><br />
+
+  <label>Class</label><br />
+  <input type="text" name="class" />
+
+  <input type="submit" />
+</form>
+
+<table width=100%>
+  <tr>
+    <th>Day</th>
+    <th>Time</th>
+    <th>Price</th>
+    <th>Booked</th>
+    <th>Tutor</th>
+    <th>Class</th>
+
+  </tr>
+  {% for session in sessions %}
+    <tr>
+      <td> {{ session.session_day }}</td>
+      <td> {{ session.session_time }}</td>
+      <td> {{ session.price }}</td>
+      <td> {{ session.booked }}</td>
+      <td> {{ session.tutor }}</td>
+      <td> {{ session.class_id }}</td>
+    </tr>  
+  {% endfor %}
+</table>
+
+
