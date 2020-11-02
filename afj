@@ -1,0 +1,421 @@
+[1mdiff --cc app/models.py[m
+[1mindex 1f8a3fe,344f37d..0000000[m
+mode 100755,100644..100755[m
+[1m--- a/app/models.py[m
+[1m+++ b/app/models.py[m
+[36m@@@ -15,410 -6,6 +15,414 @@@[m [mclass User(db.Model)[m
+      email = db.Column(db.String(120), index=True, unique=True)[m
+      password_hash = db.Column(db.String(128))[m
+  [m
+[32m +<<<<<<< HEAD[m
+[32m +# class User(UserMixin, Base):[m
+[32m +#     __tablename__ = 'User'[m
+[32m +#     phone_number = Column('phone_number', BIGINT())[m
+[32m +#     address = Column('address', String(200))[m
+[32m +#     user_name = Column('user_name', String(50))[m
+[32m +#     user_id = Column('user_id', String(50), primary_key=True)[m
+[32m +#     user_password = Column('password', String(50), primary_key=True)[m
+[32m +#     location = Column('location', String(50))[m
+[32m +#     school = Column('school', String(50))[m
+[32m +#     age = Column('age', Integer())[m
+[32m +#     email = Column('email', String(50))[m
+[32m +#     venmo = Column('venmo', String(50))[m
+[32m +#     bio = Column('bio', String(500))[m
+[32m +[m
+[32m +#     def set_password(self, password):[m
+[32m +#         self.password_hash = generate_password_hash(password)[m
+[32m +[m
+[32m +#     def check_password(self, password):[m
+[32m +#         return check_password_hash(self.password_hash, password)[m
+[32m +[m
+[32m +#     # def __init__(self, phone_number=None, user_password=None, address=None, user_name=None, user_id=None, location=None, school=None, age=None, email=None, venmo=None, bio=None):[m
+[32m +#     def __init__(self, phone_number=None, user_password=None, address=None, user_name=None, user_id=None, location=None, school=None, age=None, email=None, venmo=None, bio=None):[m
+[32m +#         self.phone_number = phone_number[m
+[32m +#         self.address = address[m
+[32m +#         self.user_name = user_name[m
+[32m +#         self.user_id = user_id[m
+[32m +#         self.user_password = user_password[m
+[32m +#         self.location = location[m
+[32m +#         self.school = school[m
+[32m +#         self.age = age[m
+[32m +#         self.email = email[m
+[32m +#         self.venmo = venmo[m
+[32m +#         self.bio = bio[m
+[32m +[m
+[32m +#     def __repr__(self):[m
+[32m +#         return '<User %r>' % (self.model)[m
+[32m +[m
+[32m +# @login.user_loader[m
+[32m +# def load_user(user_id):[m
+[32m +#     return User.query.get(int(id))[m
+[32m +[m
+[32m +# class Tutor(Base):[m
+[32m +#     __tablename__ = 'Tutor'[m
+[32m +#     phone_number = Column('phone_number', BIGINT())[m
+[32m +#     address = Column('address', String(200))[m
+[32m +#     user_name = Column('user_name', String(50)) #this is the users FULL NAME [m
+[32m +#     user_password = Column('password', String(50)) [m
+[32m +#     user_id = Column('user_id', String(50), primary_key=True) #this is the user's UNIQUE USERNAME[m
+[32m +#     location = Column('location', String(50))[m
+[32m +#     school = Column('school', String(50))[m
+[32m +#     age = Column('age', Integer())[m
+[32m +#     email = Column('email', String(50))[m
+[32m +#     venmo = Column('venmo', String(50))[m
+[32m +#     bio = Column('bio', String(500))[m
+[32m +#     rating = Column('rating', Float())[m
+[32m +#     hourly_rate = Column('hourly_rate', Float())[m
+[32m +#     grade = Column('grade', String(50))[m
+[32m +[m
+[32m +#     def __init__(self, phone_number=None, address=None, user_name=None, user_id=None, location=None, school=None, age=None, email=None, venmo=None, bio=None, rating=None, hourly_rate=None, grade=None):[m
+[32m +#         self.phone_number = phone_number[m
+[32m +#         self.address = address[m
+[32m +#         self.user_name = user_name[m
+[32m +#         self.user_id = user_id[m
+[32m +#         self.location = location[m
+[32m +#         self.school = school[m
+[32m +#         self.age = age[m
+[32m +#         self.email = email[m
+[32m +#         self.venmo = venmo[m
+[32m +#         self.bio = bio[m
+[32m +#         self.rating = rating[m
+[32m +#         self.hourly_rate = hourly_rate[m
+[32m +#         self.grade = grade[m
+[32m +[m
+[32m +#     def __repr__(self):[m
+[32m +#         return '<Tutor %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +# class Tuttee(Base):[m
+[32m +#     __tablename__ = 'Tuttee'[m
+[32m +#     phone_number = Column('phone_number', BIGINT())[m
+[32m +#     address = Column('address', String(200))[m
+[32m +#     user_name = Column('user_name', String(50))[m
+[32m +#     password = Column('password', String(50))[m
+[32m +#     user_id = Column('user_id', String(50), primary_key=True)[m
+[32m +#     location = Column('location', String(50))[m
+[32m +#     school = Column('school', String(50))[m
+[32m +#     age = Column('age', Integer())[m
+[32m +#     email = Column('email', String(50))[m
+[32m +#     venmo = Column('venmo', String(50))[m
+[32m +#     bio = Column('bio', String(500))[m
+[32m +#     price_range = Column('price_range', String(50))[m
+[32m +[m
+[32m +#     def __init__(self, phone_number=None, address=None, user_name=None, password=None, user_id=None, location=None, school=None, age=None, email=None, venmo=None, bio=None, price_range=None):[m
+[32m +#         self.phone_number = phone_number[m
+[32m +#         self.address = address[m
+[32m +#         self.user_name = user_name[m
+[32m +#         self.password = password[m
+[32m +#         self.user_id = user_id[m
+[32m +#         self.location = location[m
+[32m +#         self.school = school[m
+[32m +#         self.age = age[m
+[32m +#         self.email = email[m
+[32m +#         self.venmo = venmo[m
+[32m +#         self.bio = bio[m
+[32m +#         self.price_range = price_range[m
+[32m +[m
+[32m +#     def __repr__(self):[m
+[32m +#         return '<Tuttee %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +# class CanTutorIn(Base):[m
+[32m +#     __tablename__ = 'CanTutorIn'[m
+[32m +#     user_id = Column('user_id', BIGINT(), primary_key=True)[m
+[32m +#     class_id = Column('class_id', String(200))[m
+[32m +#     expertise_lvl = Column('expertise_lvl', String(200))[m
+[32m +[m
+[32m +#     def _init_(self, user_id=None, class_id=None, expertise_lvl=None):[m
+[32m +#         self.user_id = user_id[m
+[32m +#         self.class_id = class_id[m
+[32m +#         self.expertise_lvl = expertise_lvl[m
+[32m +[m
+[32m +#     def __repr__(self):[m
+[32m +#         return '<CanTutorIn %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +# class TutorsIn(Base):[m
+[32m +#     __tablename__ = 'TutorsIn'[m
+[32m +#     session_id = Column('session_id', BIGINT(), primary_key=True)[m
+[32m +#     class_id = Column('class_id', String(200))[m
+[32m +[m
+[32m +#     def _init_(self, session_id=None, class_id=None):[m
+[32m +#         self.session_id = session_id[m
+[32m +#         self.class_id = class_id[m
+[32m +[m
+[32m +#     def __repr__(self):[m
+[32m +#         return '<TutorsIn %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +# class Cart(Base):[m
+[32m +#     __tablename__ = 'Cart'[m
+[32m +#     user_id = Column('user_id', BIGINT(), primary_key=True)[m
+[32m +#     session_id = Column('session_id', String(200))[m
+[32m +[m
+[32m +#     def _init_(self, user_id=None, session_id=None):[m
+[32m +#         self.user_id = user_id[m
+[32m +#         self.session_id = session_id[m
+[32m +[m
+[32m +#     def __repr__(self):[m
+[32m +#         return '<Cart %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +# class ForHelpIn(Base):[m
+[32m +#     __tablename__ = 'ForHelpIn'[m
+[32m +#     session_id = Column('session_id', BIGINT(), primary_key=True)[m
+[32m +#     class_id = Column('class_id', String(500))[m
+[32m +[m
+[32m +#     def _init_(self, session_id=None, class_id=None):[m
+[32m +#         self.session_id = session_id[m
+[32m +#         self.class_id = class_id[m
+[32m +[m
+[32m +#     def __repr__(self):[m
+[32m +#         return '<ForHelpIn %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +# class GetsHelpIn(Base):[m
+[32m +#     __tablename__ = 'GetsHelpIn'[m
+[32m +#     session_id = Column('session_id', BIGINT(), primary_key=True)[m
+[32m +#     class_id = Column('class_id', String(500))[m
+[32m +[m
+[32m +#     def _init_(self, session_id=None, class_id=None):[m
+[32m +#         self.session_id = session_id[m
+[32m +#         self.class_id = class_id[m
+[32m +[m
+[32m +#     def __repr__(self):[m
+[32m +#         return '<GetsHelpIn %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +# # class GivesRating(Base):[m
+[32m +# #     __tablename__ = 'GivesRating'[m
+[32m +# #     tutor_id = Column('tutor_id', BIGINT())[m
+[32m +# #     tuttee_id = Column('tuttee_id', BIGINT())[m
+[32m +# #     rating_comment = Column('rating_comment', String(500))[m
+[32m +# #     rating_num = Column('rating_num', Integer())[m
+[32m +[m
+[32m +# #     def _init_(self, tutor_id=None, tuttee_id=None, rating_comment=None, rating_num=None):[m
+[32m +# #         self.tutor_id = tutor_id[m
+[32m +# #         self.tuttee_id = tuttee_id[m
+[32m +# #         self.rating_comment = rating_comment[m
+[32m +# #         self.rating_num = rating_num[m
+[32m +[m
+[32m +# #     def __repr__(self):[m
+[32m +# #         return '<GivesRating %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +# class NeedsHelpWith(Base):[m
+[32m +#     __tablename__ = 'NeedsHelpWith'[m
+[32m +#     user_id = Column('user_id', BIGINT(), primary_key=True)[m
+[32m +#     class_id = Column('class_id', String(500))[m
+[32m +[m
+[32m +#     def _init_(self, user_id=None, class_id=None):[m
+[32m +#         self.user_id = user_id[m
+[32m +#         self.class_id = class_id[m
+[32m +[m
+[32m +#     def __repr__(self):[m
+[32m +#         return '<NeedsHelpWith %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +# class Session(Base):[m
+[32m +#     __tablename__ = 'Session'[m
+[32m +#     session_id = Column('session_id', BIGINT(), primary_key=True)[m
+[32m +#     zoom_link = Column('zoom_link', String(100))[m
+[32m +#     session_day = Column('session_day', String(50))[m
+[32m +#     session_time = Column('session_time', String(50))[m
+[32m +#     price = Column('price', String(20))[m
+[32m +#     booked = Column('booked', String(100))[m
+[32m +#     tutorsin = Column('tutorsin', String(50))[m
+[32m +#     gets_help_in = Column('gets_help_in', BIGINT())[m
+[32m +[m
+[32m +#     def _init_(self, session_id=None, zoom_link=None, session_day=None, session_time=None, price=None, booked=None, tutorsin=None, gets_help_in=None):[m
+[32m +#         self.session_id = session_id[m
+[32m +#         self.zoom_link = zoom_link[m
+[32m +#         self.session_day = session_day[m
+[32m +#         self.session_time = session_time[m
+[32m +#         self.price = price[m
+[32m +#         self.booked = booked[m
+[32m +#         self.tutorsin = tutorsin[m
+[32m +#         self.gets_help_in = gets_help_in[m
+[32m +[m
+[32m +#     def __repr__(self):[m
+[32m +#         return '<Session %r>' % (self.model)[m
+[32m +=======[m
+[32m +from sqlalchemy import Column, Integer, String, sql, orm, VARCHAR, Float, BIGINT[m
+[32m +from database import Base[m
+[32m +[m
+[32m +[m
+[32m +class User(Base):[m
+[32m +    __tablename__ = 'User'[m
+[32m +    user_name = Column('username', String(50), primary_key=True)[m
+[32m +    password = Column('password', String(50))[m
+[32m +    email = Column('email', String(50))[m
+[32m +    first_name = Column('first_name', String(50))[m
+[32m +    last_name = Column('last_name', String(50))[m
+[32m +[m
+[32m +    def __init__(self, username=None, password=None, email=None, first_name=None, last_name=None):[m
+[32m +        self.username = username[m
+[32m +        self.password = password[m
+[32m +        self.email = email[m
+[32m +        self.first_name = first_name[m
+[32m +        self.last_name = last_name[m
+[32m +[m
+[32m +    def __repr__(self):[m
+[32m +        return '<User %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +class Tutor(Base):[m
+[32m +    __tablename__ = 'Tutor'[m
+[32m +    username = Column('username', String(50), primary_key=True)[m
+[32m +    phone_number = Column('phone_number', BIGINT())[m
+[32m +    address = Column('address', String(200))[m
+[32m +    location = Column('location', String(50))[m
+[32m +    school = Column('school', String(50))[m
+[32m +    age = Column('age', Integer())[m
+[32m +    venmo = Column('venmo', String(50))[m
+[32m +    bio = Column('bio', String(500))[m
+[32m +    rating = Column('rating', Float())[m
+[32m +    hourly_rate = Column('hourly_rate', Float())[m
+[32m +    grade = Column('grade', String(50))[m
+[32m +[m
+[32m +    def __init__(self, username=None, phone_number=None, address=None, location=None, school=None, age=None, venmo=None, bio=None, rating=None, hourly_rate=None, grade=None):[m
+[32m +        self.username = username[m
+[32m +        self.phone_number = phone_number[m
+[32m +        self.address = address[m
+[32m +        self.location = location[m
+[32m +        self.school = school[m
+[32m +        self.age = age[m
+[32m +        self.venmo = venmo[m
+[32m +        self.bio = bio[m
+[32m +        self.rating = rating[m
+[32m +        self.hourly_rate = hourly_rate[m
+[32m +        self.grade = grade[m
+[32m +[m
+[32m +    def __repr__(self):[m
+[32m +        return '<Tutor %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +class Tuttee(Base):[m
+[32m +    __tablename__ = 'Tuttee'[m
+[32m +    username = Column('username', String(50), primary_key=True)[m
+[32m +    phone_number = Column('phone_number', BIGINT())[m
+[32m +    address = Column('address', String(200))[m
+[32m +    location = Column('location', String(50))[m
+[32m +    school = Column('school', String(50))[m
+[32m +    age = Column('age', Integer())[m
+[32m +    venmo = Column('venmo', String(50))[m
+[32m +    bio = Column('bio', String(500))[m
+[32m +    price_range = Column('price_range', String(50))[m
+[32m +[m
+[32m +    def __init__(self, username=None, phone_number=None, address=None, location=None, school=None, age=None, venmo=None, bio=None, price_range=None):[m
+[32m +        self.username = username[m
+[32m +        self.phone_number = phone_number[m
+[32m +        self.address = address[m
+[32m +        self.location = location[m
+[32m +        self.school = school[m
+[32m +        self.age = age[m
+[32m +        self.venmo = venmo[m
+[32m +        self.bio = bio[m
+[32m +        self.price_range = price_range[m
+[32m +[m
+[32m +    def __repr__(self):[m
+[32m +        return '<Tuttee %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +class CanTutorIn(Base):[m
+[32m +    __tablename__ = 'CanTutorIn'[m
+[32m +    username = Column('username', String(50), primary_key=True)[m
+[32m +    class_id = Column('class_id', String(200))[m
+[32m +    expertise_lvl = Column('expertise_lvl', String(200))[m
+[32m +[m
+[32m +    def _init_(self, username=None, class_id=None, expertise_lvl=None):[m
+[32m +        self.username = username[m
+[32m +        self.class_id = class_id[m
+[32m +        self.expertise_lvl = expertise_lvl[m
+[32m +[m
+[32m +    def __repr__(self):[m
+[32m +        return '<CanTutorIn %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +class Cart(Base):[m
+[32m +    __tablename__ = 'Cart'[m
+[32m +    username = Column('username', String(50), primary_key=True)[m
+[32m +    session_id = Column('session_id', String(200))[m
+[32m +[m
+[32m +    def _init_(self, username=None, session_id=None):[m
+[32m +        self.username = username[m
+[32m +        self.session_id = session_id[m
+[32m +[m
+[32m +    def __repr__(self):[m
+[32m +        return '<Cart %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +class GivesRating(Base):[m
+[32m +    __tablename__ = 'GivesRating'[m
+[32m +    rating_id = Column('rating_id', BIGINT(), primary_key=True)[m
+[32m +    tutor = Column('tutor', String(50))[m
+[32m +    tutee = Column('tutee', String(50))[m
+[32m +    session = Column('session', String(50))[m
+[32m +    subject = Column('subject', String(50))[m
+[32m +    rating_comment = Column('rating_comment', String(500))[m
+[32m +    rating_num = Column('rating_num', Integer())[m
+[32m +[m
+[32m +    def _init_(self, rating_id=None, tutor=None, tutee=None, session=None, subject=None, rating_comment=None, rating_num=None):[m
+[32m +        self.rating_id = rating_id[m
+[32m +        self.tutor = tutor[m
+[32m +        self.tutee = tutee[m
+[32m +        self.session = session[m
+[32m +        self.subject = subject [m
+[32m +        self.rating_comment = rating_comment[m
+[32m +        self.rating_num = rating_num[m
+[32m +[m
+[32m +    def __repr__(self):[m
+[32m +        return '<GivesRating %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +class NeedsHelpWith(Base):[m
+[32m +    __tablename__ = 'NeedsHelpWith'[m
+[32m +    username = Column('username', String(50), primary_key=True)[m
+[32m +    class_id = Column('class_id', String(50))[m
+[32m +[m
+[32m +    def _init_(self, username=None, class_id=None):[m
+[32m +        self.username = username[m
+[32m +        self.class_id = class_id[m
+[32m +[m
+[32m +    def __repr__(self):[m
+[32m +        return '<NeedsHelpWith %r>' % (self.model)[m
+[32m +[m
+[32m +[m
+[32m +class Session(Base):[m
+[32m +    __tablename__ = 'Session'[m
+[32m +    session_id = Column('session_id', BIGINT(), primary_key=True)[m
+[32m +    zoom_link = Column('zoom_link', String(100))[m
+[32m +    session_day = Column('session_day', String(50))[m
+[32m +    session_time = Column('session_time', String(50))[m
+[32m +    price = Column('price', Float())[m
+[32m +    booked = Column('booked', String(100))[m
+[32m +    tutor = Column('tutor', String(50))[m
+[32m +    tutee = Column('tutee', String(50))[m
+[32m +    subject = Column('subject', String(50))[m
+[32m +[m
+[32m +    def _init_(self, session_id=None, zoom_link=None, session_day=None, session_time=None, price=None, booked=None, tutor=None, tutee=None, subject=None):[m
+[32m +        self.session_id = session_id[m
+[32m +        self.zoom_link = zoom_link[m
+[32m +        self.session_day = session_day[m
+[32m +        self.session_time = session_time[m
+[32m +        self.price = price[m
+[32m +        self.booked = booked[m
+[32m +        self.tutor = tutor[m
+[32m +        self.tutee = tutee [m
+[32m +        self.subject = subject[m
+[32m +[m
+[32m +    def __repr__(self):[m
+[32m +        return '<Session %r>' % (self.model)[m
+[32m +>>>>>>> 29ac1d8b9ae95a0ea43482984c0e077a4cc9ffb7[m
+[32m +=======[m
+      def __repr__(self):[m
+          return '<User {}>'.format(self.username)  [m
+[31m -        [m
+[32m++<<<<<<< HEAD[m
+[32m +>>>>>>> d52ce842755054e4c58dc362170161c9402f0844[m
+[32m++=======[m
+[32m++        [m
+[32m++>>>>>>> 35dba9c163cef20d55eb38aa761005efcb338059[m
