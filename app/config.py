@@ -8,7 +8,6 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = True
     DEBUG = True
-    SERVER_NAME=127.0.0.1:5001
 # import os
 # basedir = os.path.abspath(os.path.dirname(__file__))
 
