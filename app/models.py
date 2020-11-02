@@ -421,4 +421,8 @@ class Session(Base):
 =======
     def __repr__(self):
         return '<User {}>'.format(self.username)  
+<<<<<<< HEAD
 >>>>>>> d52ce842755054e4c58dc362170161c9402f0844
+=======
+        
+>>>>>>> 35dba9c163cef20d55eb38aa761005efcb338059
