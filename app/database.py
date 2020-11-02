@@ -3,9 +3,9 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 # mysql://root:21bH1267@vcm-17138.vm.duke.edu/TutorProject
-engine = create_engine(
-    # 'mysql+pymysql://newuser:pass@vcm-17138.vm.duke.edu/tutorwebsite', convert_unicode=True)
-engine = create_engine('mysql+pymysql://root:21bH1267@localhost/tutorwebsite', convert_unicode=True)
+# engine = create_engine(
+#     'mysql+pymysql://newuser:pass@vcm-17138.vm.duke.edu/tutorwebsite', convert_unicode=True)
+engine = create_engine('mysql+pymysql://root:21bH1267@localhost/TutorProject', convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
