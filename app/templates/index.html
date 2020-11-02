@@ -6,3 +6,42 @@
   <li><a href="/search">Search For Session</a></li>
 </ul>
 
+<!-- Top Tutors -->
+<table width=100%>
+  <tr>
+    <th>Tutor</th>
+    <th>Rating</th>
+    <!-- <th>Number of Sessions Held</th> -->
+    <th>Available Classes</th>
+  </tr>
+  {% for tutor in tutors%}
+    <tr>
+      <td> {{ tutor.username }}</td>
+      <td> {{ tutor.rating }}</td>
+      <td> {{ tutor.rating }}</td>
+      <!-- <td> {{ SUM(tutor) }}</td> -->
+      <td> {{ tutor.can_tutor_in }}</td>
+    </tr>  
+  {% endfor %}
+</table>
+
+
+<!-- Upcoming Sessions -->
+<table width=100%>
+  <tr>
+    <th>Day</th>
+    <th>Time</th>
+    <th>Tutor</th>
+    <th>Class</th>
+  </tr> -->
+  <!-- If user is a tutor, show upcoming tutee sessions; if user is a tutee, show upcoming tutor sessions, if both show both -->
+  <!-- Only show sessions they've booked -->
+  {% for session in sessions%}
+    <tr>
+      <td> {{ session.session_day }}</td>
+      <td> {{ session.session_time }}</td>
+      <td> {{ session.tutor }}</td>
+      <td> {{ session.class_id }}</td>
+    </tr>  
+  {% endfor %}
+</table>

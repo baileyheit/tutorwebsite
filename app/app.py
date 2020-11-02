@@ -5,6 +5,7 @@ from database import db_session
 import forms
 from models import User
 from models import Tutor
+from models import CanTutorIn
 from models import Session
 import models
 import uuid
@@ -22,7 +23,12 @@ app.config['TESTING'] = True
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template(
+        'index.html',
+        tutors=Tutor.query.join(
+            CanTutorIn, Tutor.username == CanTutorIn.username).order_by(Tutor.rating).limit(10),
+        sessions=Session.query.all()
+    )
 
 
 @app.route('/tutors')
@@ -59,7 +65,7 @@ def search():
         # sessions=Session.query.join(
         #     ForHelpIn, Session.session_id == ForHelpIn.session_id).all()
         # sessions=Session.query.all()
-        sessions=Session.query.filter(Session.price == price)
+        sessions=Session.query.all(Session.price == price)
         # sessions=Session.query.join(
         #     ForHelpIn, Session.session_id == ForHelpIn.session_id).filter(Session.price == price)
     )
