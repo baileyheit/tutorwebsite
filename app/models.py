@@ -1,21 +1,22 @@
-from datetime import datetime
-from app import db
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    email = db.Column(db.String(120), index=True, unique=True)
-    password_hash = db.Column(db.String(128))
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
+from sqlalchemy import Column, Integer, String, sql, orm, VARCHAR, Float, BIGINT
+from database import Base
+
+
+class User(Base):
+    __tablename__ = 'User'
+    user_name = Column('username', String(50), primary_key=True)
+    password = Column('password', String(50))
+    email = Column('email', String(50))
+    first_name = Column('first_name', String(50))
+    last_name = Column('last_name', String(50))
+
+    def __init__(self, username=None, password=None, email=None, first_name=None, last_name=None):
+        self.username = username
+        self.password = password
+        self.email = email
+        self.first_name = first_name
+        self.last_name = last_name
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
-
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    def __repr__(self):
-        return '<Post {}>'.format(self.body)
+        return '<User %r>' % (self.model)

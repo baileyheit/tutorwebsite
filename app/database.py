@@ -9,8 +9,8 @@ engine = create_engine(
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
-db = declarative_base()
-db.query = db_session.query_property()
+Base = declarative_base()
+Base.query = db_session.query_property()
 
 
 def init_db():
@@ -18,4 +18,4 @@ def init_db():
     # they will be registered properly on the metadata.  Otherwise
     # you will have to import them first before calling init_db()
     import models
-    db.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
