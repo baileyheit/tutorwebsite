@@ -1,15 +1,22 @@
-# #stores database connection information 
-# from flask import Flask
-# import app
-# from flask_sqlalchemy import SQLAlchemy
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))
 
-# app = Flask(__name__)
+class Config(object):
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ECHO = True
+    DEBUG = True
+# import os
+# basedir = os.path.abspath(os.path.dirname(__file__))
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:21bH1267@vcm-17138.vm.duke.edu/TutorProject'
-
-# db = SQLAlchemy(app)
-
-SQLALCHEMY_DATABASE_URI = 'mysql://root:21bH1267@vcm-17138.vm.duke.edu/TutorProject'
-SQLALCHEMY_ECHO = True
-DEBUG = True
-
+# class Config(object):
+#     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+#     SQLALCHEMY_DATABASE_URI = 'mysql://root:21bH1267@vcm-17138.vm.duke.edu/TutorProject'
+#     # SQLALCHEMY_DATABASE_URI = 'mysql://newuser:pass@localhost/tutorwebsite'
+#     # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+#     #     'sqlite:///' + os.path.join(basedir, 'app.db')
+#     SQLALCHEMY_ECHO = True
+#     DEBUG = True
+#     SQLALCHEMY_TRACK_MODIFICATIONS = False
