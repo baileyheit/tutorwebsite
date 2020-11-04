@@ -22,12 +22,38 @@ class User(UserMixin, db.Model):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+
+class Course(db.Model):
+    subject = db.Column(db.String(64), primary_key=True)
+    class_num = db.Column(db.Integer, primary_key=True)
+
+    def __repr__(self):
+        return '<Course {}>'.format(self.subject)
+
+
+class Session(db.Model):
+    zoom_link = db.Column(db.String(120), primary_key=True)
+    date = db.Column(db.DateTime, index=True)
+    price = db.Column(db.Float())
+    tutor = db.Column(db.Integer)
+    tutee = db.Column(db.Integer)
+    subject = db.Column(db.String(64))
+    class_num = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<Session {}>'.format(self.zoom_link)
+    
     
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    booked = db.Column(db.Boolean())
+
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)  
+
+
