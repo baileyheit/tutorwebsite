@@ -3,9 +3,9 @@ from flask import Flask, request, redirect, url_for
 from flask import render_template
 from database import db_session
 import forms
+from models import User
 from models import Tutor
 from models import Session
-from models import ForHelpIn
 import models
 import uuid
 import pdb
@@ -33,29 +33,19 @@ def tutors():
     )
 
 
-@app.route('/add_tutor')
-def add_tutor():
-    user_id = uuid.uuid4().int
-    user_name = request.args.get("name")
-    user_name = request.args.get("password")
-    location = request.args.get("location")
-    school = request.args.get("school")
-    age = request.args.get("age")
-    phone_number = request.args.get("phone_number")
+@app.route('/add_user')
+def add_user():
+    username = request.args.get("username")
+    password = request.args.get("password")
     email = request.args.get("email")
-    address = request.args.get("address")
-    venmo = request.args.get("venmo")
-    bio = request.args.get("bio")
-    rating = 0.0
-    hourly_rate = request.args.get("hourly_rate")
-    grade = request.args.get("grade")
+    first_name = request.args.get("first_name")
+    last_name = request.args.get("last_name")
 
-    tutor = Tutor(phone_number, address, user_name, password, user_id, location,
-                  school, age, email, venmo, bio, rating, hourly_rate, grade)
-    db_session.add(tutor)
+    user = User(username, password, email, first_name, last_name)
+    db_session.add(user)
     db_session.commit()
 
-    return redirect(url_for('tutors'))
+    return redirect(url_for('users'))
 
 
 @app.route('/search')
@@ -69,9 +59,9 @@ def search():
         # sessions=Session.query.join(
         #     ForHelpIn, Session.session_id == ForHelpIn.session_id).all()
         # sessions=Session.query.all()
-        # sessions=Session.query.filter(Session.price == price)
-        sessions=Session.query.join(
-            ForHelpIn, Session.session_id == ForHelpIn.session_id).filter(Session.price == price)
+        sessions=Session.query.filter(Session.price == price)
+        # sessions=Session.query.join(
+        #     ForHelpIn, Session.session_id == ForHelpIn.session_id).filter(Session.price == price)
     )
 
 
