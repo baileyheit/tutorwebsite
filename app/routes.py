@@ -91,3 +91,8 @@ def edit_profile():
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title='Edit Profile',
                            form=form)
+
+@app.route('/search', methods=['GET', 'POST'])
+@login_required
+def search():
+    return render_template('search.html', title='Search')
