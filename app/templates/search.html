@@ -2,4 +2,7 @@
 
 {% block content %}
     <h1>Hi, {{ current_user.username }}!</h1>
+    {% for user in users %}
+    <div><p>{{ user.username }} </p></div>
+    {% endfor %}
 {% endblock %}
