@@ -102,20 +102,5 @@ def edit_profile():
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
-<<<<<<< HEAD
-    username = request.args.get("username")
-    return render_template('search.html', title='Search', users=User.query.filter_by(username=username))
-
-# @app.route('/results')
-# @login_required
-# def results():
-#     username = request.args.get("username")
-#     return render_template('search.html', title='Search', users = User.query.filter_by(username=username).first())
-
-
-
-
-=======
     users = User.query.all()
     return render_template('search.html', title='Search', users=users)
->>>>>>> master
