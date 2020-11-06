@@ -21,7 +21,3 @@ To get into database (be in the VM!):
 pass
 
 Danai's repo: https://gitlab.oit.duke.edu/colab/flask_template/-/tree/master
-
-microblog repo: https://github.com/miguelgrinberg/microblog
-
-our holy bible: https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
