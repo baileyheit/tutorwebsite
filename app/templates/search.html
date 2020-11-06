@@ -2,7 +2,19 @@
 
 {% block content %}
     <h1>Hi, {{ current_user.username }}!</h1>
+
+    <form action="/search">
+        <label for="username">Select Name</label>
+        <input type="text" name="username" />
+
+        <br />
+
+        <input type="submit" />
+    
+    </form>
+
     {% for user in users %}
-    <div><p>{{ user.username }} </p></div>
+    <div><p>{{ user.username }} {{ user.email }}</p></div>
+
     {% endfor %}
 {% endblock %}
