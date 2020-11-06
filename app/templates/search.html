@@ -1,24 +1,8 @@
 {% extends "base.html" %}
 
-<!-- <div><p>{{ user.username }}</p></div> -->
-
-
-
 {% block content %}
-    <h1>Hello, {{ current_user.username }}!</h1>
-
-    <form action="/search">
-        <label for="username">Select Name</label>
-        <input type="text" name="username" />
-        <br />
-    
-        <input type="submit" />
-    </form>
-
+    <h1>Hi, {{ current_user.username }}!</h1>
     {% for user in users %}
-    <div><p>{{ user.username }}</p></div>
+    <div><p>{{ user.username }} </p></div>
     {% endfor %}
 {% endblock %}
-
-
-
