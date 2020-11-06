@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/Users/baileyheit/Desktop/compsci/CS316/tutorwebsite/venv/bin/python3",
+    "python.pythonPath": "/Users/myliewalker/opt/miniconda3/bin/python",
     "python.linting.pylintEnabled": true,
     "python.linting.flake8Enabled": false,
     "python.linting.enabled": true
