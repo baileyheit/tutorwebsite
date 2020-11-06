@@ -5,6 +5,7 @@
 
 
 {% block content %}
+<<<<<<< HEAD
     <h1>Hello, {{ current_user.username }}!</h1>
 
     <form action="/search">
@@ -22,3 +23,10 @@
 
 
 
+=======
+    <h1>Hi, {{ current_user.username }}!</h1>
+    {% for user in users %}
+    <div><p>{{ user.username }} </p></div>
+    {% endfor %}
+{% endblock %}
+>>>>>>> master
