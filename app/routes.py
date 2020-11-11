@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect,  url_for, request
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm, AddSessionForm
 from flask_login import logout_user, login_required, current_user, login_user
-from app.models import User, Session
+from app.models import User, Session, Course
 from werkzeug.urls import url_parse
 from datetime import datetime
 from app.email import send_password_reset_email
@@ -141,12 +141,15 @@ def add_session():
     form = AddSessionForm()
     if form.validate_on_submit():
         session = Session(date=form.date.data, time=form.time.data, price=form.price.data, tutor=current_user.id, subject=form.subject.data, class_number=form.class_number.data)
+        course = Course(subject=form.subject.data, class_number=form.class_number.data, class_name=form.class_name.data)
         db.session.add(session)
-        db.session.commit()
         flash('Congratulations, you have now added a session!')
         if current_user.hourly_rate:
             current_user.hourly_rate = (current_user.hourly_rate + form.price.data)/2
         else:
             current_user.hourly_rate = form.price.data
+        if Course.query.filter_by(subject=form.subject.data, class_number=form.class_number.data):
+            db.session.add(course)
+        db.session.commit()
         return redirect(url_for('index'))
     return render_template('add_session.html', title='Add Session', form=form)

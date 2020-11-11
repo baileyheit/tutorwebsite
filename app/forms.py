@@ -58,4 +58,5 @@ class AddSessionForm(FlaskForm):
     price = FloatField('Price', validators=[DataRequired()])
     subject = StringField('Subject', validators=[DataRequired()])
     class_number = IntegerField('Class Number', validators=[DataRequired()])
+    class_name = StringField('Class Name', validators=[DataRequired()])
     submit = SubmitField('Add Session')
