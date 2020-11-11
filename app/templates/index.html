@@ -7,22 +7,18 @@
     <table width=100%>
     <tr>
       <th>Tutor</th>
-      <th>Username</th>
       <th>Rating</th>
       <th>Grade</th>
       <th>School</th>
       <th>Price</th>
-      <!-- <th>Classes</th> -->
     </tr>
     {% for tutor in tutors%}
       <tr>
         <td> {{ tutor.name }}</td>
-        <td> {{ tutor.username }}</td>
         <td> {{ tutor.rating }}</td>
         <td> {{ tutor.grade }}</td>
         <td> {{ tutor.school }}</td>
         <td> {{ tutor.hourly_rate }}</td>
-        <!-- <td> {{ tutor.classes }}</td> -->
       </tr>  
     {% endfor %}
     </table>
