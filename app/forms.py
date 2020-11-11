@@ -30,6 +30,12 @@ class RegistrationForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
+    name = StringField('Name', validators=[DataRequired()])
+    phone_number = IntegerField('Phone Number')
+    school = StringField('School')
+    venmo = StringField('Venmo')
+    grade = StringField('Grade')
+    hourly_rate = StringField('Hourly Rate')
     submit = SubmitField('Submit')
     
     def __init__(self, original_username, *args, **kwargs):

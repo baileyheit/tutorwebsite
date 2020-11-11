@@ -132,6 +132,7 @@ def reset_password(token):
     return render_template('reset_password.html', form=form)
 
 @app.route('/add_session', methods=['GET', 'POST'])
+@login_required
 def add_session():
     form = AddSessionForm()
     if form.validate_on_submit():
