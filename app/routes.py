@@ -1,29 +1,24 @@
 from flask import render_template, flash, redirect,  url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm, AddSessionForm
 from flask_login import logout_user, login_required, current_user, login_user
-from app.models import User
+from app.models import User, Session, Course
 from werkzeug.urls import url_parse
 from datetime import datetime
 from app.myemail import send_password_reset_email
+# from flask_sqlalchemy import SQLAlchemy
+# import psycopg2
 
+# conn = psycopg2.connect()
+# cur = conn.cursor()
 
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
-    user = {'username': 'Miguel'}
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
-    return render_template('index.html', title='Home', posts=posts)
+    tutors = User.query.order_by(User.rating.desc(), User.grade, User.hourly_rate).limit(10).from_self()
+    # tutors = User.query.join(Session, User.id==Session.tutor).order_by(User.rating.desc(), User.hourly_rate).limit(10).from_self()
+    return render_template('index.html', title='Home', tutors=tutors)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -135,3 +130,21 @@ def reset_password(token):
         flash('Your password has been reset.')
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
+
+@app.route('/add_session', methods=['GET', 'POST'])
+def add_session():
+    form = AddSessionForm()
+    if form.validate_on_submit():
+        session = Session(zoom_link=form.zoom_link.data, date=form.date.data.strftime("%m/%d/%Y"), time=form.time.data.strftime("%H:%M"), price=form.price.data, tutor=current_user.id, subject=form.subject.data, class_number=form.class_number.data)
+        course = Course(subject=form.subject.data, class_num=form.class_number.data, class_name=form.class_name.data)
+        db.session.add(session)
+        flash('Congratulations, you have now added a session!')
+        if current_user.hourly_rate:
+            current_user.hourly_rate = (current_user.hourly_rate + form.price.data)/2
+        else:
+            current_user.hourly_rate = form.price.data
+        if Course.query.filter_by(subject=form.subject.data, class_num=form.class_number.data):
+            db.session.add(course)
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('add_session.html', title='Add Session', form=form)

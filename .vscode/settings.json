@@ -1,9 +1,13 @@
 {
 <<<<<<< HEAD
+    "python.pythonPath": "/Users/myliewalker/opt/miniconda3/bin/python",
+=======
+<<<<<<< HEAD
     "python.pythonPath": "/usr/local/bin/python3",
 =======
     "python.pythonPath": "/Users/myliewalker/opt/miniconda3/bin/python",
 >>>>>>> 2ed58e9e29986cc6a6d3b6acf886d53744d0c3bb
+>>>>>>> 460fbf67d09875b5d7a34ad4962997ab6716ad18
     "python.linting.pylintEnabled": true,
     "python.linting.flake8Enabled": false,
     "python.linting.enabled": true

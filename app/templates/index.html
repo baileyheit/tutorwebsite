@@ -1,8 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
-    {% for post in posts %}
-    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
+    <h1>Home Page</h1>
+
+    <h2>Most Popular Tutors</h2>
+    <table width=100%>
+    <tr>
+      <th>Tutor</th>
+      <th>Rating</th>
+      <th>Grade</th>
+      <th>School</th>
+      <th>Price</th>
+    </tr>
+    {% for tutor in tutors%}
+      <tr>
+        <td> {{ tutor.name }}</td>
+        <td> {{ tutor.rating }}</td>
+        <td> {{ tutor.grade }}</td>
+        <td> {{ tutor.school }}</td>
+        <td> {{ tutor.hourly_rate }}</td>
+      </tr>  
     {% endfor %}
+    </table>
 {% endblock %}

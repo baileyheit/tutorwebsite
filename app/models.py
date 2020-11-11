@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date, time
 from app import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -75,7 +75,7 @@ class Session(db.Model):
     tutor = db.Column(db.Integer, db.ForeignKey('user.id'))
     tutee = db.Column(db.Integer, db.ForeignKey('user.id'))
     subject = db.Column(db.String(64))
-    class_num = db.Column(db.Integer)
+    class_number = db.Column(db.Integer)
 
     def __repr__(self):
         return '<Session {}>'.format(self.zoom_link)
