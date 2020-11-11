@@ -59,4 +59,5 @@ class AddSessionForm(FlaskForm):
     subject = StringField('Subject', validators=[DataRequired()])
     class_number = IntegerField('Class Number', validators=[DataRequired()])
     class_name = StringField('Class Name', validators=[DataRequired()])
+    zoom_link = StringField('Zoom Link', validators=[DataRequired()])
     submit = SubmitField('Add Session')

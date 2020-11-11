@@ -6,23 +6,18 @@ from app.models import User, Session, Course
 from werkzeug.urls import url_parse
 from datetime import datetime
 from app.myemail import send_password_reset_email
+# from flask_sqlalchemy import SQLAlchemy
+# import psycopg2
 
+# conn = psycopg2.connect()
+# cur = conn.cursor()
 
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
-    tutors="""
-    SELECT Users.username AS username, Users.rating AS rating, Users.hourly_rate AS hourly_rate, STRING_AGG(Sessions.subject) AS classes
-    FROM Users
-    INNER JOIN Sessions
-    ON Users.id=Sessions.tutor
-    WHERE
-        Users.rating IS NOT NULL
-    GROUP BY Users.uid
-    ORDER BY Users.rating
-    LIMIT 10
-    """
+    tutors = User.query.order_by(User.rating.desc(), User.grade, User.hourly_rate).limit(10).from_self()
+    # tutors = User.query.join(Session, User.id==Session.tutor).order_by(User.rating.desc(), User.hourly_rate).limit(10).from_self()
     return render_template('index.html', title='Home', tutors=tutors)
 
 
@@ -140,15 +135,15 @@ def reset_password(token):
 def add_session():
     form = AddSessionForm()
     if form.validate_on_submit():
-        session = Session(date=form.date.data.strftime("%m/%d/%Y"), time=form.time.data.strftime("%H:%M"), price=form.price.data, tutor=current_user.id, subject=form.subject.data, class_number=form.class_number.data)
-        course = Course(subject=form.subject.data, class_number=form.class_number.data, class_name=form.class_name.data)
+        session = Session(zoom_link=form.zoom_link.data, date=form.date.data.strftime("%m/%d/%Y"), time=form.time.data.strftime("%H:%M"), price=form.price.data, tutor=current_user.id, subject=form.subject.data, class_number=form.class_number.data)
+        course = Course(subject=form.subject.data, class_num=form.class_number.data, class_name=form.class_name.data)
         db.session.add(session)
         flash('Congratulations, you have now added a session!')
         if current_user.hourly_rate:
             current_user.hourly_rate = (current_user.hourly_rate + form.price.data)/2
         else:
             current_user.hourly_rate = form.price.data
-        if Course.query.filter_by(subject=form.subject.data, class_number=form.class_number.data):
+        if Course.query.filter_by(subject=form.subject.data, class_num=form.class_number.data):
             db.session.add(course)
         db.session.commit()
         return redirect(url_for('index'))
