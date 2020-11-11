@@ -140,7 +140,7 @@ def reset_password(token):
 def add_session():
     form = AddSessionForm()
     if form.validate_on_submit():
-        session = Session(date=form.date.data, time=form.time.data, price=form.price.data, tutor=current_user.id, subject=form.subject.data, class_number=form.class_number.data)
+        session = Session(date=form.date.data.strftime("%m/%d/%Y"), time=form.time.data.strftime("%H:%M"), price=form.price.data, tutor=current_user.id, subject=form.subject.data, class_number=form.class_number.data)
         course = Course(subject=form.subject.data, class_number=form.class_number.data, class_name=form.class_name.data)
         db.session.add(session)
         flash('Congratulations, you have now added a session!')
