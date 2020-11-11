@@ -135,3 +135,13 @@ def reset_password(token):
         flash('Your password has been reset.')
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
+    
+@app.route('/upcoming_sessions', methods=['GET', 'POST'])
+def upcoming_sessions():
+        user_id = request.args.get('id')
+        return render_template('upcoming_sessions.html', title='Upcoming Sessions', user=User.query.filter_by(id = user_id))
+        
+@app.route('/past_sessions', methods=['GET', 'POST'])
+def past_sessions():
+    user_id = request.args.get('id')
+    return render_template('upcoming_sessions.html', title='Past Sessions', user=User.query.filter_by(id = user_id))

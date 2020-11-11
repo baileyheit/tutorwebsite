@@ -1,0 +1,19 @@
+<table width=100%>
+	<tr>
+		<th>Day</th>
+		<th>Time</th>
+		<th>Tutor</th>
+		<th>Class</th>
+	</tr> -->
+	{% for session in sessions%}
+		{% if session.tutor == user || session.tutee == user}
+			<tr>
+				<td> {{session.session_day}}</td>
+				<td> {{session.session_time}}</td>
+				<td> {{session.tutor}}</td>
+				<td> {{session.tutee}}</td>
+				<td> {{session.class_id}}</td>
+			</tr>
+		{% endif %}
+	{% endfor %}
+</table>
