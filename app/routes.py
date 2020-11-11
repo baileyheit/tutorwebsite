@@ -94,12 +94,39 @@ def edit_profile():
     return render_template('edit_profile.html', title='Edit Profile',
                            form=form)
 
-
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
-    username = request.args.get('username')
-    return render_template('search.html', title='Search', users=User.query.filter_by(username=username))
+    sessions = Session.query.join(User, Session.tutor == User.id).add_columns(
+        User.username, Session.subject, Session.class_number, Session.price, Session.tutor, Session.date, Session.time, User.name).all()
+    courses = Session.query.with_entities(Session.subject).distinct()
+    return render_template('search.html', title='Search', sessions = sessions, courses=courses)
+
+
+@app.route('/results', methods=['GET', 'POST'])
+@login_required
+def results():
+    subject = request.args.get('subject')
+    searchprice = request.args.get('price')
+    tutor = request.args.get('tutor')
+
+    # allSessions = Session.query.all()
+
+    # if searchprice:
+    #      q1=Session.query.filter(Session.price <= searchprice).order_by(Session.price.asc())
+
+    # else:
+    #     q1=Session.query.all()
+
+    # sessions = allSessions.intersect(q1)
+    sessions=Session.query.filter(Session.subject==subject, Session.price <= searchprice).order_by(Session.price.asc())
+    return render_template('results.html', title='Results', sessions=sessions)
+
+@app.route('/add_to_cart/<session_id>', methods=['GET', 'POST'])
+@login_required
+def add_to_cart(session_id):
+    return redirect(url_for('search'))
+
 
 @app.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():

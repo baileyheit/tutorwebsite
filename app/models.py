@@ -83,7 +83,7 @@ class Session(db.Model):
 class Cart(db.Model):
     id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     sessions = db.Column(db.String(500))
-
+ 
     def __repr__(self):
         return '<Cart {}>'.format(self.id)
 

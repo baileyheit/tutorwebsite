@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+    <table width=100%>
+        <tr>
+          <th>Course</th>       
+          <th>Price</th>
+      
+        </tr>
+        {% for session in sessions %}
+          <tr>
+            <td> {{ session.subject }} {{session.class_number }}</td>
+            <td> {{ session.price }}</td>
+            
+
+            <td>
+                <a href="{{ url_for('add_to_cart', session_id=session.tutor ) }}">Add to Cart</a>
+              
+            </td>
+            
+          </tr>  
+        {% endfor %}
+      </table>
+{% endblock %}

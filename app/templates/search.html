@@ -1,20 +1,70 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
+    <h1>Search for a Session:</h1>
 
-    <form action="/search">
-        <label for="username">Select Name</label>
+    <form action="/results">
+
+        <label for="tutor">Tutor:</label>
+        <input list="tutor" name="tutor" id="tutor">
+
+        <datalist id="tutor">
+            {% for session in sessions %}
+                <option value = {{ session.username }}>
+            {% endfor %}
+        </datalist>
+
+        <!-- <label for="subject">Subject:</label>
+        <select name="subject" id="subject">
+            {% for course in courses %}
+                <option value={{ course.subject }}>{{ course.subject }}</option>
+            {% endfor %}
+
+        </select> -->
+
+        <label>Subject:</label>
+        <input type="text" name="subject" />
+
+        <label>Price Less Than:</label>
+        <input type="number" step="0.01" name="price" />
+
+
+
+        <!-- <label for="username">Select Name</label>
         <input type="text" name="username" />
 
         <br />
 
-        <input type="submit" />
+        <label for="email">Select an email</label>
+        <select name="email" id="email">
+            {% for user in users %}
+                <option>{{ user.email }}</option>
+            {% endfor %}
+
+        </select> -->
+        <input type="submit" value="Search"/>
+        <br />
     
     </form>
 
-    {% for user in users %}
-    <div><p>{{ user.username }} {{ user.email }}</p></div>
+    <h1>All Sessions:</h1>
 
-    {% endfor %}
+    <table width=100%>
+        <tr>
+          <th>Tutor</th>
+          <th>Course</th>
+          <th>Name</th>
+          <th>Price</th>
+      
+        </tr>
+        {% for session in sessions %}
+          <tr>
+            <td> {{ session.username }}</td>
+            <td> {{ session.subject }} {{ session.class_num }}</td>
+            <td> {{ session.name }}</td>
+            <td> {{ session.price }}</td>
+
+          </tr>  
+        {% endfor %}
+    </table>
 {% endblock %}
