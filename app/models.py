@@ -21,6 +21,7 @@ class User(UserMixin, db.Model):
     rating = db.Column(db.Float())
     hourly_rate = db.Column(db.Float())
     grade = db.Column(db.String(128))
+    price_range = db.Column(db.Float())
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -62,17 +63,17 @@ class Course(db.Model):
 
 
     def __repr__(self):
-        return '<Course {}>'.format(self.subject)
+        return '<Course {}>'.format(self.class_name)
 
 
 class Session(db.Model):
     zoom_link = db.Column(db.String(120), primary_key=True)
-    date = db.Column(db.DateTime, index=True)
+    date = db.Column(db.String(120))
     time = db.Column(db.String(120))
     price = db.Column(db.Float())
     booked = db.Column(db.String(120))
-    tutor = db.Column(db.Integer)
-    tutee = db.Column(db.Integer)
+    tutor = db.Column(db.Integer, db.ForeignKey('user.id'))
+    tutee = db.Column(db.Integer, db.ForeignKey('user.id'))
     subject = db.Column(db.String(64))
     class_num = db.Column(db.Integer)
 
@@ -80,10 +81,21 @@ class Session(db.Model):
         return '<Session {}>'.format(self.zoom_link)
 
 class Cart(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     sessions = db.Column(db.String(500))
 
     def __repr__(self):
-        return '<Cart {}>'.format(self.body)  
+        return '<Cart {}>'.format(self.id)
 
+class Rating(db.Model):
+    rating_id = db.Column(db.Integer, primary_key=True)
+    tutor = db.Column(db.Integer, db.ForeignKey('user.id'))
+    tutee = db.Column(db.Integer, db.ForeignKey('user.id'))
+    session = db.Column(db.String(120))
+    subject = db.Column(db.String(64))
+    class_num = db.Column(db.Integer)
+    comment = db.Column(db.String(500))
+    rating_num = db.Column(db.Integer)
 
+    def __repr__(self):
+        return '<Rating {}>'.format(self.rating_id)

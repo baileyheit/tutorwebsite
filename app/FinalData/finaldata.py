@@ -17,6 +17,12 @@ sessions = {}
 classes = {}
 ratings = {}
 
+uids = []
+usernames = []
+emails = []
+zoom_links = []
+rids = []
+
 
 # Create phone numbers: xxx-xxx-xxxx
 def create_digits(n):
@@ -29,11 +35,22 @@ def create_digits(n):
 # Create 1000 users
 for i in range(1000):
     username = user.simple_profile()['username']
+    while username in usernames:
+        username = user.simple_profile()['username']
+    usernames.append(username)
+    email = user.free_email()
+    while email in emails:
+        email = user.free_email()
+    emails.append(email)
     uid = uuid.uuid4().int & (1<<32)-1
+    while uid in uids:
+        uid = uuid.uuid4().int & (1<<32)-1
+    uids.append(uid)
+    
     users[uid] = {
         'id': uid,
-        'username': user.simple_profile()['username'],
-        'email': user.free_email(),
+        'username': username,
+        'email': email,
         'password_hash': str(create_digits(8)),
         'name': user.name(),
         'phone_number': create_digits(10),
@@ -65,7 +82,7 @@ for i in range(1000):
 # Class list
 cids = []
 for i in range(0, 46):
-    cids.append(uuid.uuid4().int & (1<<32)-1) 
+    cids.append(uuid.uuid4().int & (1<<32)-1)
 classes[cids[0]] = {'subject': 'computer science', 'number': 101, 'class_name': 'Introduction to Computer Science'}
 classes[cids[1]] = {'subject': 'computer science', 'number': 201, 'class_name': 'Data Structures and Algorithms'}
 classes[cids[2]] = {'subject': 'computer science', 'number': 230, 'class_name': 'Discrete Math for Computer Science'}
@@ -129,6 +146,9 @@ for i in range(500):
     
     cid = random.choice(list(classes.keys()))
     zoom_link = user.numerify(text='https://us02web.zoom.us/j/###########?')
+    while zoom_link in zoom_links:
+        zoom_link = user.numerify(text='https://us02web.zoom.us/j/###########?')
+    zoom_links.append(zoom_link)
 
     price = round(user.random_int(min=0, max=50) + create_digits(2)/100, 2)
     if tutor['hourly_rate'] is not None:
@@ -163,6 +183,10 @@ for i in range(500):
     # Give a rating
     if random.choice([True, False]):
         rid = uuid.uuid4().int & (1<<32)-1
+        while rid in rids:
+            rid = uuid.uuid4().int & (1<<32)-1
+        rids.append(rid)
+
         ratings[rid] = {
             'rating_id': rid,
             'tutor': tutor_uid,
