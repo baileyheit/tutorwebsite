@@ -16,15 +16,12 @@ cart = {}
 sessions = {}
 classes = {}
 ratings = {}
-<<<<<<< HEAD
-=======
 
 uids = []
 usernames = []
 emails = []
 zoom_links = []
 rids = []
->>>>>>> 460fbf67d09875b5d7a34ad4962997ab6716ad18
 
 
 # Create phone numbers: xxx-xxx-xxxx
@@ -38,13 +35,6 @@ def create_digits(n):
 # Create 1000 users
 for i in range(1000):
     username = user.simple_profile()['username']
-<<<<<<< HEAD
-    uid = uuid.uuid4().int
-    users[uid] = {
-        'id': uid,
-        'username': user.simple_profile()['username'],
-        'email': user.free_email(),
-=======
     while username in usernames:
         username = user.simple_profile()['username']
     usernames.append(username)
@@ -61,7 +51,6 @@ for i in range(1000):
         'id': uid,
         'username': username,
         'email': email,
->>>>>>> 460fbf67d09875b5d7a34ad4962997ab6716ad18
         'password_hash': str(create_digits(8)),
         'name': user.name(),
         'phone_number': create_digits(10),
@@ -157,12 +146,9 @@ for i in range(500):
     
     cid = random.choice(list(classes.keys()))
     zoom_link = user.numerify(text='https://us02web.zoom.us/j/###########?')
-<<<<<<< HEAD
-=======
     while zoom_link in zoom_links:
         zoom_link = user.numerify(text='https://us02web.zoom.us/j/###########?')
     zoom_links.append(zoom_link)
->>>>>>> 460fbf67d09875b5d7a34ad4962997ab6716ad18
 
     price = round(user.random_int(min=0, max=50) + create_digits(2)/100, 2)
     if tutor['hourly_rate'] is not None:
@@ -197,13 +183,10 @@ for i in range(500):
     # Give a rating
     if random.choice([True, False]):
         rid = uuid.uuid4().int
-<<<<<<< HEAD
-=======
         while rid in rids:
             rid = uuid.uuid4().int
         rids.append(rid)
 
->>>>>>> 460fbf67d09875b5d7a34ad4962997ab6716ad18
         ratings[rid] = {
             'rating_id': rid,
             'tutor': tutor_uid,

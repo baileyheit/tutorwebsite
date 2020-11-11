@@ -68,13 +68,8 @@ class Course(db.Model):
 
 class Session(db.Model):
     zoom_link = db.Column(db.String(120), primary_key=True)
-<<<<<<< HEAD
-    date = db.Column(db.Date, index=True)
-    time = db.Column(db.Time)
-=======
     date = db.Column(db.String(120))
     time = db.Column(db.String(120))
->>>>>>> 460fbf67d09875b5d7a34ad4962997ab6716ad18
     price = db.Column(db.Float())
     booked = db.Column(db.String(120))
     tutor = db.Column(db.Integer, db.ForeignKey('user.id'))
