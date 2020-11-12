@@ -139,12 +139,16 @@ def my_sessions():
 @app.route('/upcoming_sessions', methods=['GET', 'POST'])
 @login_required
 def upcoming_sessions():
-        return render_template('upcoming_sessions.html', title='Upcoming Sessions', user=current_user.id)
+        user_id = current_user.id
+        sessions = Session.query.filter_by((tutor == user_id or tutee == user_id) and datetime(date, time) > datetime(date.today(), datetime.min.time()))
+        return render_template('upcoming_sessions.html', title='Upcoming Sessions', sessions = sessions)
         
 @app.route('/past_sessions', methods=['GET', 'POST'])
 @login_required
 def past_sessions():
-    return render_template('upcoming_sessions.html', title='Past Sessions', user=current_user.id)
+    user_id = current_user.id
+    sessions = Session.query.filter_by((tutor == user_id or tutee == user_id) and datetime(date, time) < datetime(date.today(), datetime.min.time()))
+    return render_template('upcoming_sessions.html', title='Past Sessions', user=user_id)
 
 @app.route('/add_session', methods=['GET', 'POST'])
 @login_required
