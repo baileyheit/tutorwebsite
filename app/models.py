@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date, time
 from app import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -12,9 +12,16 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
-    about_me = db.Column(db.String(140))
+    name = db.Column(db.String(128))
+    phone_number = db.Column(db.Integer)
+    school = db.Column(db.String(128))
+    venmo = db.Column(db.String(128))
+    about_me = db.Column(db.String(500))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    rating = db.Column(db.Float())
+    hourly_rate = db.Column(db.Float())
+    grade = db.Column(db.String(128))
+    price_range = db.Column(db.Float())
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -50,35 +57,45 @@ def load_user(id):
 
 
 class Course(db.Model):
-    subject = db.Column(db.String(64), primary_key=True)
-    class_num = db.Column(db.Integer, primary_key=True)
+    subject = db.Column(db.String(64))
+    class_num = db.Column(db.Integer)
+    class_name = db.Column(db.String(200), primary_key=True)
+
 
     def __repr__(self):
-        return '<Course {}>'.format(self.subject)
+        return '<Course {}>'.format(self.class_name)
 
 
 class Session(db.Model):
     zoom_link = db.Column(db.String(120), primary_key=True)
-    date = db.Column(db.DateTime, index=True)
+    date = db.Column(db.String(120))
+    time = db.Column(db.String(120))
     price = db.Column(db.Float())
-    tutor = db.Column(db.Integer)
-    tutee = db.Column(db.Integer)
+    booked = db.Column(db.String(120))
+    tutor = db.Column(db.Integer, db.ForeignKey('user.id'))
+    tutee = db.Column(db.Integer, db.ForeignKey('user.id'))
     subject = db.Column(db.String(64))
-    class_num = db.Column(db.Integer)
+    class_number = db.Column(db.Integer)
 
     def __repr__(self):
         return '<Session {}>'.format(self.zoom_link)
-    
-    
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    booked = db.Column(db.Boolean())
 
+class Cart(db.Model):
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    sessions = db.Column(db.String(500))
 
     def __repr__(self):
-        return '<Post {}>'.format(self.body)  
+        return '<Cart {}>'.format(self.id)
 
+class Rating(db.Model):
+    rating_id = db.Column(db.Integer, primary_key=True)
+    tutor = db.Column(db.Integer, db.ForeignKey('user.id'))
+    tutee = db.Column(db.Integer, db.ForeignKey('user.id'))
+    session = db.Column(db.String(120))
+    subject = db.Column(db.String(64))
+    class_num = db.Column(db.Integer)
+    comment = db.Column(db.String(500))
+    rating_num = db.Column(db.Integer)
 
+    def __repr__(self):
+        return '<Rating {}>'.format(self.rating_id)

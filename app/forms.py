@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, DateField, TimeField, FloatField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import User
 
@@ -30,6 +30,12 @@ class RegistrationForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
+    name = StringField('Name', validators=[DataRequired()])
+    phone_number = IntegerField('Phone Number')
+    school = StringField('School')
+    venmo = StringField('Venmo')
+    grade = StringField('Grade')
+    hourly_rate = StringField('Hourly Rate')
     submit = SubmitField('Submit')
     
     def __init__(self, original_username, *args, **kwargs):
@@ -51,3 +57,13 @@ class ResetPasswordForm(FlaskForm):
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Request Password Reset')
+
+class AddSessionForm(FlaskForm):
+    date = DateField('Day (YYYY-MM-DD)', validators=[DataRequired()])
+    time = TimeField('Time (H:M)', validators=[DataRequired()])
+    price = FloatField('Price', validators=[DataRequired()])
+    subject = StringField('Subject', validators=[DataRequired()])
+    class_number = IntegerField('Class Number', validators=[DataRequired()])
+    class_name = StringField('Class Name', validators=[DataRequired()])
+    zoom_link = StringField('Zoom Link', validators=[DataRequired()])
+    submit = SubmitField('Add Session')
