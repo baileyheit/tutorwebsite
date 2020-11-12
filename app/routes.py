@@ -131,17 +131,20 @@ def reset_password(token):
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
     
+@app.route('/my_sessions')
+@login_required
+def my_sessions():
+    return render_template('sessions.html', title='Sessions')
+    
 @app.route('/upcoming_sessions', methods=['GET', 'POST'])
 @login_required
 def upcoming_sessions():
-        user_id = request.args.get('id')
-        return render_template('upcoming_sessions.html', title='Upcoming Sessions', user=User.query.filter_by(id = user_id))
+        return render_template('upcoming_sessions.html', title='Upcoming Sessions', user=current_user.id)
         
 @app.route('/past_sessions', methods=['GET', 'POST'])
 @login_required
 def past_sessions():
-    user_id = request.args.get('id')
-    return render_template('upcoming_sessions.html', title='Past Sessions', user=User.query.filter_by(id = user_id))
+    return render_template('upcoming_sessions.html', title='Past Sessions', user=current_user.id)
 
 @app.route('/add_session', methods=['GET', 'POST'])
 @login_required
