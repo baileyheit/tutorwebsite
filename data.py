@@ -4,10 +4,10 @@ import random
 from random import randint
 import uuid
 from datetime import datetime
-# import mysql.connector
+import mysql.connector
 
-# cnx = mysql.connector.connect(user='root', database='TutorProject')
-# cursor = cnx.cursor()
+cnx = mysql.connector.connect(user='root', database='TutorProject')
+cursor = cnx.cursor()
 
 user = Factory.create()
 
@@ -22,6 +22,7 @@ usernames = []
 emails = []
 sids = []
 rids = []
+cids = []
 
 
 # Create phone numbers: xxx-xxx-xxxx
@@ -167,9 +168,14 @@ for i in range(500):
     if not booked:
         if randint(0, 1) == 1:
             u = random.choice(list(users.values()))['id']
+            cid = uuid.uuid4().int
             while u == tutor_uid:
                 u = random.choice(list(users.values()))['id']
-            cart[sid] = {
+            while cid in cids:
+                cid = uuid.uuid4().int
+            cids.append(cid)
+            cart[cid] = {
+                'cart_id': cid,
                 'session_id': sid,
                 'user': u
             }
