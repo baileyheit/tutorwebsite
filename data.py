@@ -4,10 +4,10 @@ import random
 from random import randint
 import uuid
 from datetime import datetime
-import mysql.connector
+# import mysql.connector
 
-cnx = mysql.connector.connect(user='root', database='TutorProject')
-cursor = cnx.cursor()
+# cnx = mysql.connector.connect(user='root', database='TutorProject')
+# cursor = cnx.cursor()
 
 user = Factory.create()
 
@@ -20,7 +20,7 @@ ratings = {}
 uids = []
 usernames = []
 emails = []
-zoom_links = []
+sids = []
 rids = []
 
 
@@ -63,11 +63,6 @@ for i in range(1000):
         'rating': None,
         'grade': None,
         'price_range': None
-    }
-    
-    cart[uid] = {
-        'id': uid,
-        'sessions': None
     }
     
     choice = randint(0, 3)
@@ -145,10 +140,10 @@ for i in range(500):
         booked = False
     
     cid = random.choice(list(classes.keys()))
-    zoom_link = user.numerify(text='https://us02web.zoom.us/j/###########?')
-    while zoom_link in zoom_links:
-        zoom_link = user.numerify(text='https://us02web.zoom.us/j/###########?')
-    zoom_links.append(zoom_link)
+    sid = uuid.uuid4().int
+    while sid in sids:
+        sid = uuid.uuid4().int
+    sids.append(sid)
 
     price = round(user.random_int(min=0, max=50) + create_digits(2)/100, 2)
     if tutor['hourly_rate'] is not None:
@@ -156,8 +151,9 @@ for i in range(500):
     elif booked and tutee['price_range'] is not None:
         price = tutee['hourly_rate']
 
-    sessions[zoom_link] = {
-        'zoom_link': zoom_link,
+    sessions[sid] = {
+        'session_id': sid,
+        'zoom_link': user.numerify(text='https://us02web.zoom.us/j/###########?'),
         'date': user.future_date(end_date='+30d', tzinfo=None),
         'time': user.time(),
         'price': price,
@@ -169,16 +165,15 @@ for i in range(500):
     }
 
     if not booked:
+        if randint(0, 1) == 1:
+            u = random.choice(list(users.values()))['id']
+            while u == tutor_uid:
+                u = random.choice(list(users.values()))['id']
+            cart[sid] = {
+                'session_id': sid,
+                'user': u
+            }
         continue
-    
-    # Add to cart
-    if cart[tutee_uid]['sessions']:
-        cart[tutee_uid]['sessions'].append(zoom_link)
-    else:
-        cart[tutee_uid] = {
-            'id': tutee_uid,
-            'sessions': [zoom_link]
-        }
     
     # Give a rating
     if random.choice([True, False]):
@@ -191,7 +186,7 @@ for i in range(500):
             'rating_id': rid,
             'tutor': tutor_uid,
             'tutee': tutee_uid,
-            'session': zoom_link,
+            'session': sid,
             'subject': classes[cid]['subject'],
             'class_num': classes[cid]['number'],
             'comment': user.text(),
