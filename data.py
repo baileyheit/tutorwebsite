@@ -43,9 +43,9 @@ for i in range(1000):
     while email in emails:
         email = user.free_email()
     emails.append(email)
-    uid = uuid.uuid4().int
+    uid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1 & (1<<32)-1 
     while uid in uids:
-        uid = uuid.uuid4().int
+        uid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
     uids.append(uid)
     
     users[uid] = {
@@ -78,7 +78,7 @@ for i in range(1000):
 # Class list
 cids = []
 for i in range(0, 46):
-    cids.append(uuid.uuid4().int)
+    cids.append(uuid.uuid4().int & (1<<32)-1 & (1<<32)-1)
 classes[cids[0]] = {'subject': 'computer science', 'number': 101, 'class_name': 'Introduction to Computer Science'}
 classes[cids[1]] = {'subject': 'computer science', 'number': 201, 'class_name': 'Data Structures and Algorithms'}
 classes[cids[2]] = {'subject': 'computer science', 'number': 230, 'class_name': 'Discrete Math for Computer Science'}
@@ -141,9 +141,9 @@ for i in range(500):
         booked = False
     
     cid = random.choice(list(classes.keys()))
-    sid = uuid.uuid4().int
+    sid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
     while sid in sids:
-        sid = uuid.uuid4().int
+        sid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
     sids.append(sid)
 
     price = round(user.random_int(min=0, max=50) + create_digits(2)/100, 2)
@@ -168,11 +168,11 @@ for i in range(500):
     if not booked:
         if randint(0, 1) == 1:
             u = random.choice(list(users.values()))['id']
-            cid = uuid.uuid4().int
+            cid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
             while u == tutor_uid:
                 u = random.choice(list(users.values()))['id']
             while cid in cids:
-                cid = uuid.uuid4().int
+                cid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
             cids.append(cid)
             cart[cid] = {
                 'cart_id': cid,
@@ -183,9 +183,9 @@ for i in range(500):
     
     # Give a rating
     if random.choice([True, False]):
-        rid = uuid.uuid4().int
+        rid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
         while rid in rids:
-            rid = uuid.uuid4().int
+            rid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
         rids.append(rid)
 
         ratings[rid] = {
