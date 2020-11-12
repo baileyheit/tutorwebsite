@@ -134,7 +134,7 @@ def reset_password(token):
 @app.route('/my_sessions', methods=['GET', 'POST'])
 @login_required
 def my_sessions():
-    return render_template('sessions.html', title='Sessions')
+    return render_template('my_sessions.html', title='Sessions')
 
 @app.route('/upcoming_sessions', methods=['GET', 'POST'])
 @login_required
