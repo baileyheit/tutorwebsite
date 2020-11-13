@@ -6,6 +6,7 @@ from app.models import User, Session, Course
 from werkzeug.urls import url_parse
 from datetime import datetime, date
 from app.myemail import send_password_reset_email
+from dateutil.parser import parse
 # from flask_sqlalchemy import SQLAlchemy
 # import psycopg2
 
@@ -139,15 +140,16 @@ def my_sessions():
 @app.route('/upcoming_sessions', methods=['GET', 'POST'])
 @login_required
 def upcoming_sessions():
-        user_id = current_user.id
-        sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id), Session.date >= date.today())
-        return render_template('upcoming_sessions.html', title='Upcoming Sessions', sessions = sessions)
+    user_id = current_user.id
+    # sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id)).order_by(Session.date)
+    sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id), Session.date >= datetime.strftime(date.today(), '%m/%d/%Y'))
+    return render_template('upcoming_sessions.html', title='Upcoming Sessions', sessions = sessions)
 
 @app.route('/past_sessions', methods=['GET', 'POST'])
 @login_required
 def past_sessions():
     user_id = current_user.id
-    sessions = Session.query.filter(((Session.tutor==user_id) | (Session.tutee==user_id)), Session.date <= date.today())
+    sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id), Session.date <= datetime.strftime(date.today(), '%m/%d/%Y'))
     return render_template('past_sessions.html', title='Past Sessions', sessions = sessions)
 
 @app.route('/add_session', methods=['GET', 'POST'])
@@ -155,7 +157,7 @@ def past_sessions():
 def add_session():
     form = AddSessionForm()
     if form.validate_on_submit():
-        session = Session(zoom_link=form.zoom_link.data, date=form.date.data.strftime("%m/%d/%Y"), time=form.time.data.strftime("%H:%M"), price=form.price.data, tutor=current_user.id, subject=form.subject.data, class_number=form.class_number.data)
+        session = Session(zoom_link=form.zoom_link.data, date=form.date.data.strftime("%m/%d/%Y"), time=form.time.data.strftime("%H:%M"), price=form.price.data, tutor=current_user.id, subject=form.subject.data, class_num=form.class_number.data)
         course = Course(subject=form.subject.data, class_num=form.class_number.data, class_name=form.class_name.data)
         db.session.add(session)
         flash('Congratulations, you have now added a session!')
