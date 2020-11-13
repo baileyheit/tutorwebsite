@@ -130,6 +130,25 @@ def reset_password(token):
         flash('Your password has been reset.')
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
+    
+@app.route('/my_sessions')
+@login_required
+def my_sessions():
+    return render_template('sessions.html', title='Sessions')
+
+@app.route('/upcoming_sessions', methods=['GET', 'POST'])
+@login_required
+def upcoming_sessions():
+        user_id = current_user.id
+        sessions = Session.query.filter_by((tutor == user_id or tutee == user_id) and datetime(date, time) > datetime(date.today(), datetime.min.time()))
+        return render_template('upcoming_sessions.html', title='Upcoming Sessions', sessions = sessions)
+
+@app.route('/past_sessions', methods=['GET', 'POST'])
+@login_required
+def past_sessions():
+    user_id = current_user.id
+    sessions = Session.query.filter_by((tutor == user_id or tutee == user_id) and datetime(date, time) < datetime(date.today(), datetime.min.time()))
+    return render_template('upcoming_sessions.html', title='Past Sessions', sessions = sessions)
 
 @app.route('/add_session', methods=['GET', 'POST'])
 @login_required
