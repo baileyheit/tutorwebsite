@@ -4,10 +4,10 @@ import random
 from random import randint
 import uuid
 from datetime import datetime
-#import mysql.connector
+import mysql.connector
 
-#cnx = mysql.connector.connect(user='root', database='TutorProject')
-#cursor = cnx.cursor()
+cnx = mysql.connector.connect(user='root', database='TutorProject')
+cursor = cnx.cursor()
 
 user = Factory.create()
 
@@ -20,8 +20,9 @@ ratings = {}
 uids = []
 usernames = []
 emails = []
-zoom_links = []
+sids = []
 rids = []
+cids = []
 
 
 # Create phone numbers: xxx-xxx-xxxx
@@ -42,9 +43,9 @@ for i in range(1000):
     while email in emails:
         email = user.free_email()
     emails.append(email)
-    uid = uuid.uuid4().int & (1<<32)-1
+    uid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1 & (1<<32)-1 
     while uid in uids:
-        uid = uuid.uuid4().int & (1<<32)-1
+        uid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
     uids.append(uid)
     
     users[uid] = {
@@ -65,11 +66,6 @@ for i in range(1000):
         'price_range': None
     }
     
-    cart[uid] = {
-        'id': uid,
-        'sessions': None
-    }
-    
     choice = randint(0, 3)
     if choice == 1 or choice == 3:
         users[uid]['rating'] = user.random_int(min=1, max=20, step=1)/4.0
@@ -82,7 +78,7 @@ for i in range(1000):
 # Class list
 cids = []
 for i in range(0, 46):
-    cids.append(uuid.uuid4().int & (1<<32)-1)
+    cids.append(uuid.uuid4().int & (1<<32)-1 & (1<<32)-1)
 classes[cids[0]] = {'subject': 'computer science', 'number': 101, 'class_name': 'Introduction to Computer Science'}
 classes[cids[1]] = {'subject': 'computer science', 'number': 201, 'class_name': 'Data Structures and Algorithms'}
 classes[cids[2]] = {'subject': 'computer science', 'number': 230, 'class_name': 'Discrete Math for Computer Science'}
@@ -145,10 +141,10 @@ for i in range(500):
         booked = False
     
     cid = random.choice(list(classes.keys()))
-    zoom_link = user.numerify(text='https://us02web.zoom.us/j/###########?')
-    while zoom_link in zoom_links:
-        zoom_link = user.numerify(text='https://us02web.zoom.us/j/###########?')
-    zoom_links.append(zoom_link)
+    sid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
+    while sid in sids:
+        sid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
+    sids.append(sid)
 
     price = round(user.random_int(min=0, max=50) + create_digits(2)/100, 2)
     if tutor['hourly_rate'] is not None:
@@ -156,8 +152,9 @@ for i in range(500):
     elif booked and tutee['price_range'] is not None:
         price = tutee['hourly_rate']
 
-    sessions[zoom_link] = {
-        'zoom_link': zoom_link,
+    sessions[sid] = {
+        'session_id': sid,
+        'zoom_link': user.numerify(text='https://us02web.zoom.us/j/###########?'),
         'date': user.future_date(end_date='+30d', tzinfo=None),
         'time': user.time(),
         'price': price,
@@ -169,34 +166,65 @@ for i in range(500):
     }
 
     if not booked:
+        if randint(0, 1) == 1:
+            u = random.choice(list(users.values()))['id']
+            cid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
+            while u == tutor_uid:
+                u = random.choice(list(users.values()))['id']
+            while cid in cids:
+                cid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
+            cids.append(cid)
+            cart[cid] = {
+                'cart_id': cid,
+                'session_id': sid,
+                'user': u
+            }
         continue
-    
-    # Add to cart
-    if cart[tutee_uid]['sessions']:
-        cart[tutee_uid]['sessions'].append(zoom_link)
-    else:
-        cart[tutee_uid] = {
-            'id': tutee_uid,
-            'sessions': [zoom_link]
-        }
     
     # Give a rating
     if random.choice([True, False]):
-        rid = uuid.uuid4().int & (1<<32)-1
+        rid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
         while rid in rids:
-            rid = uuid.uuid4().int & (1<<32)-1
+            rid = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1
         rids.append(rid)
 
         ratings[rid] = {
             'rating_id': rid,
             'tutor': tutor_uid,
             'tutee': tutee_uid,
-            'session': zoom_link,
+            'session': sid,
             'subject': classes[cid]['subject'],
             'class_num': classes[cid]['number'],
             'comment': user.text(),
             'rating_num': randint(1, 5)
         }
+
+
+print("USERS STARTS HERE")
+for x in users:
+    print(users[x])
+print("USERS ENDS HERE")
+
+print("CART STARTS HERE")
+for x in cart:
+    print(cart[x])
+print("CART ENDS HERE")
+
+print("SESSIONS STARTS HERE")
+for x in sessions:
+    print(sessions[x])
+print("SESSIONS ENDS HERE")
+
+print("CLASSES STARTS HERE")
+for x in classes:
+    print(classes[x])
+print("CLASSES ENDS HERE")
+
+print("RATINGS STARTS HERE")
+for x in ratings:
+    print(ratings[x])
+print("RATINGS ENDS HERE")
+
 
 print("USERS STARTS HERE")
 for x in users:
