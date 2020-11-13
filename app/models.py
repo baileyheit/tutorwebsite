@@ -1,3 +1,4 @@
+from sqlalchemy import UniqueConstraint
 from datetime import datetime, date, time
 from app import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -61,28 +62,29 @@ class Course(db.Model):
     class_num = db.Column(db.Integer)
     class_name = db.Column(db.String(200), primary_key=True)
 
-
     def __repr__(self):
         return '<Course {}>'.format(self.class_name)
 
 
 class Session(db.Model):
-    zoom_link = db.Column(db.String(120), primary_key=True)
+    session_id = db.Column(db.Integer, primary_key=True)
+    zoom_link = db.Column(db.String(120))
     date = db.Column(db.String(120))
     time = db.Column(db.String(120))
     price = db.Column(db.Float())
     booked = db.Column(db.String(120))
     tutor = db.Column(db.Integer, db.ForeignKey('user.id'))
     tutee = db.Column(db.Integer, db.ForeignKey('user.id'))
-    subject = db.Column(db.String(64))
-    class_number = db.Column(db.Integer)
+    subject = db.Column(db.String(120))
+    class_num = db.Column(db.Integer)
 
     def __repr__(self):
         return '<Session {}>'.format(self.zoom_link)
 
 class Cart(db.Model):
-    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-    sessions = db.Column(db.String(500))
+    cart_id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(db.Integer)
+    id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
         return '<Cart {}>'.format(self.id)
@@ -91,7 +93,7 @@ class Rating(db.Model):
     rating_id = db.Column(db.Integer, primary_key=True)
     tutor = db.Column(db.Integer, db.ForeignKey('user.id'))
     tutee = db.Column(db.Integer, db.ForeignKey('user.id'))
-    session = db.Column(db.String(120))
+    session = db.Column(db.Integer, db.ForeignKey('session.session_id'))
     subject = db.Column(db.String(64))
     class_num = db.Column(db.Integer)
     comment = db.Column(db.String(500))
