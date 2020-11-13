@@ -1,8 +1,9 @@
 from flask import render_template, flash, redirect,  url_for, request
 from app import app, db
+import uuid
 from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm, AddSessionForm
 from flask_login import logout_user, login_required, current_user, login_user
-from app.models import User, Session, Course
+from app.models import User, Session, Course, Cart
 from werkzeug.urls import url_parse
 from datetime import datetime, date
 from app.myemail import send_password_reset_email
@@ -98,8 +99,36 @@ def edit_profile():
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
-    username = request.args.get('username')
-    return render_template('search.html', title='Search', users=User.query.filter_by(username=username))
+    user_id = current_user.id
+    subject = request.args.get('subject')
+
+    if subject:
+        sessions = Session.query.join(User, Session.tutor == User.id).add_columns(
+            User.username, Session.session_id, Session.subject, Session.class_num, Session.price, 
+            Session.booked, Session.tutor, Session.date, Session.time, User.name).filter(
+                Session.booked==0, Session.subject==subject, Session.tutor!=user_id).order_by(Session.price.asc())
+    else:
+        sessions = Session.query.join(User, Session.tutor == User.id).add_columns(
+            User.username, Session.session_id, Session.subject, Session.class_num, Session.price, 
+            Session.booked, Session.tutor, Session.date, Session.time, User.name).filter(
+                Session.booked==0, Session.tutor!=user_id).order_by(Session.price.asc())
+    
+    cartItems = Cart.query.filter(Cart.id==user_id)
+
+    return render_template('search.html', title='Search', sessions = sessions, cartItems=cartItems, user_id=user_id)
+
+
+@app.route('/add_to_cart/<session_id>', methods=['GET', 'POST'])
+@login_required
+def add_to_cart(session_id):
+    user_id = current_user.id
+    cart_id = uuid.uuid4().int & (1<<32)-1
+    cartItem = Cart(cart_id=cart_id, session_id=session_id, id=user_id)
+
+    db.session.add(cartItem)
+    db.session.commit()
+
+    return redirect(url_for('search'))
 
 @app.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
