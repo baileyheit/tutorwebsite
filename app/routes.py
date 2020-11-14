@@ -166,6 +166,14 @@ def my_sessions():
     user_id = current_user.id
     sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id))
     return render_template('sessions.html', title='My Sessions', sessions = sessions)
+    
+@app.route('/cart', methods=['GET', 'POST'])
+@login_required
+def cart():
+    user_id = current_user.id
+    session_ids = [c.session_id for c in Cart.query.filter(id==user_id)]
+    sessions = Session.query.filter(Session.session_id in session_ids)
+    return render_template('cart.html', title='My Sessions', sessions = sessions)
 
 @app.route('/add_session', methods=['GET', 'POST'])
 @login_required
