@@ -1,6 +1,7 @@
+import uuid
 from flask import render_template, flash, redirect,  url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm, AddSessionForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm, AddSessionForm, AddReviewForm
 from flask_login import logout_user, login_required, current_user, login_user
 from app.models import User, Session, Course
 from werkzeug.urls import url_parse
@@ -151,6 +152,18 @@ def past_sessions():
     user_id = current_user.id
     sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id), Session.date <= datetime.strftime(date.today(), '%m/%d/%Y'))
     return render_template('past_sessions.html', title='Past Sessions', sessions = sessions)
+
+@app.route('/add_review', methods=['GET', 'POST'])
+@login_required
+def add_review():
+    form = AddReviewForm()
+    if form.validate_on_submit():
+        rating = Rating(rating_id = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1, tutor=form.tutor.data, tutee=current_user.user_id, session=form.session.data, subject=form.subject.data, class_num=form.class_num.data, comment=form.class_num.data, rating_num=form.rating_num.data)
+        db.session.add(rating)
+        flash('Congratulations, you have now added a session!')
+        db.session.commit()
+        return redirect(url_for('past_sessions'))
+    return render_template('add_review.html', title='Add Review', form = form)
 
 @app.route('/add_session', methods=['GET', 'POST'])
 @login_required

@@ -67,3 +67,12 @@ class AddSessionForm(FlaskForm):
     class_name = StringField('Class Name', validators=[DataRequired()])
     zoom_link = StringField('Zoom Link', validators=[DataRequired()])
     submit = SubmitField('Add Session')
+
+class AddReviewForm(FlaskForm):
+    tutor = IntegerField('Tutor', validators=[DataRequired()])
+    session = IntegerField('Session', validators=[DataRequired()])
+    subject = StringField('Subject', validators=[DataRequired()])
+    class_num = IntegerField('Session', validators=[DataRequired()])
+    comment = StringField('Subject', validators=[DataRequired()])
+    rating_num = FloatField('Rating', validators=[DataRequired()])
+    submit = SubmitField('Add Review')
