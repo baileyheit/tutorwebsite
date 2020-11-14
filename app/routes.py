@@ -1,9 +1,14 @@
 import uuid
 from flask import render_template, flash, redirect,  url_for, request
 from app import app, db
+<<<<<<< HEAD
 from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm, AddSessionForm, AddReviewForm
+=======
+import uuid
+from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm, AddSessionForm
+>>>>>>> 9b6409fcaf58ec0afaf538ced3584312d26fc767
 from flask_login import logout_user, login_required, current_user, login_user
-from app.models import User, Session, Course
+from app.models import User, Session, Course, Cart
 from werkzeug.urls import url_parse
 from datetime import datetime, date
 from app.myemail import send_password_reset_email
@@ -100,8 +105,36 @@ def edit_profile():
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
-    username = request.args.get('username')
-    return render_template('search.html', title='Search', users=User.query.filter_by(username=username))
+    user_id = current_user.id
+    subject = request.args.get('subject')
+
+    if subject:
+        sessions = Session.query.join(User, Session.tutor == User.id).add_columns(
+            User.username, Session.session_id, Session.subject, Session.class_num, Session.price, 
+            Session.booked, Session.tutor, Session.date, Session.time, User.name).filter(
+                Session.booked==0, Session.subject==subject, Session.tutor!=user_id).order_by(Session.price.asc())
+    else:
+        sessions = Session.query.join(User, Session.tutor == User.id).add_columns(
+            User.username, Session.session_id, Session.subject, Session.class_num, Session.price, 
+            Session.booked, Session.tutor, Session.date, Session.time, User.name).filter(
+                Session.booked==0, Session.tutor!=user_id).order_by(Session.price.asc())
+    
+    cartItems = Cart.query.filter(Cart.id==user_id)
+
+    return render_template('search.html', title='Search', sessions = sessions, cartItems=cartItems, user_id=user_id)
+
+
+@app.route('/add_to_cart/<session_id>', methods=['GET', 'POST'])
+@login_required
+def add_to_cart(session_id):
+    user_id = current_user.id
+    cart_id = uuid.uuid4().int & (1<<32)-1
+    cartItem = Cart(cart_id=cart_id, session_id=session_id, id=user_id)
+
+    db.session.add(cartItem)
+    db.session.commit()
+
+    return redirect(url_for('search'))
 
 @app.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
@@ -133,9 +166,10 @@ def reset_password(token):
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
     
-@app.route('/my_sessions')
+@app.route('/my_sessions', methods=['GET', 'POST'])
 @login_required
 def my_sessions():
+<<<<<<< HEAD
     return render_template('sessions.html', title='Sessions')
 
 @app.route('/upcoming_sessions', methods=['GET', 'POST'])
@@ -147,11 +181,24 @@ def upcoming_sessions():
     return render_template('upcoming_sessions.html', title='Upcoming Sessions', sessions = sessions)
 
 @app.route('/past_sessions', methods=['GET', 'POST'])
-@login_required
-def past_sessions():
+=======
     user_id = current_user.id
+    sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id))
+    return render_template('sessions.html', title='My Sessions', sessions = sessions)
+    
+@app.route('/cart', methods=['GET', 'POST'])
+>>>>>>> 9b6409fcaf58ec0afaf538ced3584312d26fc767
+@login_required
+def cart():
+    user_id = current_user.id
+<<<<<<< HEAD
     sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id), Session.date <= datetime.strftime(date.today(), '%m/%d/%Y'))
     return render_template('past_sessions.html', title='Past Sessions', sessions = sessions)
+=======
+    session_ids = [c.session_id for c in Cart.query.filter(id==user_id)]
+    sessions = Session.query.filter(Session.session_id in session_ids)
+    return render_template('cart.html', title='My Sessions', sessions = sessions)
+>>>>>>> 9b6409fcaf58ec0afaf538ced3584312d26fc767
 
 @app.route('/add_review', methods=['GET', 'POST'])
 @login_required

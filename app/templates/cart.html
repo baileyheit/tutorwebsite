@@ -1,29 +1,40 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
-
-<h1> Past Sessions </h1>
+<h1> Cart </h1>
 <table width=100%>
 	<tr>
 		<th>Day</th>
 		<th>Time</th>
 		<th>Tutor</th>
+<<<<<<< HEAD:app/templates/past_sessions.html
 		<th>Tuttee</th>
 		<th>Subject</th>
 		<th>Class Number</th>
+=======
+		<th>Class</th>
+>>>>>>> 9b6409fcaf58ec0afaf538ced3584312d26fc767:app/templates/cart.html
 	</tr>
 	{% for session in sessions%}
 			<tr>
 				<td> {{session.date}}</td>
 				<td> {{session.time}}</td>
 				<td> {{session.tutor}}</td>
+<<<<<<< HEAD:app/templates/past_sessions.html
 				<td> {{session.tutee}}</td>
 				<td> {{session.subject}}</td>
 				<td> {{session.class_num}}</td>
+=======
+				<td> {{session.class_id}}</td>
+>>>>>>> 9b6409fcaf58ec0afaf538ced3584312d26fc767:app/templates/cart.html
 			</tr>
 	{% endfor %}
 </table> 
 <hr width="100%">
 <p> Looking to book more? <a href="{{ url_for('search') }}"> Search for one here. </a>
+<<<<<<< HEAD:app/templates/past_sessions.html
 <p> Want to add a review? <a href="{{ url_for('add_review') }}"> Add one here. </a>
 {% endblock %} 
+=======
+{% endblock %} 
+>>>>>>> 9b6409fcaf58ec0afaf538ced3584312d26fc767:app/templates/cart.html
