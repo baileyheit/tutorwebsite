@@ -1,20 +1,46 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
+{% block app_content %}
+    <h1>Search for a Session:</h1>
 
     <form action="/search">
-        <label for="username">Select Name</label>
-        <input type="text" name="username" />
 
+        <label>Subject:</label>
+        <input type="text" name="subject" />
+
+        <input type="submit" value="Search"/>
         <br />
-
-        <input type="submit" />
     
     </form>
 
-    {% for user in users %}
-    <div><p>{{ user.username }} {{ user.email }}</p></div>
+    <h1>Available Sessions:</h1>
 
-    {% endfor %}
+    <table width=100%>
+        <tr>
+          <th>Tutor</th>
+          <th>Course</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Price</th>
+          
+        </tr>
+        {% for session in sessions %}
+          <tr>
+            <td> {{ session.name }}</td>
+            <td> {{ session.subject }} {{ session.class_num }}</td>
+            <td> {{ session.date }}</td>
+            <td> {{ session.time }}</td>
+            <td> {{ session.price }}</td>
+
+            <td>
+                <button>
+                    <a href="{{ url_for('add_to_cart', session_id=session.session_id ) }}">Add to Cart</a>
+                </button>
+              
+            </td>
+            
+          </tr>  
+        {% endfor %}
+
+    </table>
 {% endblock %}
