@@ -160,24 +160,12 @@ def reset_password(token):
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
     
-@app.route('/my_sessions')
+@app.route('/my_sessions', methods=['GET', 'POST'])
 @login_required
 def my_sessions():
-    return render_template('sessions.html', title='Sessions')
-
-@app.route('/upcoming_sessions', methods=['GET', 'POST'])
-@login_required
-def upcoming_sessions():
-        user_id = current_user.id
-        sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id), Session.date >= date.today())
-        return render_template('upcoming_sessions.html', title='Upcoming Sessions', sessions = sessions)
-
-@app.route('/past_sessions', methods=['GET', 'POST'])
-@login_required
-def past_sessions():
     user_id = current_user.id
-    sessions = Session.query.filter(((Session.tutor==user_id) | (Session.tutee==user_id)), Session.date <= date.today())
-    return render_template('past_sessions.html', title='Past Sessions', sessions = sessions)
+    sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id))
+    return render_template('sessions.html', title='My Sessions', sessions = sessions)
 
 @app.route('/add_session', methods=['GET', 'POST'])
 @login_required
