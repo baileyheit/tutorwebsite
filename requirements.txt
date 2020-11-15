@@ -1,14 +1,46 @@
-###### Requirements without Version Specifiers ######`
-certifi==2020.6.20
+alembic==1.4.3
+astroid
+blinker==1.4
+certifi==2020.11.8
+chardet==3.0.4
 click==7.1.2
+colorclass==2.2.0
 config==0.5.0.post0
+dnspython==2.0.0
+docopt==0.6.2
+dominate==2.6.0
+email-validator==1.1.2
 Flask==1.1.2
+Flask-Bootstrap==3.3.7.1
+Flask-Login==0.5.0
+Flask-Mail==0.9.1
+Flask-Migrate==2.5.3
+Flask-SQLAlchemy==2.4.4
 Flask-WTF==0.14.3
+idna==2.10
+isort 
 itsdangerous==1.1.0
 Jinja2==2.11.2
-MarkupSafe @ file:///opt/concourse/worker/volumes/live/cb778296-98db-45ad-411e-6f726e102dc3/volume/markupsafe_1594371638608/work
+lazy-object-proxy==1.5.1
+Mako==1.1.3
+MarkupSafe
+mccabe==0.6.1
+packaging==20.4
+pip-upgrader==1.4.15
+PyJWT==1.7.1
+pylint 
+PyMySQL==0.10.1
+pyparsing==2.4.7
+python-dateutil==2.8.1
+python-dotenv==0.15.0
+python-editor==1.0.4
+requests==2.25.0
+six==1.15.0
 SQLAlchemy
-# SQLAlchemy @ file:///opt/concourse/worker/volumes/live/c2aa03b1-c9ad-45a3-441a-2a13161a65a4/volume/sqlalchemy_1598374744424/work
+terminaltables==3.1.0
+toml 
+urllib3==1.26.2
+visitor==0.1.3
 Werkzeug==1.0.1
-WTForms
-# WTForms @ file:///tmp/build/80754af9/wtforms_1597707484216/work
+wrapt==1.12.1
+WTForms 
