@@ -8,15 +8,17 @@
 		<th>Time</th>
 		<th>Tutor</th>
 		<th>Tuttee</th>
-		<th>Class</th>
+		<th>Subject</th>
+		<th>Class Number</th>
 	</tr>
 	{% for session in sessions%}
 			<tr>
-				<td> {{session.session_day}}</td>
-				<td> {{session.session_time}}</td>
+				<td> {{session.date}}</td>
+				<td> {{session.time}}</td>
 				<td> {{session.tutor}}</td>
 				<td> {{session.tutee}}</td>
-				<td> {{session.class_id}}</td>
+				<td> {{session.subject}}</td>
+				<td> {{session.class_num}}</td>
 			</tr>
 	{% endfor %}
 </table> 

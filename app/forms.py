@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, DateField, TimeField, FloatField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
-from app.models import User
+from app.models import usertable
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -18,12 +18,12 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
     def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
+        user = usertable.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
 
     def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
+        user = usertable.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
 
@@ -44,7 +44,7 @@ class EditProfileForm(FlaskForm):
 
     def validate_username(self, username):
         if username.data != self.original_username:
-            user = User.query.filter_by(username=self.username.data).first()
+            user = usertable.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError('Please use a different username.')
 
@@ -67,3 +67,12 @@ class AddSessionForm(FlaskForm):
     class_name = StringField('Class Name', validators=[DataRequired()])
     zoom_link = StringField('Zoom Link', validators=[DataRequired()])
     submit = SubmitField('Add Session')
+
+class AddReviewForm(FlaskForm):
+    tutor = IntegerField('Tutor', validators=[DataRequired()])
+    session = IntegerField('Session', validators=[DataRequired()])
+    subject = StringField('Subject', validators=[DataRequired()])
+    class_num = IntegerField('Class Number', validators=[DataRequired()])
+    comment = StringField('Comment', validators=[DataRequired()])
+    rating_num = FloatField('Rating', validators=[DataRequired()])
+    submit = SubmitField('Add Review')

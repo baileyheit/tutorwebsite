@@ -8,7 +8,7 @@ from time import time
 import jwt
 from app import app
 
-class User(UserMixin, db.Model):
+class usertable(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -50,14 +50,14 @@ class User(UserMixin, db.Model):
                             algorithms=['HS256'])['reset_password']
         except:
             return
-        return User.query.get(id)
+        return usertable.query.get(id)
 
 @login.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return usertable.query.get(int(id))
 
 
-class Course(db.Model):
+class coursetable(db.Model):
     subject = db.Column(db.String(64))
     class_num = db.Column(db.Integer)
     class_name = db.Column(db.String(200), primary_key=True)
@@ -66,34 +66,34 @@ class Course(db.Model):
         return '<Course {}>'.format(self.class_name)
 
 
-class Session(db.Model):
+class sessiontable(db.Model):
     session_id = db.Column(db.Integer, primary_key=True)
     zoom_link = db.Column(db.String(120))
     date = db.Column(db.String(120))
     time = db.Column(db.String(120))
     price = db.Column(db.Float())
     booked = db.Column(db.String(120))
-    tutor = db.Column(db.Integer, db.ForeignKey('user.id'))
-    tutee = db.Column(db.Integer, db.ForeignKey('user.id'))
+    tutor = db.Column(db.Integer, db.ForeignKey('usertable.id'))
+    tutee = db.Column(db.Integer, db.ForeignKey('usertable.id'))
     subject = db.Column(db.String(120))
     class_num = db.Column(db.Integer)
 
     def __repr__(self):
         return '<Session {}>'.format(self.zoom_link)
 
-class Cart(db.Model):
+class carttable(db.Model):
     cart_id = db.Column(db.Integer, primary_key=True)
     session_id = db.Column(db.Integer)
-    id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id = db.Column(db.Integer, db.ForeignKey('usertable.id'))
 
     def __repr__(self):
         return '<Cart {}>'.format(self.id)
 
-class Rating(db.Model):
+class ratingtable(db.Model):
     rating_id = db.Column(db.Integer, primary_key=True)
-    tutor = db.Column(db.Integer, db.ForeignKey('user.id'))
-    tutee = db.Column(db.Integer, db.ForeignKey('user.id'))
-    session = db.Column(db.Integer, db.ForeignKey('session.session_id'))
+    tutor = db.Column(db.Integer, db.ForeignKey('usertable.id'))
+    tutee = db.Column(db.Integer, db.ForeignKey('usertable.id'))
+    session = db.Column(db.Integer, db.ForeignKey('sessiontable.session_id'))
     subject = db.Column(db.String(64))
     class_num = db.Column(db.Integer)
     comment = db.Column(db.String(500))
