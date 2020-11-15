@@ -8,7 +8,7 @@ from time import time
 import jwt
 from app import app
 
-class User(UserMixin, db.Model):
+class user(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -50,14 +50,14 @@ class User(UserMixin, db.Model):
                             algorithms=['HS256'])['reset_password']
         except:
             return
-        return User.query.get(id)
+        return user.query.get(id)
 
 @login.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return user.query.get(int(id))
 
 
-class Course(db.Model):
+class course(db.Model):
     subject = db.Column(db.String(64))
     class_num = db.Column(db.Integer)
     class_name = db.Column(db.String(200), primary_key=True)
@@ -66,7 +66,7 @@ class Course(db.Model):
         return '<Course {}>'.format(self.class_name)
 
 
-class Session(db.Model):
+class session(db.Model):
     session_id = db.Column(db.Integer, primary_key=True)
     zoom_link = db.Column(db.String(120))
     date = db.Column(db.String(120))
@@ -81,7 +81,7 @@ class Session(db.Model):
     def __repr__(self):
         return '<Session {}>'.format(self.zoom_link)
 
-class Cart(db.Model):
+class cart(db.Model):
     cart_id = db.Column(db.Integer, primary_key=True)
     session_id = db.Column(db.Integer)
     id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -89,7 +89,7 @@ class Cart(db.Model):
     def __repr__(self):
         return '<Cart {}>'.format(self.id)
 
-class Rating(db.Model):
+class rating(db.Model):
     rating_id = db.Column(db.Integer, primary_key=True)
     tutor = db.Column(db.Integer, db.ForeignKey('user.id'))
     tutee = db.Column(db.Integer, db.ForeignKey('user.id'))
