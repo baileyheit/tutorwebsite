@@ -174,8 +174,9 @@ def my_sessions():
 @login_required
 def cart():
     user_id = current_user.id
-    session_ids = [c.session_id for c in carttable.query.filter(id==user_id)]
-    sessions = sessiontable.query.filter(sessiontable.session_id in session_ids)
+    session_ids = [c.session_id for c in carttable.query.filter(carttable.
+    id==user_id)]
+    sessions = sessiontable.query.filter(sessiontable.session_id.in_(session_ids))
     return render_template('cart.html', title='My Sessions', sessions = sessions)
 
 @app.route('/add_review', methods=['GET', 'POST'])
@@ -194,11 +195,9 @@ def add_review():
 @login_required
 def book(session_id):
     user_id = current_user.id
-    cart_item = carttable.query.filter(id==user_id, session_id=session_id)
-    old_session = sessiontable.query.filter(session_id=session_id)
-    new_session = sessiontable(zoom_link=old_session.zoom_link, date=old_session.date, time=old_session.time, price=old_session.price, tutor=old_session.tutor, subject=old_session.subject, class_num=old_session.class_num, tutee = user_id, booked = true)
-    db.session.remove(cart_item)
-    db.session.remove(old_session)
+    cart_item = carttable.query.filter(carttable.id==user_id, carttable.session_id==session_id).first()
+    old_session = sessiontable.query.filter(sessiontable.session_id==session_id).first()
+    new_session = sessiontable(zoom_link=old_session.zoom_link, date=old_session.date, time=old_session.time, price=old_session.price, tutor=old_session.tutor, subject=old_session.subject, class_num=old_session.class_num, tutee = user_id, booked = True)
     db.session.add(new_session)
     db.session.commit()
     return redirect(url_for('cart'))

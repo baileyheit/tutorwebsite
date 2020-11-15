@@ -9,7 +9,6 @@
 		<th>Tutor</th>
 		<th>Subject</th>
 		<th>Class Number</th>
-		<th>Class</th>
 	</tr>
 	{% for session in sessions%}
 			<tr>
@@ -18,7 +17,6 @@
 				<td> {{session.tutor}}</td>
 				<td> {{session.subject}}</td>
 				<td> {{session.class_num}}</td>
-				<td> {{session.class_id}}</td>
 				<td>
                 <button>
                     <a href="{{ url_for('book', session_id=session.session_id ) }}">Register</a>
