@@ -3,8 +3,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db') os.environ.get('HEROKU_POSTGRESQL_ONYX_URL')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or os.environ.get('HEROKU_POSTGRESQL_ONYX_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'app.db') 
     # postgresql-cubic-74647 as HEROKU_POSTGRESQL_ONYX_UR
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = True
