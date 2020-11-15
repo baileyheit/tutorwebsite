@@ -35,7 +35,7 @@ def login():
         if u is None or not u.check_password(form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('login'))
-        login_user(user, remember=form.remember_me.data)
+        login_user(u, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
@@ -55,9 +55,9 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = user(username=form.username.data, email=form.email.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
+        u = user(username=form.username.data, email=form.email.data)
+        u.set_password(form.password.data)
+        db.session.add(u)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
@@ -67,10 +67,10 @@ def register():
 @app.route('/user/<username>')
 @login_required
 def user(username):
-    user = user.query.filter_by(username=username).first_or_404()
+    u = user.query.filter_by(username=username).first_or_404()
     posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
+        {'author': u, 'body': 'Test post #1'},
+        {'author': u, 'body': 'Test post #2'}
     ]
     return render_template('user.html', user=user, posts=posts)
 
@@ -139,9 +139,9 @@ def reset_password_request():
         return redirect(url_for('index'))
     form = ResetPasswordRequestForm()
     if form.validate_on_submit():
-        user = user.query.filter_by(email=form.email.data).first()
-        if user:
-            send_password_reset_email(user)
+        u = user.query.filter_by(email=form.email.data).first()
+        if u:
+            send_password_reset_email(u)
         flash('Check your email for the instructions to reset your password')
         return redirect(url_for('login'))
     return render_template('reset_password_request.html',
@@ -152,8 +152,8 @@ def reset_password_request():
 def reset_password(token):
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    user = user.verify_reset_password_token(token)
-    if not user:
+    u = user.verify_reset_password_token(token)
+    if not u:
         return redirect(url_for('index'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
@@ -183,8 +183,8 @@ def cart():
 def add_review():
     form = AddReviewForm()
     if form.validate_on_submit():
-        rating = rating(rating_id = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1, tutor=form.tutor.data, tutee=current_user.id, session=form.session.data, subject=form.subject.data, class_num=form.class_num.data, comment=form.class_num.data, rating_num=form.rating_num.data)
-        db.session.add(rating)
+        r = rating(rating_id = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1, tutor=form.tutor.data, tutee=current_user.id, session=form.session.data, subject=form.subject.data, class_num=form.class_num.data, comment=form.class_num.data, rating_num=form.rating_num.data)
+        db.session.add(r)
         flash('Congratulations, you have now added a session!')
         db.session.commit()
         return redirect(url_for('my_sessions'))
@@ -195,16 +195,16 @@ def add_review():
 def add_session():
     form = AddsessionForm()
     if form.validate_on_submit():
-        session = session(zoom_link=form.zoom_link.data, date=form.date.data.strftime("%m/%d/%Y"), time=form.time.data.strftime("%H:%M"), price=form.price.data, tutor=current_user.id, subject=form.subject.data, class_num=form.class_number.data)
-        course = Course(subject=form.subject.data, class_num=form.class_number.data, class_name=form.class_name.data)
-        db.session.add(session)
+        s = session(zoom_link=form.zoom_link.data, date=form.date.data.strftime("%m/%d/%Y"), time=form.time.data.strftime("%H:%M"), price=form.price.data, tutor=current_user.id, subject=form.subject.data, class_num=form.class_number.data)
+        c = course(subject=form.subject.data, class_num=form.class_number.data, class_name=form.class_name.data)
+        db.session.add(s)
         flash('Congratulations, you have now added a session!')
         if current_user.hourly_rate:
             current_user.hourly_rate = (current_user.hourly_rate + form.price.data)/2
         else:
             current_user.hourly_rate = form.price.data
-        if Course.query.filter_by(subject=form.subject.data, class_num=form.class_number.data):
-            db.session.add(course)
+        if course.query.filter_by(subject=form.subject.data, class_num=form.class_number.data):
+            db.session.add(c)
         db.session.commit()
         return redirect(url_for('index'))
     return render_template('add_session.html', title='Add session', form=form)
