@@ -1,5 +1,5 @@
 alembic==1.4.3
-astroid @ file:///opt/concourse/worker/volumes/live/21fd14a9-2a7e-484b-7394-5a9912cdcf80/volume/astroid_1592498459180/work
+astroid 
 blinker==1.4
 certifi==2020.11.8
 chardet==3.0.4
@@ -19,17 +19,16 @@ Flask-Script==2.0.6
 Flask-SQLAlchemy==2.4.4
 Flask-WTF==0.14.3
 idna==2.10
-isort @ file:///tmp/build/80754af9/isort_1602603989581/work
+isort 
 itsdangerous==1.1.0
 Jinja2==2.11.2
 lazy-object-proxy==1.5.1
 Mako==1.1.3
-MarkupSafe @ file:///opt/concourse/worker/volumes/live/cb778296-98db-45ad-411e-6f726e102dc3/volume/markupsafe_1594371638608/work
-mccabe==0.6.1
+MarkupSafe 
 packaging==20.4
 pip-upgrader==1.4.15
 PyJWT==1.7.1
-pylint @ file:///opt/concourse/worker/volumes/live/ed0164b6-bcc7-4f6b-7dd4-ad89660b5dcb/volume/pylint_1598624018129/work
+pylint 
 PyMySQL==0.10.1
 pyparsing==2.4.7
 python-dateutil==2.8.1
@@ -37,11 +36,11 @@ python-dotenv==0.15.0
 python-editor==1.0.4
 requests==2.25.0
 six==1.15.0
-SQLAlchemy @ file:///opt/concourse/worker/volumes/live/c2aa03b1-c9ad-45a3-441a-2a13161a65a4/volume/sqlalchemy_1598374744424/work
+SQLAlchemy
 terminaltables==3.1.0
-toml @ file:///tmp/build/80754af9/toml_1592853716807/work
+toml
 urllib3==1.26.2
 visitor==0.1.3
 Werkzeug==1.0.1
 wrapt==1.12.1
-WTForms @ file:///tmp/build/80754af9/wtforms_1597707484216/work
+WTForms 
