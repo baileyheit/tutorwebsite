@@ -1,12 +1,15 @@
+import uuid
 from flask import render_template, flash, redirect,  url_for, request
 from app import app, db
+
 import uuid
-from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm, AddSessionForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm, AddSessionForm, AddReviewForm
 from flask_login import logout_user, login_required, current_user, login_user
-from app.models import User, Session, Course, Cart
+from app.models import User, Session, Course, Cart, Rating
 from werkzeug.urls import url_parse
 from datetime import datetime, date
 from app.myemail import send_password_reset_email
+from dateutil.parser import parse
 # from flask_sqlalchemy import SQLAlchemy
 # import psycopg2
 
@@ -175,12 +178,24 @@ def cart():
     sessions = Session.query.filter(Session.session_id in session_ids)
     return render_template('cart.html', title='My Sessions', sessions = sessions)
 
+@app.route('/add_review', methods=['GET', 'POST'])
+@login_required
+def add_review():
+    form = AddReviewForm()
+    if form.validate_on_submit():
+        rating = Rating(rating_id = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1, tutor=form.tutor.data, tutee=current_user.id, session=form.session.data, subject=form.subject.data, class_num=form.class_num.data, comment=form.class_num.data, rating_num=form.rating_num.data)
+        db.session.add(rating)
+        flash('Congratulations, you have now added a session!')
+        db.session.commit()
+        return redirect(url_for('my_sessions'))
+    return render_template('add_review.html', title='Add Review', form = form)
+
 @app.route('/add_session', methods=['GET', 'POST'])
 @login_required
 def add_session():
     form = AddSessionForm()
     if form.validate_on_submit():
-        session = Session(zoom_link=form.zoom_link.data, date=form.date.data.strftime("%m/%d/%Y"), time=form.time.data.strftime("%H:%M"), price=form.price.data, tutor=current_user.id, subject=form.subject.data, class_number=form.class_number.data)
+        session = Session(zoom_link=form.zoom_link.data, date=form.date.data.strftime("%m/%d/%Y"), time=form.time.data.strftime("%H:%M"), price=form.price.data, tutor=current_user.id, subject=form.subject.data, class_num=form.class_number.data)
         course = Course(subject=form.subject.data, class_num=form.class_number.data, class_name=form.class_name.data)
         db.session.add(session)
         flash('Congratulations, you have now added a session!')
