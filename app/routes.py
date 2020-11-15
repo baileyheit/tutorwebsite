@@ -1,14 +1,11 @@
 import uuid
 from flask import render_template, flash, redirect,  url_for, request
 from app import app, db
-<<<<<<< HEAD
-from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm, AddSessionForm, AddReviewForm
-=======
+
 import uuid
-from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm, AddSessionForm
->>>>>>> 9b6409fcaf58ec0afaf538ced3584312d26fc767
+from app.forms import LoginForm, RegistrationForm, EditProfileForm,  ResetPasswordRequestForm, ResetPasswordForm, AddSessionForm, AddReviewForm
 from flask_login import logout_user, login_required, current_user, login_user
-from app.models import User, Session, Course, Cart
+from app.models import User, Session, Course, Cart, Rating
 from werkzeug.urls import url_parse
 from datetime import datetime, date
 from app.myemail import send_password_reset_email
@@ -169,47 +166,28 @@ def reset_password(token):
 @app.route('/my_sessions', methods=['GET', 'POST'])
 @login_required
 def my_sessions():
-<<<<<<< HEAD
-    return render_template('sessions.html', title='Sessions')
-
-@app.route('/upcoming_sessions', methods=['GET', 'POST'])
-@login_required
-def upcoming_sessions():
-    user_id = current_user.id
-    # sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id)).order_by(Session.date)
-    sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id), Session.date >= datetime.strftime(date.today(), '%m/%d/%Y'))
-    return render_template('upcoming_sessions.html', title='Upcoming Sessions', sessions = sessions)
-
-@app.route('/past_sessions', methods=['GET', 'POST'])
-=======
     user_id = current_user.id
     sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id))
     return render_template('sessions.html', title='My Sessions', sessions = sessions)
     
 @app.route('/cart', methods=['GET', 'POST'])
->>>>>>> 9b6409fcaf58ec0afaf538ced3584312d26fc767
 @login_required
 def cart():
     user_id = current_user.id
-<<<<<<< HEAD
-    sessions = Session.query.filter((Session.tutor==user_id) | (Session.tutee==user_id), Session.date <= datetime.strftime(date.today(), '%m/%d/%Y'))
-    return render_template('past_sessions.html', title='Past Sessions', sessions = sessions)
-=======
     session_ids = [c.session_id for c in Cart.query.filter(id==user_id)]
     sessions = Session.query.filter(Session.session_id in session_ids)
     return render_template('cart.html', title='My Sessions', sessions = sessions)
->>>>>>> 9b6409fcaf58ec0afaf538ced3584312d26fc767
 
 @app.route('/add_review', methods=['GET', 'POST'])
 @login_required
 def add_review():
     form = AddReviewForm()
     if form.validate_on_submit():
-        rating = Rating(rating_id = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1, tutor=form.tutor.data, tutee=current_user.user_id, session=form.session.data, subject=form.subject.data, class_num=form.class_num.data, comment=form.class_num.data, rating_num=form.rating_num.data)
+        rating = Rating(rating_id = uuid.uuid4().int & (1<<32)-1 & (1<<32)-1, tutor=form.tutor.data, tutee=current_user.id, session=form.session.data, subject=form.subject.data, class_num=form.class_num.data, comment=form.class_num.data, rating_num=form.rating_num.data)
         db.session.add(rating)
         flash('Congratulations, you have now added a session!')
         db.session.commit()
-        return redirect(url_for('past_sessions'))
+        return redirect(url_for('my_sessions'))
     return render_template('add_review.html', title='Add Review', form = form)
 
 @app.route('/add_session', methods=['GET', 'POST'])
