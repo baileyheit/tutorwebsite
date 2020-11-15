@@ -190,6 +190,19 @@ def add_review():
         return redirect(url_for('my_sessions'))
     return render_template('add_review.html', title='Add Review', form = form)
 
+@app.route('/book/<session_id>', methods=['GET', 'POST'])
+@login_required
+def book(session_id):
+    user_id = current_user.id
+    cart_item = carttable.query.filter(id==user_id, session_id=session_id)
+    old_session = sessiontable.query.filter(session_id=session_id)
+    new_session = sessiontable(zoom_link=old_session.zoom_link, date=old_session.date, time=old_session.time, price=old_session.price, tutor=old_session.tutor, subject=old_session.subject, class_num=old_session.class_num, tutee = user_id, booked = true)
+    db.session.remove(cart_item)
+    db.session.remove(old_session)
+    db.session.add(new_session)
+    db.session.commit()
+    return redirect(url_for('cart'))
+
 @app.route('/add_session', methods=['GET', 'POST'])
 @login_required
 def add_session():
