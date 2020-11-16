@@ -1,14 +1,16 @@
 import os
 from dotenv import load_dotenv
+import psycopg2
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-    DATABASE_URL = 'postgres://bykmhcasyanqyu:9fdac4102202b0972705aef15548b487b7c429442dfe5f0112fb1a096f90ac05@ec2-54-82-208-124.compute-1.amazonaws.com:5432/dqbjllmcnf1k3'
+    DATABASE_URL = os.environ['DATABASE_URL']
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
     MAIL_SERVER = os.environ.get('MAIL_SERVER')
@@ -21,3 +23,4 @@ class Config(object):
     MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
     POSTS_PER_PAGE = 25
+    

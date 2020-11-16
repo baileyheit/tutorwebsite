@@ -46,3 +46,4 @@ wrapt==1.12.1
 WTForms 
 psycopg2
 gunicorn
+psycopg2-binary
