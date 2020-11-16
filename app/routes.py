@@ -105,16 +105,17 @@ def search():
     user_id = current_user.id
     subject = request.args.get('subject')
 
-    if subject:
-        sessions = sessiontable.query.join(usertable, sessiontable.tutor == usertable.id).add_columns(
-            usertable.username, sessiontable.session_id, sessiontable.subject, sessiontable.class_num, sessiontable.price, 
-            sessiontable.booked, sessiontable.tutor, sessiontable.date, sessiontable.time, usertable.name).filter(
-                sessiontable.booked==0, sessiontable.subject==subject, sessiontable.tutor!=user_id).order_by(sessiontable.price.asc())
-    else:
-        sessions = sessiontable.query.join(usertable, sessiontable.tutor == usertable.id).add_columns(
-            usertable.username, sessiontable.session_id, sessiontable.subject, sessiontable.class_num, sessiontable.price, 
-            sessiontable.booked, sessiontable.tutor, sessiontable.date, sessiontable.time, usertable.name).filter(
-                sessiontable.booked==0, sessiontable.tutor!=user_id).order_by(sessiontable.price.asc())
+    sessions = sessiontable.query.all()
+    # if subject:
+    #     sessions = sessiontable.query.join(usertable, sessiontable.tutor == usertable.id).add_columns(
+    #         usertable.username, sessiontable.session_id, sessiontable.subject, sessiontable.class_num, sessiontable.price, 
+    #         sessiontable.booked, sessiontable.tutor, sessiontable.date, sessiontable.time, usertable.name).filter(
+    #             sessiontable.booked==0, sessiontable.subject==subject, sessiontable.tutor!=user_id).order_by(sessiontable.price.asc())
+    # else:
+    #     sessions = sessiontable.query.join(usertable, sessiontable.tutor == usertable.id).add_columns(
+    #         usertable.username, sessiontable.session_id, sessiontable.subject, sessiontable.class_num, sessiontable.price, 
+    #         sessiontable.booked, sessiontable.tutor, sessiontable.date, sessiontable.time, usertable.name).filter(
+    #             sessiontable.booked==0, sessiontable.tutor!=user_id).order_by(sessiontable.price.asc())
     
     cartItems = carttable.query.filter(carttable.id==user_id)
 
