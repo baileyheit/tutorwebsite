@@ -67,7 +67,7 @@ class coursetable(db.Model):
 
 
 class sessiontable(db.Model):
-    session_id = db.Column(db.Long, primary_key=True)
+    session_id = db.Column(db.Integer, primary_key=True)
     zoom_link = db.Column(db.String(120))
     date = db.Column(db.String(120))
     time = db.Column(db.String(120))
